@@ -1,0 +1,5 @@
+part a
+given a list of integers, count the number which are bigger than the previous ones
+
+part b
+given a list of integers, count the number of sliding windows which are bigger than the previous one

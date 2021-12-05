@@ -1,0 +1,8 @@
+part a:
+given a bunch of bingo boards with numbers 0-99 (it seems), and a list of numbers called, find the first board to win
+actually find the score of the board, which is defined as the sum of the unmarked entries times the entry that made it win
+	
+
+part b:
+same thing except now you want the last board to one
+literally just need to change a min to a max

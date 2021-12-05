@@ -1,0 +1,13 @@
+part a
+given a list of binary strings compute the product of the gamma and epsilon rates:
+
+gamma rate: a number which in binary has its nth digit the most common nth digit of the input strings
+epsilon rate: same deal except least common instead of most
+
+
+part b
+compute the life support rating, which is product of co2 scrubber and oxygen generator ratings
+
+oxygen generator rating: filter out the list until only one element remains
+	at the i-th step keep those list elements whose i-th digit is the most common i-th digit
+co2 scrubber rating: same except least common digit
