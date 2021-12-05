@@ -1,0 +1,14 @@
+part a
+
+given a list of line segments as start point, end point you need to find out how many points in the grid (which looks to be 1k square) have at least 2 lines passing through them.
+for this part we consider ONLY vertical and horizontal lines
+
+good exercise in OOP
+make a line segment class that is iterable
+and then just loop over all lines, counting how many pass through each grid point
+
+
+part b
+
+same problem except now considering all the lines
+nice feature that is irrelevant given our setup: all the diagonal lines are at 45 degrees

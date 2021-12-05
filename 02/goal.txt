@@ -1,0 +1,9 @@
+given a list of instructions "forward, up, down" calculate the final position
+(actually the product of the x, y coordinates)
+
+part 2
+
+in fact the commands are more subtle
+down increases your aim
+up decreases your aim
+forward increases horizontal position by x, increases depth by aim * x
