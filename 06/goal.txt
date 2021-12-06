@@ -1,0 +1,15 @@
+part a
+
+given a school of fish, each represented by how old they are
+after 7 days they reproduce; create a new fish with a timer two days longer and reset this fish to 7
+how many fish after 80 days?
+
+this is...just a math problem?
+you can compute the function of how many fish a single fish spawns after n days
+and then just sum over the given inputs
+less thinking required to just write some procedural code to do it (group up same day fish though)
+
+part b
+
+same problem but 256 days instead of 80
+thank you python for supporting arbitrarily large ints
