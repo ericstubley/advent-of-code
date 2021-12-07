@@ -1,0 +1,33 @@
+part a
+
+given a list of crab horizontal positions, we want to line them all up
+find the position such that moving all crabs to that position has the minimum possible fuel cost
+
+is there a better solution than find the min and max positions and compute cost for everything in that range?
+total cost function is a sum of shifted |x|
+
+if there's 2 crabs any point in between them is the min
+if there's 3 crabs and all distinct than the middle element gives the min
+is it just always the middle of the sorted list (with repeats?) that's true in the test example
+yes! any amount you move from the middle will stay the same or increase, since on the side you're moving away from there will always be at least half of the crabs
+
+
+is checking this faster?
+assuming the number of ranges to test is ~ the length of the list, then checking each range is ~n^2
+this sorting strat will be ~ nlog(n)
+
+
+part b
+
+you don't understand crab engineering!
+moving more costs more fuel; the first move costs 1, then 2, then 3, etc.
+
+so to move n steps you need n(n+1)/2 fuel
+so instead of minimizing the sum of |crab - x| you want to minimize the sum of |crab - x|^2 + |crab - x|
+the function |crab - x|(|crab - x| + 1)/2 isn't smooth unfortunately
+if you were just minimizing the sum of |crab - x|^2 that happens at x = (sum of crabs)/(number of crabs)
+can we bet that that term will dominate and just find that?
+looool that works for the text example let's just try
+
+it is at least a local minimum to take the average (461.611) rounded closer to the previous step 313
+looool it actually worked
