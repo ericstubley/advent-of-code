@@ -1,0 +1,49 @@
+part a
+
+7 segment displays in your submarine are messed up
+there are many 4 digit displays, but the wires for each are randomly shuffled
+input is a list of 10 unique signal patterns, and a four digit output value
+
+the first part is easy: in the input, how many times do the digits 1, 4, 7
+appear as output values?
+these digits are easy to identify because
+
+# of segments used for a digit
+2: 1
+3: 7
+4: 4
+5: 2, 3, 5
+6: 0, 6, 9
+7: 8
+
+part b
+
+in fact there is enough information to determine the mapping of wires to output digits
+by doing this, figure out the sum of all the output values
+
+think of each input as a binary string, and recover each bit through operations which
+don't depend on knowing which of the 5 and 6 length digits is which
+or just do it more manually than that
+
+1, 4, 7, 8: determined by length
+5: shares the wires of 4 which aren't used in 1
+3: shares the characters of 1 and isn't 5
+2: the other length 5
+9: only 6 which has the characters of 4
+6: other 6 which has the characters of 5
+0: remaining digit
+
+nevermind, I started doing this with strings and it was too horrendous
+do it properly with binary
+
+hmmmmm the difficulty you're having in setting it up well is that you really just want
+to end up with a permutation of which input character corresponds to which actual character
+i.e. a 'b' in the input means that segment 'a' lights up
+but you're moving through different data types in a roundabout way
+let's think a bit more carefully about how to handle this
+
+
+psychologically you want create a bijection between 0 through 9 and the ten symbols you got
+use bidict!
+still a bit ugly looking with an overuse of list comprehensions to find things
+was there a better way to do that selection?
