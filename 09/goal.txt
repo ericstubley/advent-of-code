@@ -1,0 +1,31 @@
+part a
+
+given a grid of numbers, find all the low points (i.e. local minima in the sense that the points above, below, left, right are all strictly bigger)
+want to find the sum of (low point entry + 1)
+
+part b
+
+this part is about identifying "basins"
+a basin is a contiguous area of the grid, which is delimited by 9s
+think of each non-nine entry as flowing down towards the nearest low point
+the grid appears to set up so that things like 
+
+ 8
+888
+ 8
+
+never happen, and each basin in fact has a unique low point
+here you want to compute the product of the sizes of the three largest basins
+
+some strategies:
+- build up the digraph of flow paths, then count sizes of components
+- identify all the low points, then for each compute the size of its basin
+- want to do this recursively somehow; but the flow direction can be ambiguous!
+- a bit imprecise, but search outwards from a low point and just add up all neighbours which aren't nines
+	this would fail is the grid was less well designed (i.e. basins not separated by 9s)
+
+
+ideas after solving
+- reddit: pad the grid with 9s to maybe avoid a bit of case work? (not convinced that really removes need for cases in my strat)
+- is there a cleaner way to do the recursive thing? make an iterator over neighbors
+	that's too nice to not implement
