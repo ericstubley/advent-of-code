@@ -1,0 +1,25 @@
+part a
+
+input is a bunch of "navigation subsystem code" which is really just different types of parentheses
+everything is made of nested (), [], {}, <>, but there's some syntax errors
+
+find the first illegal character in each line of the input and score according to
+): 3
+]: 57
+}: 1197
+>: 25137
+
+
+part b 
+
+you need to complete the incomplete strings by adding the appropriate parentheses
+the stack based approach is good for that
+
+scoring is strange
+start with 0, for each character multiply score by 5 and then add point value
+): 1
+]: 2
+}: 3
+>: 4
+
+sort these scores and return the middle of that list (guaranteed to be odd number)
