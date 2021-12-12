@@ -18,3 +18,11 @@ this should be straightforward to modify part a: add an attribute to the vertice
 
 the solution was much slower than I expected!
 the recursion must be trying a whole bunch of dud pathways
+
+
+
+post mortem
+- you shouldn't be afraid to use python's builtin dicts and sets
+- saw a very nice simple recursive soln which passes through more args
+- my soln is very mathy in that it literally does graph things that were intuitive to me (i.e. remove from graph if its been visited) but it seems like having to copy around the whole graph is way more inefficient compared to just keeping track of what's been seen so far
+- there's a good lesson here that you don't want to reinvent the wheel, but that's in tension with not wanting to get rids of weeds with a nuke (what's the common metaphor for that? using a tool that is overly powerful for a simple job)
