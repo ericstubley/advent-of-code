@@ -1,0 +1,16 @@
+part a
+
+there's a grid of octopi, and you don't want to spook them with your sub lights
+you want to use their natural lighting to guide you through
+
+at each step each octopus increases its illumnation by 1
+if its > 9 it flashes, and increases all 8 neighbors by 1, then resets to 0 (and is not triggered by further flashes)
+keep going until all >9 ones flash
+
+how many flashes have occured after 100 steps?
+
+
+part b
+
+when is the first step when all octopi flash simultaneously?
+mostly the same code, just keep looping until break
