@@ -1,0 +1,20 @@
+part a
+
+given a cave system as graph
+some of the caves are BIG and some are small
+find all the paths from start to end which visit small caves at most once
+
+ideas:
+- notice that BIG caves are connected only to small caves
+- since every edge connects to a small cave, you want paths start-end which use each edge at most once
+- recursive? # of paths start->end = sum over edges start->x of # of paths x->end in G/(x)
+- what is the data structure? just use a library! better to learn libraries than reinvent the wheel
+
+part b
+
+you actually have time to visit a single small cave twice
+start and end can only be visited once
+this should be straightforward to modify part a: add an attribute to the vertices
+
+the solution was much slower than I expected!
+the recursion must be trying a whole bunch of dud pathways
