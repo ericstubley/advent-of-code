@@ -36,5 +36,12 @@ for x, y in dots:
 
 for axis, coord in folds:
     paper = origami_fold(paper, axis, coord)
-print(np.clip(np.transpose(paper[0:20]), 0, 1))
-print(np.clip(np.transpose(paper[20:40]), 0, 1))
+# let's improve the printing
+for row in np.transpose(paper):
+    out = ""
+    for x in row:
+        if x > 0:
+            out += '@'
+        else:
+            out += ' '
+    print(out)
