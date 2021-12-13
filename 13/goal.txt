@@ -1,0 +1,9 @@
+part a
+
+you're given a bunch of dots and fold lines
+dots are on a transparency, fold up along the fold lines to read the thermal imaging manual
+dots never lie on fold lines
+
+for the first problem just count the number of dots after the first fold
+
+use numpy matrices arrays because of convenient slicing and flipping functions
