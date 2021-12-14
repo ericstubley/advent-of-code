@@ -1,0 +1,24 @@
+part a
+
+given a starting polymer (string) and list of polymerization rules (two chars -> single char)
+what polymer do you get after 10 steps?
+each step you insert the single char in the middle of the two simultaneously for the whole polymer
+for part a you actually want to calculate the number of occurrences of the most frequent minus the least frequent
+
+can you get away with not computing the whole thing and just clever counting somehow?
+not the hard to just compute the string but should be careful about data structure, could get out of hand with i.e. inefficient str += in python
+
+all that's important is the number of each two letter pair, and you have the rule for where each goes
+so you can do a markov chain type thing
+ah but to count at the end you'd need to be a bit clever; actually not: first and last chars are guaranteed to be the same, and every other appears twice
+let's do it purposefully this way for part a, and code up the full string probably for part b if you need to
+
+length 20 should end up length 19457 after 10 steps
+
+not actually convinced this way is any better for 10 steps
+but for 100s for steps it sure will be
+
+
+part b
+
+let's go same problem but 40 steps
