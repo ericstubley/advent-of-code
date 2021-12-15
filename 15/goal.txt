@@ -1,0 +1,28 @@
+part a
+
+given the integer grid, find the path from top left to bottom right which minimizes risk
+can only move r,l,u,d
+entering a grid spot increases risk by the amount listed on that spot
+
+one solution:
+- build the directed graph with nodes as edges, all the edges, edges weight into something all the risk
+- run dijkstra
+
+
+part b
+
+the same idea but actually the grid is larger
+take your existing grid and repeat it 5 times in each direction, adding one at each repeat
+when you get past 9 wrap around to 1
+so if you started 1x1 you'd get
+
+12345
+23456
+34567
+45678
+56789
+
+post-mortem
+- in the end this was slower than I wanted?
+- is there any puzzle structure you can exploit
+- or maybe a more tailored shortest path finder because of clear grid structure
