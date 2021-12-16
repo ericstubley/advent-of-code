@@ -1,0 +1,37 @@
+part a
+
+get a bitstream in hexadecimal, parse out the packets is the overall setup
+all numbers seem to be big endian (most significant bit first)
+part a goal is to add up the version numbers of the packets
+
+every packet starts with
+3 bits - version number
+3 bits - type id
+
+value packets - type id == 4
+    take the binary value and pre-pad it with zeros until the length is a multiple of 4
+    split into chunks of 4 bits
+    each chunk other than the last gets a 1 pre-padded, last gets a 0 pre-padded
+
+operator packets - all other type ids
+    first bit is the length type id
+    length type id == 0: next 15 bits are the total length in bits of the subpackets 
+    length type id == 1: next 11 bits are the number of immediate subpackets
+    then all the subpackets
+
+the whole hex string is post-padded with zeros to make it have length 4, can be ignored
+
+for now just work out the sum of the version numbers
+
+
+part b
+
+evaluate the expression based on the following types of operators
+0: return the sum of the subpackets
+1: return the product of the subpackets
+2: return the miniumum of the subpackets
+3: return the maximum of the subpackets
+4: is the type for values
+5: always two subpackets: return 1 if first is bigger, 0 else 
+6: always two subpackets: return 1 if first is less, 0 else 
+7: always two subpackets: return 1 if both are equal, 0 else 
