@@ -31,3 +31,8 @@ I can narrow down the search space:
 - let's do something a bit more efficient than that
 - strategy is to find ranges for each initial x and each initial y where they land in the target zone
 - and then use sets overlapping to see when they line up
+
+post-mortem
+- lol math brain did you in again, could have just done the bare minimum bound finding + brute force for part 2
+- yeah coded that up in a much shorter time and its actually reasonable
+- it's not a complete brute force, there's a fair bit of short circuiting to not waste effort
