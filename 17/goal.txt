@@ -1,0 +1,33 @@
+part a
+
+launch the probe from the submarine starting at (0, 0) into the given target area
+you launch with an (x, y) velocity and because of drag and gravity at every subsequent step
+- the x velocity moves toward 0 by 1
+- the y velocity decreases by 1
+
+find initial velocity so that you hit the maximum possible y position, that's the solution.
+
+So two notes:
+- x and y movement are independent, so assuming there is a valid solution we can maximize y independently
+- might be able to do it analytically?
+- the total y coordinate is y_0 + (y_0 - 1) + (y_0 - 2) + ... + (y_0 - (n-1)) = n*y_0 - n(n-1)/2 after n steps
+- want to pick y_0 so that by the time it hits -121 (from the input) it is moving at less than -159+121 = -38 
+- no! could magically land inside from much higher
+- really the important thing is that after 2*y_0 + 1 steps your y coordinate is back to 0 but you have a large negative velocity (-y_0 - 1 to be exact)
+- so the solution has got to be picking y_0 so that the first step below 0 (which lands -y_0 - 1) lands in the square as far down as possible
+- so with an input of -121 to -159 you want +158 as your best y_0
+- and then the max height is y_0 + (y_0 - 1) + ... + (y_0 - y_0) = 1 + 2 + ... + y_0 = y_0(y_0 + 1)/2
+
+part b
+
+how many different initial velocities will get the probe into the grid?
+I can narrow down the search space:
+- starting x must be <= 125
+- starting x must such that x_0 + (x_0 - 1) + ... + (x_0 - x_0) = x_0(x_0 + 1)/2 >= 70, this is 12
+- for each x value in the search range it lands in the box a certain number of times, after a certain number of steps
+- you can find the y values that land in the box after n steps and then pair those up
+- even simpler just find the 12 <= x <= 125 and -159 <= y <= 158
+- loop over all these, break as soon as they're past in one dimension
+- let's do something a bit more efficient than that
+- strategy is to find ranges for each initial x and each initial y where they land in the target zone
+- and then use sets overlapping to see when they line up
