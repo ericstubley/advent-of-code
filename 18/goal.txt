@@ -1,0 +1,30 @@
+part a
+
+you have to help the snailfish with their addition homework, but their addition is wonky!
+A snailfish number is a list of two things; could be legit integers or other snailfish numbers
+Addition is putting into a tuple and then reducing
+two types of reduction
+- explode: if a snailfish number which has actual values is nested >= 4 deep it explodes
+    take the left number and add it to the next left number
+    take the right number and add it to the next right number
+    replace the pair by a 0
+- split: if an actual number n is >= 10 it splits into a new pair [floor(n/2), ceil(n/2)]
+
+to reduce you always apply the leftmost possible reduction first and then return to the top of the number
+
+splitting doesn't preserve magnitude, so you can't just compute the magnitude without reducing
+reducing and adding also don't commute (with many additions the first reduction will be an explosion at the first number; but with iterative reductions that thing might get changed earlier)
+
+
+options:
+- build a SnailfishNumber class which overloads + and some other things; need to write a parser
+- keep them all as strings and build a regex which does things you need
+- ah naive class with two members is no good because the explode operation needs to backtrack up the tree to the nearest leaves
+- need to track the parent as well
+- also the numbers should have been tracked themselves as SnailfishNumbers whose left and right are None
+
+
+part b
+
+what is the biggest magnitude of the sum of two different numbers from out list?
+relatively straightforward with the setup from part a, just so long as you're careful about objects
