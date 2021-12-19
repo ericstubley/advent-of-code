@@ -28,3 +28,11 @@ part b
 
 what is the biggest magnitude of the sum of two different numbers from out list?
 relatively straightforward with the setup from part a, just so long as you're careful about objects
+
+
+post mortem after some thinking
+
+- someone on reddit suggested storing things as an adjacency list with depths, though this makes the magnitude more fiddly
+- the binary tree approach has the benefit of being easily explained and more readable
+- the next thing to try to save time would be to not recompute the entire dfs list at every step
+- for part 2 snailfish numbers are chaotic enough that you probably can't do much better than just checking all the pairs in a double for loop 
