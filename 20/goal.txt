@@ -1,0 +1,17 @@
+part a
+
+input consists of a single 512 character line (enhancement algorithm) and image
+enhance the image by the following
+    - take a 3x3 square around a pixel
+    - flatten it
+    - convert to binary number
+    - use that index in the algorithm as new pixel
+
+pretend the image is infinite in all directions
+how many pixels are lit after enhancing twice?
+
+part b
+
+how many pixels are lit after enhancing 50 times?
+
+today's program was quite slow in part b, to the level of like 30 seconds total
