@@ -40,3 +40,14 @@ the major time consuming bug today was that matrix multiplication was not the or
 part b
 
 what is the maximum manhattan distance between any two scanners? (not beacons lol)
+
+
+
+post mortem:
+- 12 points is exactly the right number to let you solve for the 9 matrix rotation entries and 3 translation vector entries
+- so there's purely a solution based entirely around identifying the 12 overlapping points and then solving
+- with identifying the overlapping distances or differences correctly you could make that work
+- regardless the smarter thing rather than traversing the graph and having to track the path and orientations is the following
+    - starting with 0 find one which overlaps
+    - can figure out the orientation of that one and add all the beacons to a big beacon list relative to 0
+    - repeat until you've added everything
