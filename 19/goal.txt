@@ -1,0 +1,42 @@
+part a
+
+you are given a list of scanners and the beacons they detect
+each scanner detects beacons in a cube of "radius" 1000 from the scanner, you get the relative position
+you don't know the orientation of the scanners, which align to some orientation preserving octahedral symmetry
+    this gives 24 different possible alignments for each scanner
+
+if two scanners have 12 common beacons, you can use those to determine the relative positions of the two scanners
+    is this a puzzle assertion or a mathematical fact?
+    seems like it's a puzzle assertion?
+
+let's start off by treating this more like a data exploration than just writing the solution
+one possible idea is to check sets of absolute values of coordinates rather than exact values
+    probably the spread of coordinates is big enough that this will work
+
+okay, it looks like the puzzle is well-designed so that when there's overlap there's always either 12 or 6
+so with this distances technique you can quickly identify which pairs of scanners have an overlap of 12
+let's check whether the resulting graph is a tree or not
+    probably is a tree, at least hopefully its connected
+        update: not a tree, but does contain every scanner and is connected
+    for each pair we can then figure out a relative direction and orientation hopefully
+    and then compute the location of every beacon by traversing a spanning tree
+
+okay so here's what we're gonna do
+for each edge i - j (with i < j)
+    store as edge data the direction vector i to j
+    the orientation of j relative to the orientation of i
+
+then for each scanner
+    find a path 0 - ... - n
+    compose the vectors and orientation to get 0 to n vector, orientation of n relative to 0
+    from there compute the positions of the beacons at n relative to 0
+    add those to a set
+
+in the end solution is inefficient because you did a lot of recomputing of relative positions
+the major time consuming bug today was that matrix multiplication was not the order you expected?   
+    in the updating of the total orientation it was like post composition, but actually its precomposition
+
+
+part b
+
+what is the maximum manhattan distance between any two scanners? (not beacons lol)
