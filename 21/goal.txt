@@ -1,0 +1,48 @@
+part a
+
+play dirac dice with the computer
+game board has 10 squares labelled 1-10
+players take turns rolling a (100-sided) die 3 times, add the results together, move that many squares, get points based on what square you land on
+first to 1000 points wins
+
+play with deterministic die which rolls 1, 2, 3, ..., 99, 100, 1, 2, ...
+return losing score * number of rolls
+
+
+part b
+
+now for the real game
+the die is now 3-sided, but for every time you roll it the universe splits into 3 (for the 3 possibilities)
+game now ends at 21
+determine every possible outcome
+how many universes does the player that wins in more universes win in?
+
+
+so the challenge here is to set it up so as to avoid a brute force combinatorial explosion
+let's go recursive, but not based on a single die roll, based on a single turn
+possible movements are between 3 and 9
+3 1 way
+4 3 ways
+5 6 ways
+6 7 ways
+7 6 ways
+8 3 ways
+9 1 way
+
+well so much for that being a solution that was in any way faster
+but it worked first time!
+
+holy hell caching is amazing
+basically you should always cache if your set of possible inputs to a recursive thing is reasonably bounded...?
+    be wary if caching if you have unbounded inputs; in general trading fast runtime for unbounded memory use is no good
+
+
+some thoughts from reddit
+- one possible way to clean up code: rather than a turn flag, have a current player and next player and swap in recursive calls
+    another benefit of this solution is reducing the size of the cache (not so important here, but in practice yes)
+- is it better to just implement the cached solution imperatively? if nothing else good practice
+    and you really don't need to do it recursively, although that's the thing that seems most natural to you
+- someone used diracDiceThrice as a variable name lol
+
+
+if you were gonna come back and clean up one solution this is one that deserves to have a maximally beautiful solution
