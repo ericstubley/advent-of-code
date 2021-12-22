@@ -1,0 +1,26 @@
+part a
+
+we're given a list of reactor reboot instructions
+for now only worry about those within the [-50, 50]^3 box
+everything starts at off
+each instruction in the reboot steps turns a whole cuboid on or off
+how many cubes are on after only the -50 to 50 steps
+
+part b
+
+same problem, just now with the entire instruction set
+except now the dimns are way too big to think about storing the whole thing, and also you don't have starting bounds
+so instead just keep track of which points (x, y, z) are one as a set
+
+okay doing them one by one seems to very slow also
+too slow even on just the first cuboid for this to be reasonable, which makes sense; 10000^3 is very large
+other strategies:
+- do some cuboid subdivision and keep track of volumes which are on; just count up totals at the end
+- there's 420 instructions, so even with cuboid subdivision that's in the the thousands or maybe millions but not too bad
+- is there always an axis-aligned separating hyperplane? i.e. can you just check the projections in each dimension
+- even so you'd still need to implement subdivision which could be finicky?
+- let's try this, good practice
+
+post-mortem
+- turns out that implementing the subdivision was not too bad! the cuboid class worked very well
+- the downside here is that there's a lot of x, y, z repetition in the cuboid code and in general
