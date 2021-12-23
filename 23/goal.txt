@@ -1,0 +1,120 @@
+part a
+
+organize the amphipods into their rooms by type; types ABCD want to end up left to right
+
+#############
+#...........#
+###C#B#D#A###
+  #B#D#A#C#
+  ######### 
+
+costs are 1, 10, 100, 1000 for A, B, C, D
+special movement rules
+- they don't stop right outside a room
+- they don't enter a room unless it's the right room and other amphipod is not there or is right type
+- once they stop moving outside a room they don't move until the movement into the correct room
+
+necessary movements
+A - 16
+B - 10
+C - 12
+D - 12
+
+12000 + 1200 + 100 + 16 = 13316
+
+manual strategy
+A - 3 + 7 + 3 + 9 = 22
+B - 2 + 3 + 5 = 10
+C - 3 + 5 + 6 = 14
+D - 5 + 7 = 12
+
+12000 + 1400 + 100 + 22 = 13522 is too high
+
+second strategy
+A - 8 + 3 + 3 + 6 = 20
+B - 2 + 3 + 5 = 10
+C - 3 + 7 + 4 = 14
+D - 5 + 7 = 12 = 12
+
+12000 + 1400 + 100 + 20 = 13520
+given that both A and a C need to get out of the way of things, this is best to hope for?
+
+
+
+
+test example
+#############
+#...........#
+###B#C#B#D###
+  #A#D#C#A#
+  #########
+
+A - 9
+B - 9
+C - 4
+D - 12
+
+12000 + 400 + 90 + 9 = 12499, did it with 12521 = 2 more B and 2 more A
+
+
+part b
+
+input is actually bigger!
+
+#############
+#...........#
+###C#B#D#A###
+  #D#C#B#A#
+  #D#B#A#C#
+  #B#D#A#C#
+  ######### 
+
+okay should actually program this one
+dynamic programming?
+- minimized cost comes from evaluate all possible moves and find min cost among those
+- simplify cost counting of moving into and out of rooms by just precomputing all that
+- how to set up the movement rules and grid space? this seems a bit finicky
+- cost for a move is just amphipod cost * (|delta x| + |delta y|)
+- each amphipod moves at least once, since no one starts at bottom of correct room, and at most twice since once you move your next move must be into your correct room
+- the rooms and lr annexes have internal gating
+- hall AB blocks left and A from B and hall BC
+- hall BC blocks B and hall AB from C and hall CD
+- hall CD blocks C and hall BC from D and right annex
+- formulate it as a graph search problem
+- vertices are valid board states
+- edges from single moves, weights given by cost of move
+- want to find the shortest path from this state to the sorted one
+- 23 possible locations for an amphipod
+- at most 11 possible moves for a given amphipod
+- test solution took 24 moves
+- any solution will take at most 32 moves (2 per amphipod) and at least 16 (1 per amphipod)
+
+
+- even better a list of 4 sets, each set containing the 4 positions of the four amphipods of that type
+- (23 choose 4) * (19 choose 4) * (15 choose 4) * (11 choose 4) = ~15 trillion many game states :/
+
+
+
+- okay let's just start implementing the following
+- store board state as a dict
+- have a possible moves function
+
+
+
+- these functions are bad because they have lots of return statements 
+
+
+
+solving this by "exam theory" binary search would have definitely been faster than writing this code
+
+
+
+post-mortem
+- okay well I got it working but the code is a huge mess and is a bit slow
+- I am not happy with how good the code looks today
+- read reddit to get a better sense of what strategies you could use to have cleaner code for this problem
+- well I feel less bad now after reading reddit
+- there's some cleanups like moving in two steps rather than one to clean up the logic a bit
+- could do some optimizations like tossing out things with a bigger max cost, but overall not bad
+- mostly just upset about how ugly the code ended up being
+- how would you design it better?
