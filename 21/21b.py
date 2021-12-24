@@ -7,7 +7,7 @@ WEIGHTS = [(3, 1), (4, 3), (5, 6), (6, 7), (7, 6), (8, 3), (9, 1)]
 @cache
 def simulate_universe(p1, p2, s1, s2, turn):
     # pass positions, scores as 2 element lists for less repetition of code
-    if max(s1, s2) >= 21:
+    if max(s1, s2) >= 1000:
         return (1, 0) if s1 > s2 else (0, 1)
 
     w1, w2 = 0, 0

@@ -15,3 +15,8 @@ part b
 how many pixels are lit after enhancing 50 times?
 
 today's program was quite slow in part b, to the level of like 30 seconds total
+
+
+post-mortem
+- convolve! this is the second problem where you want to quickly apply some local operation to a whole grid
+- numpy/scipy for 2d is the way to do this!
