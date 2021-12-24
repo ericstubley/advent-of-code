@@ -1,0 +1,53 @@
+part a
+
+you're given a program for the arithmetic logic unit, variables w, x, y, z
+if you give it a valid model number it terminates with z=0, else z!=0
+what is the largest valid model number? 
+
+model numbers are always fourteen non-zero digits
+
+it feels like there should be a 9-ary tree structure
+the 14 instructions fit into a nice regular structure
+and in fact x, y are each set to 0 before being used in an input block, so really there's 14 blocks
+each of which takes w, z, as inputs (ah but z is arbitrary)
+brute force is unreasonable because 9^14 is very large
+
+there's 14*9 functions on z corresponding to 14 instructions each with 9 different inputs
+
+
+this feels like a parser combinator would have been the right approach but the rules are straightforward enough to code manually
+
+okay I just did it manually! by reading the instructions and thinking about what they do
+the machine stores things into z in base 26
+this happens in two types of steps:
+- type 1: shift the base 26 thing to the left and a new last digit (based on the current input and also a hardcoded number)
+- type 2: if the current last digit matches another digit (based on current input and hardcoded number) shift the base 26 thing to the right; otherwise replace the last base 26 digit by a new last digit
+
+there's an equal number of type 1 and type 2 operations, so it works out that you always need to hit the digit matching to get an excepted state
+so the accepted states are just 14 digit sequences with constraints like 3rd digit = 4th digit + 1
+from there it's easy to manually figure out the largest
+
+part b
+
+find the smallest
+
+
+
+for future reference the steps if you always take the matching path so you have a chance of getting a valid thing were:
+01: z = w1+7
+02: z = (w1+7)*26 + (w2+15)
+03: z = (w1+7)*26^62 + (w2+15)*26 + (w3+2)
+04: match w3=w4+1, z ends as in 02
+05: z = (w1+7)*26^62 + (w2+15)*26 + (w5+14)
+06: match w6=w5+5, z ends as in 02
+07: z = (w1+7)*26^62 + (w2+15)*26 + (w7+15)
+08: match w8=w7+8, z ends as in 02
+09: match w9=w2+4, z ends as in 01
+10: match w10=w1+3, z ends at 0
+11: z = w11+12
+12: z = (w11+12)*26
+13: match w12=w13+6, z ends as in 11
+14: match w14=w11+2, z ends at 0
+
+
+someone on reddit makes the great point that sometimes the puzzle is about writing code, and sometimes it is about *reading* it
