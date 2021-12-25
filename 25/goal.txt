@@ -1,0 +1,23 @@
+part a
+
+there's sea cucumbers on the sea floor.
+they come in two herds, east moving (>) and south moving (v)
+the east moving ones move first, then the south moving ones
+movement wraps around the grid
+
+what is the first step when there's no more movement?
+
+today's code was slower than I would have liked for such a simple problem
+rather than tracking a whole grid another possible solution would be to just store east and south positions and grid size
+not clear that would be faster
+maybe having to % every time is slowing it done
+
+
+part b
+
+we did it!
+
+
+post-mortem:
+- ah my friend of a few weeks, np.roll, how do I keep forgetting about you?
+- someone repped the east and south sets as big numbers (I guess a binary string of length height*width), move by bitshifting??? sure would be a way to do it
