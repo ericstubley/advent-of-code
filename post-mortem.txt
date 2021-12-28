@@ -1,0 +1,31 @@
+What things did you learn by doing Advent of Code 2021?
+- got back into very fluent python programming
+- remember that python lists are objects, and objects are stored by reference; so [[0]*10]*10 creates a list with ten copies of the same list of length 10, not a whole grid like you want; instead do [[0]*10 for __ in range(10)]
+- explored a few language features you've never used before: else clauses for for loops, making objects iterable (particularly for the nice clean iterating over the points of a line segment), assert statements 
+- when you're doing recursive things consider caching! often you can write the algorithm to use that; or in python at least there's the @cache decorator
+- used some new libraries: numpy for matrix operations, networkx for graphs, bitarray for strings of bits, bidict for bijections (you can implement them yourself with dicts, but why do that?)
+- lesson: sometimes (and probably often irl) the problem is about reading code, not writing it
+- lesson: sometimes you should just use the brute force solution
+- lesson: when you spend a good deal of time thinking through how to solve something, your solution is often quite robust
+- lesson: when you spend a good deal of time thinking through how to solve something, your solution is sometimes overcomplicated
+- lesson: numpy has many many many many powerful features (i.e. you could solve like 7 puzzles with convolves or rolls)
+
+
+What learning goals can you set for going back through the Advent of Code history?
+- do one with a focus on learning numpy, try to use it everywhere
+- do one with a new language
+- do one with a lower level language (C++?)
+- do one with a functional language
+- do one with a focus on learning about object oriented approaches
+- do one with a focus on producing a visualization for every day
+- do one with a focus on execution speed of the code
+- do one with a focus on maximally pythonic and beautiful code
+- do one with a focus on writing the code as quickly as possible
+- do one with a focus on writing tests before and as you go
+- try livestreaming or video+screen recording a few days for interview practice?
+- each day < 1 second runtime
+- total calendar < 1 second runtime
+- never submit more than one incorrect answer
+- never submit an incorrect answer
+- write a poem about it each day
+- chaos: do each day in a different language
