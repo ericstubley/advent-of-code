@@ -29,3 +29,7 @@ What learning goals can you set for going back through the Advent of Code histor
 - never submit an incorrect answer
 - write a poem about it each day
 - chaos: do each day in a different language
+- set up automatic puzzle/input getting as sort of front-end practice
+- set up useful libraries that do some common tasks?
+- use a proper debugger instead of random print statements
+- meta goal: good programming habits
