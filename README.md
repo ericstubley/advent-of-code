@@ -14,11 +14,13 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - first Advent of Code I participated in
 - solved in python
 - mostly stuck to the soft goals of having solutions run in under 1 second and not submitting more than a single wrong answer per problem
+- expand your repertoire of vi commands for efficiency
 - overall goal was to just regain fluency with coding
 
 2015: (Jan 2022)
 - plan to solve using python
 - keep the < 1s runtime and no more than a single wrong answer goals
+- keep paying attention to efficient vi usage
 - goal: write pythonically
 - goal: develop some good testing habits; write tests before writing big chunks of code
 - goal: use a proper debugger rather than print statements
