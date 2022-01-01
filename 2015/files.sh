@@ -1,12 +1,12 @@
 # make the files in each directory
 # for the future, how could you have done this on the command line?
 # think about that
-for label in {01..25}
+for label in {02..25}
 do
     cd $label
-    cp ../template.py "$label"a.py
-    cp ../template.py "$label"b.py
-    chmod 755 "$label"a.py
-    chmod 755 "$label"b.py
+    mv "$label"a.py puzzle_2015_"$label"a.py
+    mv "$label"b.py puzzle_2015_"$label"b.py
+    cp ../test_template.py test.py
+    chmod 755 test.py
     cd ..
 done
