@@ -1,0 +1,19 @@
+part a
+
+santa is taking an elevator, and the instructions are a big string of '(' and ')'.
+open paren means go up 1 floor, close paren means go down 1 floor
+if he starts from 0 what floor does santa end up at?
+
+fortunately the operations are commutative so we just need to
+- count the number of ( minus the number of )
+- loop over the string once to get a running total
+
+looping over the string once is better in general?
+- only one pass instead of two
+- better chance that the ints involved remain small
+- can read from a feed rather than having to store the whole thing in memory
+
+
+part b
+
+find the position (indexed starting from 1) of the first character which causes santa to enter the basement
