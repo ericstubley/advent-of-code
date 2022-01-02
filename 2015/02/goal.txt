@@ -1,0 +1,11 @@
+part a
+
+you're given a list of present dimensions (rectangular lxwxh)
+for each present you need the surface area + the area of the smallest face as slack, which amounts to 2*l*w + 2*l*h + 2*w*h + slack
+what is the total area required?
+
+part b
+
+now we need to help them with ribbon
+need a wrapping length = the shortest distance around any of the sides = the smallest perimeter of a face
+and a bow length = the total cubic volume
