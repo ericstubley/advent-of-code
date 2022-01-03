@@ -1,0 +1,16 @@
+part a
+
+delivering presents to houses
+you get a sequence of directions >, <, ^, v telling you where to go from your current location
+after every direction you deliver a present (and also when you're at the origin)
+
+how many houses do you deliver presents to?
+
+strategy: put (x, y) coordinates as keys in a dict and store number of visits as the value
+
+
+part b
+
+now both santa and robo_santa are delivering presents
+santa does the first move, then robo_santa the second, then santa the 3rd and so on
+in total how many houses do they visit?
