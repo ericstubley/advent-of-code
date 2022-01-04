@@ -1,0 +1,12 @@
+part a
+
+the flavour text is helping santa mine AdventCoins for economically minded children
+what this means in practice is that you're given a key (something like "abcdef") and you want to find numbers N (of many digits) such that the string "keyN" has hexadecimal md5 hash starting with five zeroes
+
+use the python hashlib library
+
+
+part b
+
+now find one that starts with 6 zeroes
+the code is all ready to go, good job designing the right amount of generality
