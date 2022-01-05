@@ -1,0 +1,25 @@
+part a
+
+help santa filter out the nice strings from the naughty strings
+a string is nice if
+- it contains at least 3 vowels (aeiou only)
+- it contains at least one letter that appears twice in a row
+- it doesn't contain one of the banned substrings ab, cd, pq, xy
+
+how many strings are nice?
+
+
+part b
+
+the rules from part a were clearly ridiculous, the proper nice string rules are
+- it contains a pair of letters which appears at least twice without overlapping: so the pair xy appears twice in xyxy or xybcxy without overlapping; aa appears twice in aaa but with overlap so that doesn't count
+- contains a repeated letter separated by one letter, so any string like aha, yuy, did, things like that
+
+how many strings are nice with these rules?
+
+
+
+you're just doing it by hand
+the "fancier" options are
+- regex to do the matching rather than writing the logic yourself
+- is this what a parser combinator is for? not really
