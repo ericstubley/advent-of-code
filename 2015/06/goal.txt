@@ -1,0 +1,17 @@
+part a
+
+given a 1000x1000 grid of lights, and a list of instructions which are of the form
+    turn on 887,9 through 959,629
+(i.e. turn on/off or toggle a given rectangle in the grid)
+how many lights are lit after doing all the instructions?
+the lights all start out turned off
+
+
+part b
+
+in fact the lights do more than that
+- turn on increases brightness by 1
+- toggle increases brightness by 2
+- turn off decreases brightness by 1, stopping below at 0
+
+what is the total brightness?
