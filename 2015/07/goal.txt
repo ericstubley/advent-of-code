@@ -1,0 +1,38 @@
+part a
+
+you're given a list of named wires connected up in logical gates
+the signals are 16bit signals (i.e. ints from 0 to 65535)
+like: 
+    p LSHIFT 2 -> q 
+means take the output of wire p, left shift it by 2, and use that as the input to wire q
+
+possible gates: SIGNAL, AND, OR, NOT, LSHIFT, RSHIFT
+rather than using bitarrays just use ints?
+SIGNAL = give it that integer value
+AND = maybe this is hard
+OR = maybe this is hard
+NOT = 65535 - number
+LSHIFT = mult by 2^n
+RSHIFT = floor(div by 2^n)
+
+ultimate goal: what is the output of wire a?
+
+
+
+hmmmm the strategy to use is not immediately obvious to me
+- make a graph?
+- make some objects? circuit, wire, gate
+    circuit has a dict of wires by name
+    circuit has a way to compute
+- have a dict: wire name -> description of input gate
+- maybe just wires and gates, circuitbuilder
+- circuitbuilder returns a dict wire name -> wire object
+- this is bad because there's more boilerplate than actual code?
+- simpler plan: just build a dict wire name -> output
+
+
+part b
+
+take the signal you got on wire a in part a (3176), override wire b to have that as the input instead of what it had before
+what is the new output of wire a?
+easy to implement, just manually override that line of the instructions
