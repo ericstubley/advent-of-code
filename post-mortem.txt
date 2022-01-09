@@ -33,3 +33,4 @@ What learning goals can you set for going back through the Advent of Code histor
 - set up useful libraries that do some common tasks?
 - use a proper debugger instead of random print statements
 - meta goal: good programming habits
+- literate programming
