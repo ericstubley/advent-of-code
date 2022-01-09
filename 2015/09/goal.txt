@@ -1,0 +1,19 @@
+part a
+
+you're given a list of cities and distances between them
+you want to find a path which starts and ends at two different locations and which has the shortest total distance
+has to visit each location exactly once
+
+
+the given graph is a complete graph on 8 vertices
+can you just greedy do it by hand? not so easy
+
+
+brute force is not so bad? there's 8! = 40320 many choices
+(and if you wanted you could cut that in half by ignoring the reverse path)
+
+
+part b
+
+what's the longest path?
+literally just change a min to a max
