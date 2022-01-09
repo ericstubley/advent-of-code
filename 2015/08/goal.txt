@@ -1,0 +1,21 @@
+part a
+
+you're given a list of strings, which can contain escaped characters \\, \", and \xNM
+"\xa8br\x8bjr\""
+"nq"
+"zjrfcpbktjmrzgsz\xcaqsc\x03n\"huqab"
+"daz\\zyyxddpwk"
+...
+
+and you have to compute the difference between:
+- the total number of characters in the file (minus whitespace)
+- and the total number of characters in memory for the strings themselves
+
+so for example
+"\x27" uses 6 characters, but is really a 1 character string
+
+
+part b
+
+now go the other way
+encode each string as a new string where you replace each \ with an escaped slash, each " with an escaped \" etc
