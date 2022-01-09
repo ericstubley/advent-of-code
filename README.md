@@ -10,6 +10,7 @@ Within each folder there is at least
 - `XYa.py` and `XYb.py`: python files solving part a and part b. part b is very often turning out to be almost entirely a copy of part a
 
 I'm trying to learn or focus on a specific thing each year of problems that I do:
+
 2021: (Dec 2021) 
 - first Advent of Code I participated in
 - solved in python
