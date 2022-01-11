@@ -1,0 +1,18 @@
+part a
+
+the look-and-say sequence (one of the first programs you ever wrote I think! :D)
+
+1221 becomes 112211 becomes 212221 becomes 12113211
+
+starting input is 1321131112
+what is length after 40 iterations?
+
+store as a list rather than a string is I think the way to go
+
+part b
+
+do it 50 times instead
+
+
+did it fine (10 days no mistakes!) but violated the < 1 second runtime rule on part b
+let's optimize
