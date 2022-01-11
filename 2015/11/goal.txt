@@ -1,0 +1,21 @@
+part a
+
+you need to help santa pick a new password, starting with his old one
+you increment it, treating it like a base 26 number
+passwords are 8 lowercase letters
+additional constraints
+- one increasing seq of 3 letters like abc, def, ... up to xyz
+- may not contain the letters i o l
+- must have two different non overlapping pairs like aa, bb, up to zz
+    unclear if something like aabcaaaa is valid (do the letters have to be different? probably)
+
+
+part b
+
+santa's password expired again! what's the next one
+
+
+
+would it be better to store it as a straight number out of base 26?
+- for checking validity its easiest to have a list of chars or digits; neither is especially easier
+- for getting the next its easiest to have a straight number
