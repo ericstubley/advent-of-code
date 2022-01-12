@@ -1,0 +1,12 @@
+part a
+
+you're given a huge JSON document
+containing arrays, objects, numbers and strings
+part a here is to add up all the numbers
+
+
+part b
+
+the elves have realized that they double counted everything "red"
+ignore all the numbers in any object which has a property which is "red"
+if "red" is in a list you still count it
