@@ -1,0 +1,17 @@
+part a
+
+you're given a list of people's seating preferences, and you want to arrange an optimal seating chart
+the table is circular
+every person gets a list of preferences: for every other person they've got a number that is how much their happiness changes if they sit beside that person
+
+brute force with 8 people is entirely reasonable, so let's do that
+
+
+part b
+
+you forgot to seat yourself!
+you're apathetic, so your score towards everyone is 0
+
+
+
+over halfway done 2015 with no mistakes yet!
