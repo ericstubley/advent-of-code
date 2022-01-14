@@ -1,0 +1,25 @@
+part a
+
+we're seeing which of santa's reindeer is the fastest
+each reindeer is either flying at its top speed, which it can do for a certain time period, or resting for a certain time period
+everything happens in intervals of whole seconds
+
+after 2503 seconds what distance has the winning reindeer travelled?
+
+
+part b
+
+we need a better scoring system
+at the end of every second, the reindeer in the lead gets a single point
+whoever has the most points after 2503 seconds wins
+
+how many points does the winner have after 2503 seconds?
+
+
+my solution is going to be inefficient in that it actually totally recomputes the distances at each step rather than updating
+but at the scale we're working at it's fine
+
+
+
+finally made a mistake
+but it was a typo from poorly hardcoding 2503 and not an actual conceptual error in the code
