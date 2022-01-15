@@ -1,0 +1,25 @@
+part a
+
+you're given a list of cookie ingredients and their properties per teaspoon
+a recipe is a linear combination of the ingredients, and then the score is the length of some vector
+want to find ingredients which maximize the score
+is this the simplex algorithm? there's probably a better than brute force approach
+
+total ingredients must be 100 teaspoons
+for each attribute you compute a total score (clipping at 0 if its negative)
+product of these attributes is the final score
+
+it seems to me that there should be a faster way than brute force, but I'm not seeing it
+
+
+part b
+
+find best scoring cookie whose calories are 500
+again its just a linear constraint
+again it seems like there should be a better method
+
+
+you made a mistake on part a
+but it was because you didn't test your recipe generating function!
+all you had to do to fix and understand the error was look at the output of your recipe generating function
+didn't fit easily into test setup but that shouldn't stop you
