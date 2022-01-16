@@ -1,0 +1,10 @@
+part a
+
+you're given a list of attributes that the aunt who sent you the gift has, and a list of partial attributes for each aunt
+which one sent you the gift?
+
+
+part b
+
+the cat and tree readings of attributes indicate that there are greater than that many cats or trees
+pomeranians and goldfish readings mean there are fewer than that many
