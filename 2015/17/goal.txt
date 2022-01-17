@@ -1,0 +1,28 @@
+part a
+
+you need to store 150 liters of eggnog in the fridge, using the given containers
+you have to fill each container entirely
+
+how many different container choices are there to fill 150 liters?
+
+
+part b
+
+how many options are there which use the minimal possible number of containers?
+
+
+is there a dynamic programming solution rather than a recursive one?
+think about it like building up from 0 rather than down from 150
+
+
+
+reddit solutions
+- you could just brute force it; use numbers from 0 to 2^len(x)-1 as subsets of the list and check each to see if its a valid subset. List has 20 elements and 2^20 == 1048576 which is not so bad
+- lol someone wrote 20 nested for loops
+- dynamic programming for part a is to generate the list of how many options there are totalling x liters
+
+set up list [1, target many 0s]; i-th element will be number of options adding up to i
+for each element of (sorted)? list
+    for all x between element and target_sum
+        list[x] += list[x - element]
+- let's do dp leetcode problems today!
