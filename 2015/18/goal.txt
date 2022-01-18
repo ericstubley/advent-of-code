@@ -1,0 +1,17 @@
+part a
+
+given a 100x100 grid of lights in some on/off configuration
+update according to
+if light is on
+    and number of on neighbors is 2 or 3 stay on
+    else off
+if light is off
+    and number of on neighbors is exactly 3 turn on
+    else stay off
+
+how many lights are one after 100 steps?
+
+
+part b
+
+same problem, but now the corners are always on
