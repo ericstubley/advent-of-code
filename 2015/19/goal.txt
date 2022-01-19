@@ -1,0 +1,64 @@
+part a
+
+you need to generate molecules for rudolph
+the test input is the rules
+H -> OH
+H -> HO
+O -> HH
+
+starting from HOH you can generate 4 unique strings by 5 different operations
+HOHOHO has 7 unique outputs from 9 different operations
+
+
+input is a list of rules and an input strings
+how many unique strings are produced by one step?
+
+
+could try to analyze the counting and double counting, or just brute force
+
+
+
+part b
+
+starting with a single 'e' as the molecule, what is the minimal number of steps it takes to produce the input string?
+
+with these rules
+
+e => H
+e => O
+H => HO
+H => OH
+O => HH
+
+'HOH' can be produced in 3
+'HOHOHO' can be produced in 6
+
+
+brute force is NOT the answer!
+work backwards
+just reverse all the rules and use all the same routines
+it's still basically brute force, need a smarter argument
+
+
+the rules are always one element -> more than one element
+there are only 12 elements which can be mapped out of
+something useful perhaps: whenever "Ar" appears it's at the end of replacement; so we can maybe try to do some splitting using that?
+also perhaps useful that our string starts with CRn and ends with Al
+I think the key has to lie in the use of the tokens which can't be replaced "C", "Rn", "Ar", "Y"
+
+
+can you figure out that greedy strategy will always work and be optimal? that seems like too much to hope for
+and indeed it doesn't even work for the "HOH" example
+for the test example the greedy backwards strat works, but not for "HOHOHO" as you can get yourself into trouble 
+
+
+
+
+OKAY here is the solution
+each rule increases the number of tokens by one, except that we sometimes also create Rn/Ar pairs and sometimes we create Ys with a free character (i.e. it's always XYZ instead of just an X; that also follows from XYZYA)
+so there's no question of there being a "minimum" number of steps used
+the number of steps is just
+    number of tokens - number of Rn - number of Ar - twice number of Y - 1
+
+
+So today was really about reading and understanding the rules rather than writing lots of code for part 2
