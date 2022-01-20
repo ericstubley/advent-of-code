@@ -1,0 +1,39 @@
+part a
+
+elves are labelled by natural numbers N, as are houses
+- elf n visits all houses whose number is a multiple of n
+- elf n drops off 10n presents at each house they visit
+
+- so house n gets 10 * sum of divisors of n many presents
+
+which is the first house to get at least 36,000,000 many presents?
+i.e. what is the smallest n with sigma(n) >= 3,600,000?
+
+
+just as a random guess some likely candidates are 2^something (2^22 looks right)
+and the smallest product of distinct primes to go over that
+
+
+desc                n                       sigma(n)
+2^21                2097152                  4194303
+distinct primes     9699690                 34836480 
+4 and distinct      1021020                  4064256
+
+
+actual answer was 831600 = 2^4 * 3^3 * 5^2 * 7 * 11
+
+
+part b
+
+elves don't actually want to visit many houses
+- each elf will only visit 50 houses
+- but they will deliver 11 presents to each house
+
+same question, which is the first house to get at least 36,000,000 presents?
+
+
+
+what's the algorithmic approach?
+I just kind of faked it using math
+also coincidence that I didn't write tests today and I also made mistakes?
+turns out the reddit people didn't have a better strat than what I used for part 1; the thing I was missing that many of them did was the simple estimate that at worst case you can bound the list size above by N/10 or N/11
