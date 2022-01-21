@@ -1,0 +1,19 @@
+part a
+
+you're given rules for a simple rpg
+
+3 stats: hp, damage, armor
+any attack does max(1, damage-armor) many hp
+player character always hits first
+
+you're given a list of store things you can buy with unlimited cash
+- must buy exactly 1 weapon
+- buy <= 1 armor
+- buy <= 2 distinct rings
+
+for how cheaply can you defeat the boss?
+
+
+part b
+
+what is the most gold you can spend and still lose the fight?
