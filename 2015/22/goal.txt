@@ -1,0 +1,34 @@
+part a
+
+playing the game again, but this time as a wizard
+you have a mana pool
+each turn you cast a spell, some of which have ongoing effects
+
+what is the smallest amount of mana you can spend in total and still win the fight?
+
+
+memoized recursive with a game state?
+need to be careful with that since games can last an arbitrarily long time thanks to mana recharge, and drain?
+probably not actually but games could be real long
+
+
+
+2 hp, mana, boss_damage, 3 timers is game state, turn
+50*71*500*6*6*5*2 = 639,000,000 is approx the number of possibilities
+but we're unlikely to see most of them
+
+
+
+TESTING FTW
+the places where you had mistakes where the code pathways you didn't test!
+also modifying something for the sake of a test results in you forgetting to modify it back for the real thing
+and some mistakes from changing requirements around (i.e. when you apply spell effects vs testing for castability gave you trouble)
+but thanks to the testing that was remarkably painless to debug
+also good god I'm still amazed at the memoization
+namedtuple was a good choice
+
+
+part b
+
+hard mode: at the start of each player turn you lose one hit point
+same question: what's the smallest amount of mana you can spend and still win?
