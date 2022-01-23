@@ -1,0 +1,13 @@
+part a
+
+simulate a simple computer which has two registers (a, b which store non-negative integers, starting at 0) and supports 6 instructions
+hlf, tpl, inc, jmp, jie, jio
+
+what is the value in register b when the program concludes?
+
+READ THE INSTRUCTIONS! jio is "jump if one", not "jump if odd"
+
+
+part b
+
+what is the value in register b if a starts as 1 instead of 0?
