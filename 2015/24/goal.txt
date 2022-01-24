@@ -1,0 +1,49 @@
+part a
+
+given a list of packages (numbered, the number is also their weight) you need to help santa package them onto the sleigh
+constraints:
+- put the packages into 3 groups
+- each group must have equal weight
+- order the packages by # of packages in the first group, and then by product of the weights ("the quantum entanglement" QE) within that group
+
+
+our input list is most but not all of the small primes, so the QE uniquely pins down a group
+so the best grouping will be the one with the smallest possible number of weights in the first group, and the one among those with the smallest possible QE
+
+what is the QE of the first group of packages in the ideal configuration?
+
+
+options:
+- brute force all the possible subsets? 2**29 is no good
+- okay first off what sum are we looking for? total sum of weights is 1536, so looking for 512 per group
+- what's the best way to enumerate all possible partitions into 3 subsets? the test data doesn't have the unique QE property 
+
+- there has to be a group which contains the largest element
+    this group has to contain something >= 61, etc.
+- once you've found two groups the third one is there for free
+- once you've found the grouping its straightforward to identify which is the best choice for first group (by size, and then by QE if smallest size not unique)
+
+
+- strategy given a list of possible weights, choose next weight from largest down
+
+
+
+
+somehow the greedy strategy worked for part a
+
+part b
+
+same issue, except 4 groups instead of 3
+so whatever strat you were trying to code for part a would still be bad for this, so clearly there must be a better strat
+does the fact that they are primes ensure the greedy strat will work????
+(mistake on the first try, just because you did some goofs)
+
+
+
+
+I have some questions
+- can you guarantee that if you find a subset summing to total/3 you can split the remaining part?
+- if so then the strat of looking over subsets of length 1, 2, 3, etc. until you find one, and then picking the smallest QE one of that length is a good strat?
+- LOOL this is fast because 29 choose x is much smaller than 2**29, you were thinking about it wrong
+- because we want to minimize the product, its always advantageous to have extreme values I think
+- the final solution I basically pulled from reddit, there's good readable one liners for doing the things we want
