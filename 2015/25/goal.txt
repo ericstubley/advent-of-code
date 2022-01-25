@@ -1,0 +1,23 @@
+part a
+
+need to generate the codes according to some kind of cantor diagonal pattern
+
+given the n-th code c_n, the n+1 code is
+c_n * 252533 mod 33554393
+
+since the first code is 20151125, that means that c_n = 20151125 * (252533)^(n-1) mod 33554393
+
+what is the code in row 2947, column 3029?
+
+
+
+can do this mostly by hand?
+we know that the code in row 1, column k is the k-th triangular number
+for us k = 2947 + 3029 - 1 = 5975
+
+so row 1, column k is the k(k+1)/2 code
+
+
+part b
+
+you get the last star for free! :)
