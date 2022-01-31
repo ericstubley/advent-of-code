@@ -3,12 +3,6 @@ My repo for Advent of Code solutions: https://adventofcode.com
 
 Nothing special about these solutions. I expect that most of them will not be prettified once I get the answer, so read at your own risk. If for some reason anyone ever looks at this and wants to chat about the solutions, don't hesitate to reach out! ericdavidstubley@gmail.com is the best place to reach me.
 
-Each problem gets its own folder labelled 01-25.
-Within each folder there is at least
-- `goal.txt`: my short notes about what the problem is asking for
-- `input.txt`: the problem input
-- `XYa.py` and `XYb.py`: python files solving part a and part b. part b is very often turning out to be almost entirely a copy of part a
-
 I'm trying to learn or focus on a specific thing each year of problems that I do:
 
 2021: (Dec 2021) 
@@ -25,3 +19,9 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - goal: write pythonically
 - goal: develop some good testing habits; write tests before writing big chunks of code
 - goal: use a proper debugger rather than print statements
+
+2016: (Feb 2022)
+- plan to solve using python; next month try for haskell
+- last month's goals now feel automatic
+- goal: build up the knowledge database rather than constant googling
+- goal: build up a library of reusable code, rather than re-writing the file parsing every day
