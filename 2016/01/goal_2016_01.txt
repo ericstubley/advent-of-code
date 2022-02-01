@@ -1,0 +1,19 @@
+part a
+
+the overall goal of 2016 is recovering the stars that the easter bunny stole
+we start by infiltrating the easter bunny's headquarters
+we're given confusing direction to get there in the form of "R4, L3, R5" where we turn 90 degrees and then walk a specified amount at each step
+
+what is the actual manhattan metric distance from where we started to where we end?
+
+
+part b
+
+there's more to it!
+the actual location of the easter bunny HQ is the first location you visit twice
+this includes the paths overlapping, not just the endpoints
+
+how many blocks away is the first location you visit twice?
+
+
+got dinged by not breaking out of two loops, not off to a great start
