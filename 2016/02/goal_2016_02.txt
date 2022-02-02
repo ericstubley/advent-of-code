@@ -1,0 +1,25 @@
+part a
+
+you need to use the bathroom before infiltrating the building
+rather than a simple code there's instructions to find the code
+on a keypad; starting at 5 there's a sequence of U, D, L, R directions
+1 2 3
+4 5 6
+7 8 9
+
+ignore instructions that take you off the grid
+start from the previous number each time
+
+what is the code?
+
+
+part b
+
+the keypad is actually
+    1
+  2 3 4
+5 6 7 8 9
+  A B C
+    D
+you still start at 5 and follow instructions the same way
+what is the code?
