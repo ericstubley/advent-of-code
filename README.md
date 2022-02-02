@@ -25,3 +25,4 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - last month's goals now feel automatic
 - goal: build up the knowledge database rather than constant googling
 - goal: build up a library of reusable code, rather than re-writing the file parsing every day
+- goal: spend a bit of time cleaning up the solution every day before committing
