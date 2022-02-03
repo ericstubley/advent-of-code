@@ -1,0 +1,12 @@
+part a
+
+you're given a list of side lengths of things that might be triangles
+but some of them violate the triangle inequality! (i.e. sum of shorter two is <= biggest)
+
+how many of the listed triangles are possible?
+
+
+part b
+
+the triangles are actually listed running down the columns instead of across the rows
+same question, how many of the listed triangles are valid?
