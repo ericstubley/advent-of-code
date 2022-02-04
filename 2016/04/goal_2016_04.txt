@@ -1,0 +1,15 @@
+part a
+
+there's a list of encoded rooms which are formatted like
+totally-real-room-200[decoy]
+
+a room is real if the 5 character checksum in [] is
+- the five most common letters of the string portion, ordered by frequency then alphabetical
+
+what is the sum of the sector ID (number portion) of the valid rooms?
+
+
+part b
+
+each valid room is shift ciphered by its sector id
+what is the sector id of the room where north pole objects are stored?
