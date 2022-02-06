@@ -1,0 +1,15 @@
+part a
+
+trying to get communications from santa, using a repetition code
+the input is a list of words, and message is deciphered by picking the most common letter in each position
+
+what is the message?
+
+
+part b
+
+actually the way the message is sent is that random noise is chosen
+but the characters of the actual message are slightly less likely to appear
+so with lots of messages this can be decoded
+
+what is the actual message? this if just flipping a max to a min
