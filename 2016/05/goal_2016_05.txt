@@ -1,0 +1,19 @@
+part a
+
+you need to crack the password on a secure door
+you uncover the characters of the length 8 password one at a time
+- get characters by md5 hashing the door ID followed by an increasing integers index; when the md5 hash starts with five zeroes the next is the next digit of the password
+
+what is the password?
+
+
+part b
+
+actually it's a bit more involved, there's a second more complicated door
+door_id + index gives you the next digit if:
+- it starts with five 0s
+- the next character [5] is an index 0-7
+- the next character [6] is then the password digit at [5]
+only use the first index giving a particular digit
+
+what is the password?
