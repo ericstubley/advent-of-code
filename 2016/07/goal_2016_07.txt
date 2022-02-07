@@ -1,0 +1,12 @@
+part a
+
+you're given a list of "IP addresses" and you want to know if they support "transport layer snooping"
+an IP supports TLS if it has an ABBA pattern, A != B, that is outside of any square brackets, and it doesn't have an ABBA pattern inside any square brackets
+
+how many of the input IPs support TLS? 
+
+
+part b
+
+you also want to know if the IPs support "super secret listening" (SSL)
+the specification here is that there is an ABA pattern (A != B) outside the square brackets and a BAB inside
