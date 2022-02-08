@@ -1,0 +1,11 @@
+part a
+
+you need to decipher what is displayed on a fancy screen from only seeing the instructions
+screen dimensions are 50 columns x 6 rows
+operations are
+- rect AxB turn on all pixels starting in the top left in an A wide by B down rectangle
+- rotate row y=A by B: move the row A to the right by B pixels, wrapping around
+- rotate column x=A by B: same thing but moving column A down by B pixels 
+
+how many pixels are lit after following the instructions?
+(this is a good numpy problem)
