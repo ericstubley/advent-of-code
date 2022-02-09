@@ -9,3 +9,9 @@ operations are
 
 how many pixels are lit after following the instructions?
 (this is a good numpy problem)
+
+
+part b
+
+the grid only displays capital letters
+what is the code displayed on the grid?
