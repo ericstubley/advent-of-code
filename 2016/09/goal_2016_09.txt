@@ -1,0 +1,23 @@
+part a
+
+you're given a text file which has been compressed
+to decompress, read the file and when you encounter a token like (8x2) take the next 8 characters and repeat them twice, then continue after that
+
+
+what is the decompressed length of your puzzle input? don't count whitespace
+
+
+part b
+
+actually you are supposed to use part 2 of the format, where you expand the markers recursively
+
+what is the decompressend length using v2?
+
+
+I think there's an assumption I should make here that while these rules permit compression of infinite data, you don't actually encounter those situations
+something like
+(7x3)(15x3)A
+will produce an infinite output
+
+
+so let's assume that when we apply a marker, any submarkers don't try to access past the original chunk
