@@ -1,0 +1,23 @@
+part a
+
+there's a bunch of robots running around carrying chips with numbers on them
+the bots have two types of instructions
+- value X goes to bot Y
+- bot Y gives low to A and high to B, where A and B are either bot R or output S
+
+let's assume that each bot appears <= 3 times;
+once with instructions on how to give up things, and cumulative twice from getting values or from other bots
+with these assumptions each instruction is used at most once
+note that the instructions aren't chronological!
+
+what is the number of the bot that is responsible for comparing the value 61 and value 17 microchips?
+
+
+
+what is the design that will make this straightforward?
+- bot object which supports some operations?
+- just an array where we store all the numbers seems simpler
+- set of instructions, where we just iterate through and apply all the possible ones
+- let's do a little bit of oop practice, even though it is overengineering for this problem its probably actually better longterm
+- every relevant bot is mentioned by the handout instructions, so we should by fine
+- do we need to prompt the bots to act? I don't think so but let's see what happens
