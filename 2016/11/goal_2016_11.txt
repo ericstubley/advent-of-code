@@ -1,0 +1,40 @@
+part a
+
+this feels like a cross between towers of hanoi and a goat/lettuce/wolf/ferry logic puzzle
+want to move radioactive generators and microchips around 4 floors
+elevator can hold at most yourself and two other objects
+must always carry at least one item in elevator
+if a chip is with its matching generator it is shielded and so is safe, but can't have a chip not matched in a space with a generator (either floor or elevator)
+
+
+what is the minimum number of moves necessary to get everything to the top floor?
+
+
+how many game states are there?
+elevator, n chips, n generators = 2n+1
+number of floors is k
+the test example has n=2, k=4 => 4^5 many game states = 2^10 = 1024
+part a has n=5, k=4 => 4^11 = 2^22 many game states approx 4 million
+
+
+let's do a breadth first search starting from the winning state
+data model is to have everything stored as a tuple of ints
+    actually put it in a named tuple, whose fields are elevator (int), chips (tuple of n ints), generators (tuple of n ints)
+build a dict of distances
+need a valid game state method
+
+
+part b
+
+there's some additional things on the first floor
+same question: what is the minimum number of moves need to get everything to the top?
+
+
+
+reddit's suggestions to prune the search space
+- if floor 1 is empty never move things back onto it
+- if you can move two items up, don't bother moving just one of them up
+- equivalent states! this is maybe the most important
+
+
+simple filterting of iso states made this almost instantaneous!
