@@ -1,0 +1,11 @@
+part a
+
+you're given a list of computer instructions: cpy, inc, dec, jnz
+which operate based on 4 registers, all initialized to 0
+
+what is the value in register a after the given program terminates?
+
+
+part b
+
+same question, but this time initialize c to 1 instead of 0
