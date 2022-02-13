@@ -1,0 +1,14 @@
+part a
+
+you're in a maze; only work with nonnegative coordinates, start at (1, 1)
+for any cell you can tell if it's a wall or space by
+- find x*x + 3*x + 2*x*y + y + y*y
+- add the designer's favourite number (puzzle input)
+- in binary representation of number find number of 1s; even number of 1s => open, odd => wall
+
+what is the fewest number of steps required to reach 31,39?
+
+
+part b
+
+how many locations can you reach in at most 50 steps?
