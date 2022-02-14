@@ -1,0 +1,17 @@
+part a
+
+you want to generate some new keys for a one time pad thing
+take the md5 of your puzzle input + an integer index
+it is a key if
+- there's 3 of the same character in a row
+- for the first such group of 3 characters, among the next thousand hashes there's five of that character in a row
+
+
+which index produces the 64th key?
+
+
+part b
+
+actually you stretch the hashes by rehashing 2016 times when computing them
+
+which index produces the 64th key when you're stretching?
