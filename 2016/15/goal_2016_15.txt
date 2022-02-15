@@ -1,0 +1,52 @@
+part a
+
+you want to drop a ball through a set of spinning discs with holes
+if you drop at time t the ball will hit disc n at time t+n
+a ball only goes through a disc if that disc is at position 0 when the ball encounters it
+
+so this is just a system of congruences
+what is the first time you can press a button to get a capsule?
+
+
+Disc #1 has 5 positions; at time=0, it is at position 4.
+Disc #2 has 2 positions; at time=0, it is at position 1.
+
+want t so that
+4 + t + 1 == 0 mod 5
+1 + t + 2 == 0 mod 2
+together these imply that t should be 
+t == 0 mod 5
+t == 1 mod 2
+i.e.
+t == 5 mod 10
+
+
+for the given input
+Disc #1 has 17 positions; at time=0, it is at position 1.
+Disc #2 has 7 positions; at time=0, it is at position 0.
+Disc #3 has 19 positions; at time=0, it is at position 2.
+Disc #4 has 5 positions; at time=0, it is at position 0.
+Disc #5 has 3 positions; at time=0, it is at position 0.
+Disc #6 has 13 positions; at time=0, it is at position 5.
+t + 1 + 1 == 0 mod 17
+t + 2 + 0 == 0 mod 7
+t + 3 + 1 == 0 mod 19
+t + 4 + 0 == 0 mod 5
+t + 5 + 3 == 0 mod 3
+t + 6 + 5 == 0 mod 13
+
+440895 is the bound
+
+
+part b
+
+a new (7th) disc has appeared with 11 positions at position 0
+
+same question?
+
+
+
+the actual strat that's more efficient than brute force is
+just solve the first congruence t + 2 == 0 mod 17 to get t = 15
+next is then t = 5 mod 7; add 17 to t (=15) until you get 5 mod 7
+repeat, adding lcm (== product bc they're distinct primes) at each new step
