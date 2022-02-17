@@ -1,0 +1,26 @@
+part a
+
+you're in a 4x4 grid of rooms with doors between them
+want to get from (0, 0) to (3, 3)
+at any time the open doors depend on what path you've traversed so far
+to know the open doors, look at the first 4 digits of the md5 hash of the password + DURLDUDLRRLRDU type path notation
+- b through f are open
+- 0-9 and a are closed
+
+
+
+what is the shortest path? (should submit the actual path)
+
+
+part b
+
+what is the length of the longest path that reaches the vault?
+
+things are slow on the test examples; it seemed to do okay on finding up to the last one but there's an issue where to prove that there's no more you just need to keep exploring paths until they dead end
+but there's no guarantee that a path will dead end in a reasonable time??
+and the search space seems to be blowing up? or at least compute time is, maybe just because the path strings are getting longer
+yeah number of paths is blowing up
+
+
+ah but that is probably because you're letting it circle through 3, 3
+sure enough it terminates pretty quickly after that fix
