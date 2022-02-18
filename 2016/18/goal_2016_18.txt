@@ -1,0 +1,20 @@
+part a
+
+you're in a room with trap tiles on the floor
+each row of floor tiles is trapped according to the previous row and the following rules
+- off the edges count as safe tiles
+- row is trapped iff the pattern of tiles above it is ^.., ..^, ^^., .^^
+- i.e. the pattern above it is exactly one of the LR tiles
+
+your input is the first row
+if there are 40 rows, how many safe tiles are there?
+
+
+part b
+
+same question but this time 400000 rows
+
+
+was a bit slower than I wanted, can it be improved?
+let's see what happens with a version that does bitarrays instead
+hell yeah bitarray version is mega fast
