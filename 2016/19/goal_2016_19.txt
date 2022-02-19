@@ -1,0 +1,16 @@
+part a
+
+the elves are playing a puzzle stealing game
+elves 1 through n stand in a circle
+at elf k's turn they steal all presents from the elf to their left (k+1, k+2, ...)
+if an elf ever has 0 presents they are eliminated
+
+which elf is the one who ends up with all the presents?
+
+
+part b
+
+the elves change their rules; now they steal from across the circle, breaking ties to the left (so in a 1 2 3 circle elf 1 steals from elf 2)
+
+which elf wins in this case?
+(strat here was to use a circularly linked list and keep track of the curr and across the circle pointers)
