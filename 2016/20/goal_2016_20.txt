@@ -1,0 +1,17 @@
+part a
+
+you're given a list of ranges of integers between 0 and 2^32-1
+each represents a list of excluded ranges
+
+what is the first number which isn't excluded
+
+here's the strategy:
+sort the ranges by lower bound
+then you can union just by checking there's overlap with the next
+gonna have a total n log(n) runtime
+
+made a mistake because of merging intervals at integer boundaries: its true that [1, 5] and [6, 9] are disjoint, but they don't miss any integers
+
+part b
+
+how many ips are allowed by the blacklist?
