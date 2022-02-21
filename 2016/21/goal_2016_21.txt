@@ -1,0 +1,53 @@
+part a
+
+you're given a list of complicated instructions for scrambling strings and you want to scramble your given string
+
+apply the instructions to the string, what is the scrambled password?
+
+
+
+let's try something new
+rather than having the instructions be a list of tuples with keywords that we pattern match on, let's have the instructions just be the functions (acting on a list of chars) that we want them to be
+
+
+part b
+
+you need to unscramble a scrambled password!
+so reverse all the instructions
+everything except the rotate based on position of letter x is obviously uniquely reversible
+there's the brute force just try all starting permutations
+
+
+is that step reversible?
+passwords are length 8
+rotation distance (to the right) is 1 + index + (1 if index >= 4)
+
+if you're at index, rotate by, end up at
+0       1       1
+1       2       3
+2       3       5
+3       4       7
+4       6       2
+5       7       4
+6       0       6
+7       1       0
+so in fact the final position does uniquely determine
+
+
+if you're at index, rotate by, end up at
+0       1       1
+1       2       3
+2       3       0
+3       4       2
+4       6       0
+but it works for some reason?
+the times that it's apply are places where its the same
+won't actually work in general
+
+
+
+- very proud of what I achieved with this solution today
+- tried some new technologies
+- used a new library to do cool things the right way (i.e. rather than lambdas which suffered from scope changing issues)
+- this approach made it very seamless to work out the reverse direction
+- good job putting in a bit of thought to find the right solution rather than just brute forcing
