@@ -1,0 +1,30 @@
+part a
+
+you're given a grid of disks, each with usage amounts
+eventually we're going to be moving data around the disks, but we'll only be able to move to 4 directions adjacent disks
+
+for now, how many pairs (A, B) are there regardless of being directly connected where 
+- A is not empty
+- A and B are different
+- the data on A would fit on B?
+(its everything paired with (26, 22) except a few which have a lot of data)
+
+
+part b
+
+want to gain access to data in (31, 0)
+can only move data around, not delete
+
+what is the fewest number of moves required to get the data from (31, 0) to (0, 0)?
+
+
+brainstorming:
+at every step there's gonna be ~4 possible moves, so search space will blow up quickly (here's where A* is good, priority queue!)
+if we assume that the nodes truly are purely interchangeable (which we kind of know?)
+then the optimal path is obvious by hand?
+- 30 to get it right above the goal node
+- 31 then for the first swap
+- 5 for each subsequent swap
+- after the first swap its at (30, 0); each swap decreases i by 1 so total of 30 swaps needed
+- so 31 + 5*30 = 181
+- awww yussssss no code solution for part b
