@@ -1,0 +1,61 @@
+part a
+
+you have a sequence of instructions like on day 12, and you want to run them
+but there's a new instruction!
+tgl x "toggles" the instruction x away 
+- inc becomes dec
+- tgl, dec become inc
+- jnz and cpy flip
+- if something becomes invalid (like jnz 1 2 becoming cpy 1 2 ignore it)
+- toggling outside the instruction set does nothing
+- continue with the instruction after, even if you toggle yourself
+
+
+there's a subtlety that you missed the first time around
+for jnz either argument can be a register, whereas you only implemented the first argument
+
+
+types of commands
+- inc register
+- dec register
+- tgl number
+- tgl register
+- cpy number register
+- cpy register register
+- jnz number number
+- jnz number register
+- jnz register number
+- jnz register register
+
+so the strat is to track operation type, bool if its register or not, then value/register number
+
+question is: what is the value in register a at the end of the program initialized at [7,0,0,0]
+
+
+part b
+
+in fact the number of eggs is 12, not 7
+the program hangs maybe? something about multiplying instead of inc
+
+
+the output of any input [a, b, c, d] is a! + 80*93
+here's what the code does
+Lines 1 - 2:
+   take [a b * *] to [a (a-1) * *]
+Lines 3 - 10:
+    take [a b * *] to [ab b 0 0] 
+Lines 11 - 16:
+    take [* b * *] to [* b-1 2*(b-1) 0 0]
+Line 17 (the toggle):
+    mostly does nothing because c will be too large
+    until the last 4 loop when you've entered 11-16 with b = 5, 4, 3, 2
+    these toggle lines 24, 22, 20, 18
+Lines 18 - 19:
+    before toggle, send you back to Line 3
+    after toggle these become irrelevant
+Lines 20 - 26:
+    after toggle is the only time these are seen
+    take [a * * *] to [a + 80*93, * 0 0]
+
+
+the reason things are long with 12 is that the puzzle is computing a factorial which is ~480 million very very incrementally
