@@ -1,0 +1,25 @@
+part a
+
+you're given a maze with locations marked on in it
+you start at 0, and you want to visit all of the numbered locations in as few moves as possible
+
+what is this fewest number of moves?
+
+
+strategy:
+between every pair of vertices there's a shortest path (could actually be several of the same distance)
+do dijkstra/bfs exploration to compute these distances
+
+then you just have a graph
+your final path will be described as the sequences of vertices you visit (always along a shortest possible path from vertex to vertex)
+there's only 7! = 5040 such paths, so just compute all of those distances and take the minimum
+
+
+part b
+
+what is the shortest number of steps required if you have to loop back to 0 at the end?
+
+
+made a silly type error when writing it up (integer node names vs str node names in maze)
+but other than that this was perfect and instantaneous
+today was a good job of thinking through the right approach and deciding approach based on the scope of the problem (i.e. it's okay to brute force the paths!)
