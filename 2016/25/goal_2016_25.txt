@@ -1,0 +1,11 @@
+part a
+
+you've got more assembunny code, with the additional instruction
+out x - transmit x (value of register)
+
+what is the smallest input (a,0,0,0) which will produce 0,1,0,1,0,1,0... forever as output?
+
+
+
+the program is basically just printing the binary digits of a + 7*365
+so you want the smallest a so that a + 7*365 is 101010101010...
