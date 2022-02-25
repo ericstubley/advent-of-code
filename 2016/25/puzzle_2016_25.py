@@ -65,7 +65,8 @@ def run_instructions(instructions, initial, output=False):
 
 
 def main_a(instructions):
-    print(run_instructions(instructions, [175, 0, 0, 0]))
+    x = 0b101010101010
+    print(run_instructions(instructions, [x - 7*365, 0, 0, 0]))
 
 
 def main_b(instructions):
