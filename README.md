@@ -26,3 +26,13 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - goal: build up the knowledge database rather than constant googling
 - goal: build up a library of reusable code, rather than re-writing the file parsing every day
 - goal: spend a bit of time cleaning up the solution every day before committing
+
+2017: (Mar 2022)
+- plan to solve using python; language strategy at this point is to stick with python to maintain/increase fluency while interviewing. After you get a job think about a functional statically typed language
+- debugger has fallen out of use; bad on one hand, but don't feel too bad about it since you haven't needed anything serious since your bugs have been straightforward thanks to testing
+- project: sit down and set up some automated puzzle/input fetching and submitting; this project will be great for expanding your coding horizons
+- goal: don't be afraid of refactoring
+- goal: avoid code duplication (started doing this towards end of 2016)
+- goal: avoid googling, just code
+- keep up many other goals (runtime, few mistakes, testing)
+- experiment with new approaches (i.e. the time you passed functions rather than strings around)
