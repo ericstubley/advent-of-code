@@ -1,0 +1,9 @@
+part a
+
+you're given a long list of digits
+what is the sum of the digits which match the next digit? (include wraparound)
+
+
+part b
+
+now check for equal digits halfway around the list instead of one ahead
