@@ -1,0 +1,12 @@
+part a
+
+you're given a spreadsheet
+find the checksum:
+- for each row, take the difference between the max and min elements
+- take the sum of those differences
+
+
+part b
+
+each row has a unique pair where one integer divides the other
+take the sum of those quotients
