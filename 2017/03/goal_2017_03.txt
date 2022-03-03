@@ -1,0 +1,12 @@
+part a
+
+given the ulam spiral grid
+what is the manhattan distance to the given input number?
+strange circularity of ideas; what's the functions for the coordinates of a number?
+
+
+part b
+
+write numbers into the grid in ulam spiral order by the following rule
+put 1 at (0, 0)
+put the sum of all current neighbors at the k-th square
