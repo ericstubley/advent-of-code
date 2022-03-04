@@ -1,0 +1,11 @@
+part a
+
+you're given a list of passphrases (space separated lists of words)
+a passphrase is valid if there's no repeated words
+how many of the given passphrases are valid?
+
+
+part b
+
+rather than words being equal, passphrase is invalid if it contains any anagram pair words
+how many of the given passphrases are valid now?
