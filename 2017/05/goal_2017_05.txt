@@ -1,0 +1,13 @@
+part a
+
+you're given a list of jump instructions
+each time you follow one you increment the jump distance by one
+
+how many steps does it take to exit the list of instructions?
+
+
+part b
+
+now if the if jump is 3 or more decrease by 1; else increase by 1
+
+how many steps this time?
