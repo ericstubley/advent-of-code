@@ -1,0 +1,12 @@
+part a
+
+there's some number of memory banks (4 in test, 16 in prod)
+each has an integer number of blocks
+at each step take the biggest number of blocks and redistribute (keep adding one as you traverse the list of blocks, loop around)
+
+after how many steps do you revisit a block configuration?
+
+
+part b
+
+what is the length of the loop?
