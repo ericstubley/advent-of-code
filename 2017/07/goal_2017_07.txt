@@ -1,0 +1,41 @@
+part a
+
+programs are standing on discs in a recursive tower
+you're given a list of programs, who each list their weight and the programs standing immediately above them
+
+what is the name of the bottom program?
+(there's a cheeky fast way to do this: among the list of program names from the file, find the unique one which appears only once; everything else appears twice (once as child and once as parent))
+
+
+part b
+
+each program carrying a disc needs to have each subtower on the disc of the same weight in order to be balanced
+
+there is exactly one program of the wrong weight; what should the corrected weight be?
+
+
+solution is not great because there's too much mixing of TowerProgram objects vs names and dictionary
+
+
+
+
+don't put a list constructor as a default argument!
+this caused a weird bug in your bad design where every element had the same list of children
+and it compounded over several tests
+I think just this overall setup of mixing the dict and the functions and the objects is bad
+tree based structure is the right move for this problem
+- to find the root you want to be able to go to a program's parent
+- to compute weights you want to get a list of program's children
+
+some reddit python solutions used sets and counters; counter.most_common is useful, esp. knowing that there should be exactly two elements
+
+
+
+made a better version by learning some stuff from reddit
+though my version is less sideeffecty/doesn't rely on global constants
+
+
+there's a good lesson over the past few days of not being afraid to use useful tools in appropriate situations
+- for testing off by one matches just make all the "abc_efg" strings
+- for anagrams probably just make all the admissible siblings
+- while it's inefficient on a large scale, using string concat and .index or "in" for lists can be appropriate
