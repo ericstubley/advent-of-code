@@ -1,0 +1,20 @@
+part a
+
+another register based puzzle
+given a list of instructions of the form
+reg inc/dec num if reg comp num
+
+reg is a register name
+instructions are either inc or dec
+num is a number
+comp is one of <, >, >=, <=, ==, !=
+
+
+go through the instructions one by one; all registers start at 0; if the condition is not satisfied do nothing
+
+what is the largest value in any register when the program is done?
+
+
+part b
+
+we want to know not just the largest value at the end, but at any point during the computations
