@@ -1,0 +1,2 @@
+# ignore the local copy of the cookie which identifies me for login purposes
+automation/authorization_cookie.py
