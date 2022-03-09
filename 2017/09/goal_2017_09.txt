@@ -1,0 +1,26 @@
+part a
+
+you want to cross a stream of characters
+the characters are grouped, using {}
+each group contains more groups or garbage, separated by commas
+garbage is enclosed by <>
+within garbage, ! cancels the next character
+even if there are thing which look like groups within garbage, they are ignored
+
+
+groups are assigned scores; 1 more than the group containing it
+so the outermost group gets a 1, the next level gets a 2, and so on
+what is the total score of all groups in the input?
+
+
+part b
+
+you're now ready to remove the garbage
+you need to count how many characters are removed with the garbage
+the leading and trailing <,> don't count, an ! and the thing it cancels don't count
+
+how many characters are removed with the garbage?
+
+
+automation worked perfectly!
+need to do more work to hook it into a good fast system, but the functionality is there
