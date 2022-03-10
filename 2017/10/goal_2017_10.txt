@@ -1,0 +1,30 @@
+part a
+
+you're computing some permutation on the list 0..255
+at each step you have a current position, skip size, and (from the input) a length
+- starting from the current position select the slice that's length long
+- reverse that slice
+- move from current position to current position + length + skip size
+- increase skip size by 1
+
+
+what is the product of the first two numbers in the list
+
+
+part b
+
+this is where hashing actually starts
+the lengths to use this time are different:
+- take your original input as a string (ignoring whitespace); convert the chars to ascii codes
+- append a certain thing
+
+now run the hash procedure as before 64 times, preserving position and skip between runs
+
+now there's a process to turn the resulting permutation of 256 into a string
+- split into the 16 groups of 16 numbers
+- for each group take its xor
+- interpret that number (which is in the range 0-255) as two hex digits
+- resulting string is 32 hex digits
+
+
+what is that final string?
