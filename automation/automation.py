@@ -2,7 +2,7 @@
 
 import requests
 # authorization_cookie is just a .py file with cookie = "the big auth cookie"
-from authorization_cookie import cookie
+from automation.authorization_cookie import cookie
 
 
 base_url = "https://adventofcode.com/{year}/day/{day}"
@@ -44,6 +44,11 @@ def input_to_file(filepath, year, day):
 
 
 def submit_answer(year, day, level, answer):
-    url = submit_url.format(year=year, day=day)
-    answer_payload = {"Name": "Value", "level": level, "answer": answer}
-    return run_post_request(url, answer_payload)
+    confirm = input(f"Are you sure you want to submit {answer}?\n") 
+    if confirm == 'y':
+        url = submit_url.format(year=year, day=day)
+        answer_payload = {"Name": "Value", "level": level, "answer": answer}
+        return run_post_request(url, answer_payload)
+    else:
+        print("Not submitted")
+        return
