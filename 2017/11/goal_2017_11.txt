@@ -1,0 +1,22 @@
+part a
+
+you're given a list of directions on an infinite hex grid
+
+how far away is the result of the path?
+
+
+how do you even compute with hex grids?
+probably worth figuring out the commutation relations and then simplifying?
+even better take a vectors approach
+you represent the final vector as a*n + b*nw and then what you want is some distance function
+distance is |a|+|b| if same sign, max(|a|, |b|) if different signs or zeros
+
+
+part b
+
+what is the furthest he ever got away from the origin?
+
+
+so apparently there's a ton of "standard" ways to do hex grids that the coding people know
+https://www.redblobgames.com/grids/hexagons/
+the system that you used is referred to as axial coordinates by these resources
