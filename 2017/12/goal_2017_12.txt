@@ -1,0 +1,9 @@
+part a
+
+you're given a list of pipes which connect different integer labelled programs
+how many programs are in the same connected component as 0?
+
+
+part b
+
+how many components are there total?
