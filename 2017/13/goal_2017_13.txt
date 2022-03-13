@@ -1,0 +1,27 @@
+part a
+
+breaking past a firewall
+there's a bunch of layers, each with a scanner range (this is your input)
+the scanner at level x moves back and forth in the given range at each time step (i.e. if the range is 3 it moves between positions 0, 1, 2, 1, 0 in a loop)
+
+let's say you move forward one level at each time step
+the severity of getting caught at level x is x * range(x)
+there's some rule about the scanners moving onto you or you moving onto the scanners; but i'll set it up so that everything is simultaneous
+
+what is the severity of your whole trip?
+
+
+part b
+
+you can delay your start time
+what is the smallest delay for which you don't get caught?
+
+
+
+could do it via a lcm calculation
+i.e. you want delay so that for the packet at level x
+x + delay % 2(r[x] - 1) != 0
+the lcm is apparently 42840, which isn't so big
+ah but its not the lcm of the numbers themselves, but of 2x - 2 for each x
+so the lcm is actually 563,603,040 
+but the computation is still pretty fast
