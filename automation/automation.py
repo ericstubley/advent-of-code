@@ -44,7 +44,7 @@ def input_to_file(filepath, year, day):
 
 
 def submit_answer(year, day, level, answer):
-    confirm = input(f"Are you sure you want to submit {answer}?\n") 
+    confirm = input(f"Are you sure you want to submit {answer} for {year} day {day} part {level}?\n") 
     if confirm == 'y':
         url = submit_url.format(year=year, day=day)
         answer_payload = {"Name": "Value", "level": level, "answer": answer}
