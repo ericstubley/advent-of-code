@@ -1,0 +1,22 @@
+part a
+
+given a 128 by 128 grid, of bools want to know how many are true
+to get bools you need to calculate some knot hashes as in day 10
+
+given a puzzle's key (a string S) you find the bools for row i
+- computing the knot hash of S + "-" + "i"
+- take those 32 hex digits as 128 binary digits for the 128 entries of the row
+- used == true == 1, empty == false == 0
+
+how many squares in the grid are used?
+
+
+part b
+
+how many regions are in the grid? where a region is 4-adjacent (not 8-adjacent)
+
+
+
+code underwent a fair bit of spaghettification today
+seems to be much more than should be necessary for the goals of the day
+but! still worked quickly on the first try
