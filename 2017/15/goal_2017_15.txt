@@ -1,0 +1,34 @@
+part a
+
+two generators are trying to agree on a sequence of numbers
+each generator works by multiplying the current number by a factor, then taking the remainder when you divide by 
+
+2147483647
+
+(which suspiciously is)
+
+2147483648 - 1 = 2**31 - 1
+
+you want to count how many times the generators "agree", where agreement is only in the lowest 16 bits
+in particular, count the number of 16 bit matches for the first 40 million numbers
+there's just a ton of computation and it's not so clear how to speed it up
+other than use a lower level language maybe?
+
+
+part b
+
+now generator a only yields things which are multiples of 4, generator b multiples of 8
+
+how many matches among the first 5 million now?
+
+
+realllly curious to hear what reddit has to say about algorithms
+uhhhh yeah not much
+use pypy if you want faster python, trying that
+looooool pypy is so much faster
+not even funny
+
+
+part a: 77.4 vs 1.25
+part b: 30.9 vs 1.33
+were the speedups that pypy produced
