@@ -1,0 +1,56 @@
+part a
+
+there's 16 dancing programs a through p
+3 types of dance moves
+- spin (sX): rotate the list by X places
+- exchange (xA/B): swap the programs at positions A and B
+- partner (pA/B): swap the programs named A and B 
+
+
+what's the best data structure?
+- queue; O(k) for rotate by k, the swaps are hard
+- array; rotate has to reconstruct, one swap is easy the other is a lookup
+- string; strictly worse than array unless the implementation makes it better (both swaps are total reconstruct)
+- hashtable; rotate is tough, but implemented as a bijection it'd be O(1) for both swaps
+
+
+part b
+
+perform the dance 1 billion times
+
+the dance is just a permutation on 15 things
+to compute sigma^(1 billion) do a kind of repeated exponentiation trick
+1,000,000,000 = 10^9
+
+
+
+fuuuuuu
+the stupid partner rule is not the same permutation every time
+so you really just need to compute the dance 1 billion times?
+
+
+can you commute out the partner rules? yes
+even better since each partner has order 2 you can just ignore them?
+
+swap a b then swap 13
+
+abc -> bac -> cab
+abc -> cba -> cab
+
+
+swap ab then bc
+
+abc -> bac -> cab
+abc -> acb -> bca
+
+hmmmm it's a bit more subtle than that
+
+ab, bc, ce, ea, ab, bc, ce, ea
+abcde -> bacde -> cabde -> eabdc -> aebdc
+aebdc -> beadc -> ceadb -> ecadb -> acedb
+
+
+so maybe you do two rounds of computing, once on spin/exchange, once on partnering?
+
+
+not the most elegant of permutation libraries, but it sure worked well
