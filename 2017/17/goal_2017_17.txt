@@ -1,0 +1,19 @@
+part a
+
+insert a bunch of things into a circular data structure
+you've got a STEP distance
+- start with the list being [0]
+- at each t you move forward STEP from the current position, insert t after that position
+- do this 2017 times
+
+what is the number after 2017 in the final ordering?
+
+
+part b
+
+what is the element after 0 at t=50 million?
+
+your queue strat was in fact bad bc you still have to seek within the queue every time...
+fine for the small 2017 list, but not for 50 million
+
+but in fact its just a len 50mil for loop with no storage to find the element after 0
