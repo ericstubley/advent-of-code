@@ -1,0 +1,46 @@
+part a
+
+its an assembly problem
+the programs send and receive sounds
+
+what is the freq of the last sound played the first time it receives?
+
+
+part b
+
+surprise! its actually concurrency
+there's two programs and they send and receive data
+register p is initialized to 0 and 1 to distinguish the programs
+snd x sends frequency x to the other program's receive queue
+rcv x tries to read out of the receive queue; wait until there's something in the queue if its empty
+
+if both programs are waiting we've deadlocked; in which case terminate the programs
+
+
+after they've terminated (either naturally or due to deadlock), how many times did program 1 send a value?
+
+
+let's try to implement using python's threading module
+even though these puzzles are often instances of the "read code rather than write code" archetype
+
+
+
+event objects? for the queue being empty
+but then how do you detect deadlock?
+
+
+
+hmmm this is the first problem you've gotten stumped on in months, and it's also the most spaghetti-code thing you've written in months
+coincidence???
+if you don't have any bugs though, should you really expect this thing to take more than 300 million iterations?
+pypy takes ito to several hundred million
+
+
+
+
+
+there was a bug!
+and it was a not-reading-the-instructions bug!
+jumping happens when the value is GREATER THAN 0, not just non-zero
+so what's happening is sorting the list
+your solution, while spaghettified, still worked correctly once you gave it the correct instructions
