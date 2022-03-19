@@ -1,0 +1,12 @@
+part a
+
+a young network packet got lost somewhere along the way
+you need to help it follow the path
+along the way you'll cross some letters
+
+what letters will you see when you follow the path?
+
+
+part b
+
+how many steps do you take in walking the path?
