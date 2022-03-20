@@ -1,0 +1,23 @@
+part a
+
+you're given a list of particle positions, velocities, accelerations
+each time tick you update by:
+    add accel to velocity
+    add velocity to position
+
+in manhattan distance, which stays closest to the origin in the long term
+
+guess that its whichever has the smallest manhattan value acceleration
+
+
+part b
+
+destroy particles when they collide
+
+how many particles are left in the long term?
+
+
+
+today was a good case of not going big brain to solve these
+yes you could try to work out analytically whether things will ever collide again, but you could also just do a reasonable check
+in this case testing for no collisions in 1000 timesteps was good enough
