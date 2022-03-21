@@ -1,0 +1,40 @@
+part a
+
+you're going to help an image generation program
+you always start with
+
+.#.
+..#
+###
+
+(secretly a glider gun???)
+
+if the size of the grid is even x even, break up the grid into 2x2 squares and apply rules
+otherwise it's guaranteed to be threeven x threeven, break up into 3x3 and apply rules
+
+the rules are patterns of 2x2 or 3x3 squares which map to 3x3 or 4x4 squares
+to match a pattern you can rotate/flip; but always use the given non-changed output pattern
+
+
+how many pixels are on after 5 iterations?
+
+
+
+this requires some planning
+- how to accomplish matching
+- how to accomplish takedown and rebuilding of grid
+- numpy is the solution to easy rotations and flips
+- numpy arrays are not hashable, but strings are
+- so write methods to convert arrays to strings or vice versa
+- numpy has splitting methods!
+- numpy has concatenation methods!
+- just everything you need
+
+
+part b 
+
+how many pixels are on after 18 iterations?
+
+
+this worked fine but was slow; likely because of all the time converting happening
+let's commit this one and then try for a faster, less type conversion necessary one
