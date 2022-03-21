@@ -38,3 +38,11 @@ how many pixels are on after 18 iterations?
 
 this worked fine but was slow; likely because of all the time converting happening
 let's commit this one and then try for a faster, less type conversion necessary one
+
+
+did a bit of preproccesing on the rules, got maybe a ~5x speedup out of that
+someone on reddit makes the good point that after 3 iterations a 3x3 becomes a 9x9
+and those 3x3 become independent
+so you can save on a lot of computation by keeping counts of how many 3x3 you have at each step and evolving them independently
+yooooo let's go that did the trick
+now instantaneous
