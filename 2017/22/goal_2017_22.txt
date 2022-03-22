@@ -1,0 +1,38 @@
+part a
+
+you're given an "infinite" two dimensional grid, marked with infected/non-infected nodes
+there's an agent moving around the grid infecting or cleaning nodes
+
+if the node is infected, turn left; else turn right
+toggle the current node infection
+move one square in current direction
+
+how many of the first 10000 bursts cause a node to become infected?
+
+
+part b
+
+there's now 4 states that the agent moves grid squares through
+
+clean -> weakened -> infected -> flagged
+
+the turning rules are different;
+clean -> turn left
+weak -> don't turn
+infected -> turn right
+flagged -> turn around
+
+
+how many bursts result in infection after 10000000?
+
+
+this really chugs along if we just brute force the finding
+doesn't seem to slow down over time so we're not really limited by dict size I think
+moreso just limited by 10 million iterations
+
+is there a way we can count infections without computing the whole time evolution?
+would need to understand something about motion
+is this generating a fractal?
+
+
+reddit people used complex numbers for cleaner turning
