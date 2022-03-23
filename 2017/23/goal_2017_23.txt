@@ -1,0 +1,26 @@
+part a
+
+it's another assembly problem!
+this time there's 4 instructions
+
+set X Y - set register X to value Y
+sub X Y - decrease register X by value Y
+mul X Y - set register X to the value register X times value Y
+jnz X Y - jump by Y, but only if X is not zero
+
+there's registers a through h, all starting at 0
+
+
+this sure seems like a manual interpretation problem
+
+how many times does mul get run?
+its starting value (79) minus 2, squared
+
+
+part b
+
+(I totally saw this coming given understanding the program!)
+you actually want to run with a = 1 as the starting value
+
+what is the final value of h in that case?
+awwww yeeeeee first try by big braining the solution

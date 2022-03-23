@@ -1,0 +1,56 @@
+set b 79                        b = 79
+set c b                         c = 79
+jnz a 2                         if a != 0 jump 2
+jnz 1 5                         if we get here jump to 9
+mul b 100
+sub b -100000
+set c b
+sub c -17000                    (if a != 0, b = 107900, c = 124900)
+    set f 1                     f = 1, this is a flag
+    set d 2                     d = 2
+        set e 2                 e = 2
+            set g d             g = d
+            mul g e             g *= e
+            sub g b             g -= b (in the debug case, g = -75)
+            jnz g 2             
+                set f 0             if g != 0 set flag to 0
+            sub e -1            e += 1
+            set g e             g = e
+            sub g b             g -= b
+        jnz g -8                if g != 0 jump back
+        sub d -1                d += 1
+        set g d                 g = d
+        sub g b                 g -= b
+    jnz g -13                   if g != jump back
+    jnz f 2                     if f is set to on jump 2, else
+        sub h -1                    h += 1
+    set g b                     g = b
+    sub g c                     g -= c
+    jnz g 2                     if g is non-zero jump 2
+        jnz 1 3                     else exit
+    sub b -17                   add 17 to b, loop again
+jnz 1 -23
+
+
+
+
+the 9 to 32 loop will run 1001 times, since the exit condition is b = c and we're adding 17 to b each time
+when does h get increased?
+    when we're out of the 11 to 24 loop with flag = 1
+    flag gets set to 0 in the 12 to 20 loop when d*e = b
+    the inner loops always run 2 to b; think of it like a double for loop
+    and you at 0 whenever there's factors
+
+so we're counting primes!
+h will be the number of primes in the range [107900, 124900]
+ah but we don't check every possible b
+only those b of the form 107900 + k*17
+
+so counting primes of the form 17k + 1 in the given range
+estimate!
+1/17 of (n/log(n))_107900^124900
+that gives a guess of ~78
+
+ah be careful! the h += 1 condition is jnz f 2, so we count when f = 0
+so in fact we're counting composite things
+in which case we should expect 1001-78 = 923
