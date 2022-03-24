@@ -1,0 +1,41 @@
+part a
+
+you're given a list of ports, of the form X/Y
+you can connect these to make a bridge
+X/Y - Y/Z - Z/A
+note that order doesn't matter, so X/Y - A/X is a valid connection along the X
+
+
+the strength of a bridge is the sum of the ports in all the components
+X/Y - Y/Z - Z/A has strength
+(X+Y) + (Y+Z) + (Z+A)
+
+
+what is the strongest bridge you can make?
+
+think about it like a graph problem
+ports are connected based on matching pins
+you want to find a path which doesn't repeat any vertices and which maximizes the sum of the vertices
+you have to start with a 0
+
+or is it better to model the different values as the vertices and then edges are the available 0/1
+yeah maybe this is better
+then the edges have weights
+and you want a the maximum weight walk in the graph
+
+
+
+maximum walk starting from 0
+= max from among edges e out of 0
+    weight(e) + max walk starting at v in graph without e
+
+maybe will lend itself to memoized recursive?
+
+
+part b
+
+
+first you want to maximize on length, then on strength
+
+what is the strength of the longest bridge you can make?
+if there are multiple ones pick the strongest
