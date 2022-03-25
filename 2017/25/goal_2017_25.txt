@@ -1,0 +1,21 @@
+part a
+
+the Turing machine at the heart of the computer is broken!
+you need to rebuild it
+
+this is a list of states, each of which tells you for each of the two possible inputs
+- what to write at the current value
+- which direction to move
+- what state to change to
+
+there's also a diagonstic checksum: you're given a time, and you want to check how many 1s there are on the tape after that many steps
+
+how many 1s are there when the diagnostic checksum happens?
+
+
+our puzzle input has 12 million + steps, so maybe let's try to understand what our machine is doing?
+
+let's be a little bit clever; our tape will be an int and we'll store the info in its bits
+
+yeah its not the fastest, but also its still pretty darn good for 12 million steps of a turing machine
+with pypy its almost instantaneous
