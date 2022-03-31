@@ -36,3 +36,10 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - goal: avoid googling, just code
 - keep up many other goals (runtime, few mistakes, testing)
 - experiment with new approaches (i.e. the time you passed functions rather than strings around)
+
+2018: (Apr 2022)
+- learning new things from doing these in python has plateaued; with a few minutes thinking you basically come up with the fully formed solution
+- you made automation happen for 2017 in shorter order than you though it would take
+- given all that: let's start working in Haskell, including setting up a testing and automation framework from the start
+- regular goals: correct answer first try, essentially instant runtimes
+- over than that, focus on reading about Haskell and learning new concepts from other peoples solutions (reddit and some repos to look at)
