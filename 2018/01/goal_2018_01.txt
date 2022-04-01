@@ -1,0 +1,15 @@
+part a
+
+you're given a list of integers
+find their sum
+
+
+part b
+
+find the first freqSum that occurs twice
+
+
+
+some minor config issues
+- need Test.HUnit everywhere
+- makefile somehow missed the two digit filenames
