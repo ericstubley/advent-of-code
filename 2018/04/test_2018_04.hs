@@ -1,4 +1,4 @@
-import HUnit
+import Test.HUnit
 import System.IO
 import Puzzle_2018_04
 
