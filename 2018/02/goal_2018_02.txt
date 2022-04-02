@@ -1,0 +1,20 @@
+part a
+
+you're given a list of warehouse box ids
+current challenge is just to compute a checksum
+of the list you want the product of 
+- the number which have a letter occurring exactly twice
+- the number which have a letter occurring exactly thrice
+
+what is that checksum?
+
+
+part b
+
+there's a pair of ids which differ by exactly one character
+identify that pair, and the answer is that string with the common letter removed.
+
+
+
+there's a bug in the automated submission code
+strings are shown and so get extra quotes around them which causes bad submission
