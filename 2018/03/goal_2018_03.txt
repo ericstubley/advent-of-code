@@ -1,0 +1,30 @@
+part a
+
+you're given a big 1000x1000 rectangle fabric that the elves need to cut
+each elf thinks you need to cut a different rectangle out of it, given by matrix top left corner coordinate + size
+
+how many square inches are within two or more elf claims?
+
+
+here's the issue I'm having: lack of mutable data structures
+if you had a mutable grid, you could just O(small rectangle) update it with each rectangle
+but because you have to make a full copy this'll be O(total covered area) at each of the 1411 rectangles
+
+options:
+- make a Data.Massiv.Array and just create new versions of it with each update?
+- make a Data.Map that stores counts of the non-zero ones
+- make it so that updating past two doesn't require reconstruction?
+
+
+
+part b
+
+exactly one elf's claim to fabric real estate has no overlap with other claims
+what is the id of that claim?
+
+
+
+
+good job sticking with the parsing
+things felt real good in solving out the problem on the backend
+parsing this way is real nice once you get the hang of it
