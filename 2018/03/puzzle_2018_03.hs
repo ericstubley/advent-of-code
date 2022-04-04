@@ -9,7 +9,6 @@ import qualified Text.Megaparsec.Char.Lexer as L
 import System.IO
 import Automation (submitAnswer)
 
-import Text.Megaparsec
 type Parser = Parsec Void String
 
 -- data types
