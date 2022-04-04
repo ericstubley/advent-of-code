@@ -1,0 +1,41 @@
+part a
+
+you're given a very scrambled list of data about when guards are on duty, and when they wake up and fall asleep
+
+you want to know when a guard is most likely to be asleep
+
+a := find the id of the guard who sleeps the most minutes total
+b := find the minute (00-59) where that guard is asleep most often
+
+what is a * b
+
+
+something went fishy with the parsing; you fixed it but you're not sure why the fix worked
+- initially tried to parse a | b | c, where each included parsing the time
+- this would only parse a successfully, and fail on b or c
+- but split out parsing the time, and then parse smaller bits of a | b | c
+- this worked
+- perhaps the following chain of events
+    try to parse a, the first step of which is parsing a time
+    this consumes the parsed time, and then fails at a later step
+    when it goes to parse b it tries to again parse a time
+    but the time has been consumed, so it fails
+
+
+part b
+
+second strategy
+
+of all the guards, which guard is the most asleep on a given minute?
+that is for each guard find the total numbers of times asleep per minute
+pick the guard who has the highest single total in those
+
+again product of minute and guard id
+
+
+
+
+really hit the struggle bus today
+but you still learned things
+and got it done!
+on top of interview stress!!
