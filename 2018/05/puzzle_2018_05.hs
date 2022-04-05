@@ -1,11 +1,92 @@
 module Puzzle_2018_05 where
 
+import Data.Char
+import Data.Set (Set)
+import qualified Data.Set as Set
+import Data.List (nub)
+import Data.List.Extra (minimumOn)
 import System.IO
 import Automation (submitAnswer)
 
+
+parseInput :: String -> IO String
+parseInput filename = do
+    polymer <- readFile filename
+    return polymer
+
+
+-- found this online: https://stackoverflow.com/questions/7442892/
+-- look through an (infinite) list until you find two adjacent elements
+-- which match a predicate
+converge :: (a -> a -> Bool) -> [a] -> a
+converge p (x:ys@(y:_))
+    | p x y     = y
+    | otherwise = converge p ys
+
+
+react :: String -> String
+react [] = []
+react [x] = [x]
+react (x:xs@(y:ys))
+    | switchCase x == y = react ys
+    | otherwise         = x : react xs
+
+
+switchCase :: Char -> Char
+switchCase c
+    | isUpper c = toLower c
+    | isLower c = toUpper c
+    | otherwise = c
+
+-- original version based on things above
+-- stabilize :: String -> String
+-- stabilize s = converge (==) (iterate (react) s)
+
+
+halve :: [a] -> ([a], [a])
+halve xs = ((take s xs), (drop s xs))
+    where s = div (length xs) 2
+
+
+merge :: String -> String -> String
+merge [] ys = ys
+merge xs [] = reverse xs
+merge xs@(x:xss) ys@(y:yss)
+    | switchCase x == y = merge xss yss
+    | otherwise         = (reverse xs) ++ ys
+
+
+stabilize :: String -> String
+stabilize [] = []
+stabilize [x] = [x]
+stabilize s = merge (reverse $ stabilize l) (stabilize r) where
+    (l, r) = halve s
+
+
+
+
+removeUnit :: Char -> String -> String
+removeUnit c s = filter (\x -> (x /= c) && (x /= toUpper c)) s
+
+
+shortestReaction :: String -> String
+shortestReaction s = minimumOn length (map stabilize (shortenedPolymers s))
+    
+
+shortenedPolymers :: String -> [String]
+shortenedPolymers s = map (\c -> removeUnit c s) (units s)
+
+
+units :: String -> String
+units s = nub $ map toLower s
+
+
+
 mainA :: IO ()
 mainA = do
-    let answer = 0
+    polymer <- parseInput "input.txt"
+    let stablePolymer = stabilize polymer
+    let answer = length stablePolymer
     print answer
     -- result <- submitAnswer 2018 05 1 answer
     -- print result
@@ -14,7 +95,9 @@ mainA = do
 
 mainB :: IO ()
 mainB = do
-    let answer = 0
+    polymer <- parseInput "input.txt"
+    let stablestPolymer = shortestReaction polymer
+    let answer = length stablestPolymer
     print answer
     -- result <- submitAnswer 2018 05 2 answer
     -- print result
