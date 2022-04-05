@@ -1,0 +1,27 @@
+part a
+
+you're given a very polymer built out of units, represented as letters
+the letter itself represents unit type, the capitalization reflects polarization
+units of the same type but opposite polarizations reacts and annihilate
+units of different types don't interact
+
+
+part b
+
+one of the unit types is causing problems, preventing as much reaction as possible
+what is the length of the smallest polymer that gets produced by removing a single unit type?
+
+
+
+
+solution is slow because it needs to fully traverse the list at each iteration; the list is 50000 at potentially you need to traverse it 50000-final length / 2 many times, because the worst case is only a single compression gets made
+
+
+here's the algorithm maybe:
+- split the list in two
+- recursively run this procedure on both
+- reverse the initial segment
+- chop off matching from the heads of both
+- rejoin
+
+yes that is mega fast hurry
