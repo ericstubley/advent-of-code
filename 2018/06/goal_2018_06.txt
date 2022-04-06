@@ -1,0 +1,39 @@
+part a
+
+you're given a list of grid coordinates
+every actually lives in an infinite grid
+for each given grid point there's a zone around it of the points which are (manhattan) closer to it than any other
+some of these may be infinite
+
+of the grid points with finite zones, what is the size of the largest zone?
+
+
+- parse input
+- identify the boundaries
+- identify the point which lie on the boundary
+- identify which marked points will have finite areas (is it just closest point on boundary?)
+- for each square within the boundary, identify which point its closest to
+- take the one with the largest area
+
+list of grid points is small enough that you should just map manhattan over the whole list of grid points and select the minimum
+
+
+
+part b
+
+
+now we care about the total distance from a grid point to the given points
+
+what is the size of the region which contains all points which have total distance < 10,000?
+
+
+the real question here: can exterior points have this property?
+distance to boundary == x => 50*x total distance compared to the closest boundary point
+so first let's figure out the maximum total distance on the boundary
+
+
+
+
+
+I feel like that was a ton of code for something that shouldn't have taken that much...
+but today was good because things just worked right away
