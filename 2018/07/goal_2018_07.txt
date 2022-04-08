@@ -1,0 +1,26 @@
+part a
+
+you have to help the elves from year 1018 build the sleigh
+there's a list of instruction dependencies, and you have to do them in order
+when there's multiple options available take the lowest alphabetically
+
+what is the order you perform the steps in?
+
+
+this is just topological sorting
+- graph operations
+    - get all vertices which have no incoming edges
+    - get all incoming edges to v
+    - get all outgoing edges from v
+
+
+part b
+
+topological sort with some timing
+you now have five workers
+each step takes 60 seconds + some char distance (A is 61, B is 62, ...)
+
+single heap of size @ most # of workers
+- find as many available workers as possible, add to heap
+- subtract min time from all heap times, add to total time taken
+- pop off all zeroes from heap
