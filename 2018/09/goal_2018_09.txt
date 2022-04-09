@@ -1,0 +1,25 @@
+part a
+
+with the elves you play the following game with n players and k marbles
+- the players take turns playing marbles, each of which is labelled 0, 1, 2, ...
+- the marbles are arranged in a circle, and there's always a current marble marked
+- if the marble # isn't divisible by 23, insert it between the marbles 1 and 2 clockwise from the current marble; worth 0 points, becomes the new current marble
+- if the marble is divisible by 23, remove the marble 7 counterclockwise from the current marble; add that marble + the multiple of 23 to your score
+- keep going until all marbles are played
+
+
+part b
+
+the elves want to know, what's the winning score if the last marble was 100 times bigger?
+
+
+
+there's a nice haskell solution on the reddit that is somehow wayyyyy faster than yours despite being roughly the same idea
+they use the lens library for better patching-together of things
+actually lens was used just a tiny bit to increment scores
+
+https://github.com/mstksg/advent-of-code-2018/blob/master/reflections.md#day-9
+this is the reddit solution that claimed ~4.5 s runtimes for part 2
+but that's crazy fast compared to what I'm saying
+even when I reimplemented their solution, made everything strict, used the GHC optimization flags my solution is still slow
+in particular it doesn't even seem to be better than my original one in terms of speed
