@@ -23,3 +23,8 @@ this is the reddit solution that claimed ~4.5 s runtimes for part 2
 but that's crazy fast compared to what I'm saying
 even when I reimplemented their solution, made everything strict, used the GHC optimization flags my solution is still slow
 in particular it doesn't even seem to be better than my original one in terms of speed
+
+
+came back to it and actually aligned with the reddit solution
+unboxing is the trick
+unboxed vector and then also -funbox-strict-fields flag
