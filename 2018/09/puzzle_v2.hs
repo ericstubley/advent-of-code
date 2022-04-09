@@ -7,10 +7,10 @@ import Data.Function                    ((&))
 import Data.List                        (foldl')
 import Data.Maybe                       (fromJust)
 import Data.List.PointedList.Circular   (PointedList(..))
-import Data.Vector                      (Vector)
+import Data.Vector.Unboxed              (Vector)
 import System.IO
-import qualified Data.List.PointedList.Circular     as PL
-import qualified Data.Vector                        as V
+import qualified Data.List.PointedList.Circular as PL
+import qualified Data.Vector.Unboxed            as V
 -- import Automation (submitAnswer)
 
 
@@ -20,11 +20,10 @@ type ScoreBoard = Vector Int
 
 play :: Board -> Int -> (Int, Board)
 play board marble
-    | marble `mod` 23 == 0  = (marble + deleted, fromJust $ PL.deleteRight backSeven)
-    | otherwise             = (0, PL.insertRight marble $ PL.moveN 1 board)
-    where
-        backSeven = PL.moveN (-7) board
-        deleted = _focus backSeven
+    | marble `mod` 23 /= 0  = (0, PL.insertRight marble $ PL.moveN 1 board)
+    | otherwise = let backSeven = PL.moveN (-7) board
+                      deleted = _focus backSeven
+                  in  (marble + deleted, fromJust $ PL.deleteRight backSeven)
 
 
 scores :: Int -> Int -> Vector Int
