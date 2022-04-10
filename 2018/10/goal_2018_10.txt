@@ -1,0 +1,12 @@
+part a
+
+the elves are using a very slow sky-signalling technique; you're gonna take the starting positions + velocities and figure it out quickly
+
+what message eventually appears in the sky?
+
+
+part b
+
+how long did it take?
+
+this was a bit annoying in the end, but we learned some more stuff about parsers and got to use an array package
