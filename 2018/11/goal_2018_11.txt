@@ -1,0 +1,30 @@
+part a
+
+your time travel watch has some fuel issues
+the fuel cells are layed out on a grid (300x300), and you want to select the 3x3 region with the highest total power level
+the fuel cell at X, Y has power level given by some function of X, Y + the grid serial number
+
+what are the (top left) X, Y coordinates of the region with the highest power level?
+
+
+this looks like a grid problem, but at least the setup for part a is such that its really just a big computation
+there's no actual grid locality, so let's set it up without an actual grid
+
+
+part b
+
+what if you allow the 3 in 3x3 to vary?
+I'm just trying the brute force approach and its slow but it works and is simple
+
+let's try a more memory intensive version
+create a Map ((x, y), region) -> regionSum
+can be a bit smart in making it to avoid tons of computation i.e. O(n) to compute nxn region
+
+
+
+
+welp
+you goofed it
+summed area rectangles: build a grid where x, y entry is sum of all entries above and to the left
+so to get any area sum you can just take a difference of two elements
+that would make things much better
