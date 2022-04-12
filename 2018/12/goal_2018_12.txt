@@ -1,0 +1,25 @@
+part a
+
+you're in an underground cavern where the elves are trying to grow plants
+it's a 1d cellular automaton with rules based on 2 neighbours out
+the initial state is given as pots labelled 0 to the right
+as new pots get plants in them they might start being negatively numbered
+
+after 20 generations, what is the sum of the indices where plants exist?
+
+
+let's store the rules and pots in maps
+
+
+
+part b
+
+after 50 billion generations what is the index sum of the pots which contain plants?
+let's just figure out the rules and evolve manually to find it?
+
+hangon let's just try first to evolve, but only tracking the indices where plants exist
+hangonhangon that's not quite going to work, since we need to consider both the places where plants exist and every space within two of where plants exist
+
+
+made some reasonable assumptions about the growth and it checked out!
+good job figuring out what was going on without figuring out what was going on
