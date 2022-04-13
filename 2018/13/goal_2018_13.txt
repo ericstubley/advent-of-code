@@ -1,0 +1,21 @@
+part a
+
+you're given a big grid of train tracks which intersect
+the elves put some carts on them
+there's rules governing the cart movement
+- they take turns advancing starting from the top and leftmost within a row
+- they advance on square at a time
+- if they hit an intersection they cycle between turn left, straight, turn right
+
+what is the location (x, y) for the first collision?
+
+
+part b
+
+what is the location of the last cart standing (after the tick on which it becomes the last)?
+
+
+
+today was a very good instance of using the right data structures
+- cyclic enums
+- figured out more of how to use the grid
