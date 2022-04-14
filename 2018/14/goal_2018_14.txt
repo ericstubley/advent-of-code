@@ -1,0 +1,20 @@
+part a
+
+the elves are trying to cook up the best possible hot chocolate recipe using their plants
+as they make more recipes they get added to a scoreboard
+- take the sum of the current two scores; add the one or two digits (tens digit first) to the scoreboard
+- advance each of the current pointers by 1 + their score
+
+what are the ten scores after the number of recipes in the puzzle input?
+
+
+part b
+
+actually you interpreted the elves plan backwards
+when your puzzle input appears as a sequence of scores, how many recipes are to the left of it?
+
+
+same strat, just now check the tail end of the scoreboard for a match
+
+
+good use of a new data structure and clean imports
