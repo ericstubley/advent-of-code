@@ -1,0 +1,47 @@
+part a
+
+you want to figure out the guts of your time travel watch so you can go home
+there's 4 registers and 16 possible opcodes
+you're given a bunch of samples (reg before, op, reg after) and a whole sample program
+
+you don't know the mapping of number -> opcode, so it's unclear in the samples which op is getting executed
+
+of the given samples, for how many of them are there 3 or more viable opcodes?
+
+
+
+I want to give some thought to architecting this
+should have a register data type
+- with lenses for easier modification? we're gonna be changing the regs a lot
+- maybe a register is just a 4-tuple though
+- but also want to access it by 0-indexing
+
+- we want an easy way to extract from and modify registers given 
+
+
+should have an OPIO data type which packages the two inputs and one output
+should have an OP data type which is an OPCode
+should have an OPCode data type MULR | ...
+
+should have a Sample {before, after, OP}
+and a behavesLike :: Sample -> OPCode -> Bool
+
+
+each of the sixteen operations should have a method
+mulr :: OPIO -> Register -> Register
+
+
+
+
+program flow
+get a list of samples
+for each map (behavesLike s) over the list of OPCodes
+while doing this also build the IntMap -> Set OPCode
+    start this with everything
+    intersect at each find
+
+
+part b
+
+work out the number of each opcode and run the program
+what is the number in register 0 after running the program?
