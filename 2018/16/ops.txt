@@ -1,0 +1,19 @@
+(0,fromList [BANR])
+(1,fromList [ADDR])
+(2,fromList [EQRI])
+(3,fromList [SETR])
+(4,fromList [GTRR])
+(5,fromList [BORI])
+(6,fromList [GTIR])
+(7,fromList [SETI])
+(8,fromList [BORR])
+(9,fromList [BANI])
+(10,fromList [EQIR])
+(11,fromList [EQRR])
+(12,fromList [GTRI])
+(13,fromList [ADDI])
+(14,fromList [MULI])
+(15,fromList [MULR])]
+
+
+fromList [(0,fromList [ADDI,MULR,BANR,BORR,BORI,SETR,SETI,GTRI,EQIR,EQRR]),(1,fromList [ADDR,ADDI,MULR,MULI]),(2,fromList [SETI,EQRI,EQRR]),(3,fromList [ADDR,ADDI,BORR,BORI,SETR,SETI,GTIR,GTRI,GTRR]),(4,fromList [GTRR,EQIR]),(5,fromList [BORR,BORI]),(6,fromList [SETI,GTIR,GTRI,GTRR,EQIR,EQRI,EQRR]),(7,fromList [ADDI,BORR,BORI,SETI]),(8,fromList [BORR]),(9,fromList [ADDR,ADDI,MULR,MULI,BANR,BANI,BORR,BORI,SETR,SETI,GTIR,GTRI,GTRR]),(10,fromList [ADDR,BORR,SETI,EQIR,EQRI]),(11,fromList [SETI,EQRR]),(12,fromList [GTRI,EQRR]),(13,fromList [ADDI,MULI]),(14,fromList [MULI]),(15,fromList [MULR])]
