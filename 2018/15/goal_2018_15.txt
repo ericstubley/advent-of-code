@@ -1,0 +1,48 @@
+part a
+
+goal is to simulate some grid-based elf-goblin combat
+each unit does 3 damage and starts with 200 hp
+the turn order is decided by unit position at the start of the round
+everything is sorted by (i, j) grid indices: furthest up, then furthest left
+if a unit has adjacent enemies it attacks
+if not it moves
+- first identify targets (enemy units)
+- flag the adjacent squares to targets
+- filter to those reachable adjance squares
+- filter to those which are closest
+- move towards the first of those in grid ordering
+- if there's multiple pathways take one with the first move in grid ordering
+if a unit ever starts its turn with no targets combat ends
+
+
+the outcome of combat is the number of turns completed * the total remaining hp
+
+in the given grid, what is the outcome?
+
+I think mutable arrays from massiv are the answer here
+In fact actually the board is not so big, so let's just update the existing board
+
+WOW
+messed around with mutable arrays for a long time
+but they're not a good fit because you can't do the usual array operations on them?
+but then with immutable massiv arrays you could only modify by swapping the whole grid...
+oh well let's change to immutable
+
+
+goofed up the BFS pretty severely: only allowed searching on empty squares but tried to start and end on units
+
+
+
+LOTS of reading comprehension failures
+- targets attack the lowest hp target, not the first in order
+- on your turn you move if necessary and then attack
+
+
+
+part b
+
+you'll need to increase the elves power level until it's just barely enough to win with no elf deaths
+what is the outcome of that battle?
+
+
+this feels like a puzzle that is very worth redoing well once you have better haskell technique
