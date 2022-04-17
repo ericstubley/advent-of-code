@@ -1,0 +1,28 @@
+part a
+
+the elves are trying to build the north pole base but they need to sort out the water table first
+you're given a list of all the locations of clay beneath a well
+water falls down (in a slightly non-physics but easier to compute way) and pools in some places
+
+how many squares does the water reach?
+
+
+let's use (y, x) = (i, j) indexing since we primarily care about down
+
+
+performance is predictably quite slow because we're building a map with many many element and creating a new copy at each step
+one solution would be to track a water map and a clay map separately, but that sounds fiddly
+another would be to use a mutable data structure
+nope it was bad recursion that was making things slow, its now real fast! with the same (wrong answer)
+
+
+let's solve it in python quickly to compare
+same answer
+
+
+SOLVED: it's because the friggin count you need is only those at or below the first clay level, not those below spring level
+
+
+part b
+
+how many standing water tiles will there be once the water stops flowing?
