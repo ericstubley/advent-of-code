@@ -1,0 +1,22 @@
+part a
+
+you want to help the elves build from the forest
+it's a 3-state cellular automaton open (.) trees (|) lumber (#) where
+- . -> | if there are 3 or more adjacent |
+- | -> # if there are 3 or more adjacent #
+- # -> # if there is at least 1 | and at least 1 #, else .
+
+
+all the updating happens simultaneously so it's just a map with a stencil
+
+you want the resource value (number of trees * number of lumber)
+
+what is the resource value after 10 minutes?
+
+
+part b
+
+what is the resource value after 1000000000 minutes?
+
+reasonable way to do it is to find the grid repeat period
+even though there's 3^(50^2) possible grids the rules make things group up so we actually do hit a repeat
