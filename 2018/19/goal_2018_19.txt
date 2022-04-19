@@ -1,0 +1,23 @@
+part a
+
+another register problem but this time we've got an extra twist
+the instruction pointer can be bound to a register using "#ip 2" or whatever
+this gets incremented by 1 after each instruction, and gives the location of the next instruction to execute
+
+
+what value is left in register 0 when the background process halts?
+
+
+part b
+
+same question, but this time register 0 starts with a value of 1
+
+
+
+figure out what the program does:
+computes a big number, the reg0 stores the sum of the divisors
+
+if reg0 starts as 0 that number is 861 = 3 * 7 * 41
+if reg1 starts as 1 that number is 10551261 = 3 * 7 * 502441
+
+each has 3 prime factors => 8 divisors (1, itself, single prime, two primes)

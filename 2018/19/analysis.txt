@@ -1,0 +1,51 @@
+addi 1 16 1         => reg1 = reg1 + 16                     (GOTO ABS LINE 18)
+seti 1 1 5          => reg5 = 1
+seti 1 4 2          => reg2 = 1
+mulr 5 2 3          => reg3 = reg2 * reg5
+eqrr 3 4 3          => reg3 = 1 if (reg3==reg4) else 0
+addr 3 1 1          => reg1 = reg3+reg1                     (SKIP BASED ON PREV)
+addi 1 1 1          => reg1 += 1                            (SKIP NEXT LINE)
+addr 5 0 0          => reg0 = reg5 + reg0
+addi 2 1 2          => reg2 += 1
+gtrr 2 4 3          => reg3 = 1 if (reg2 > reg4) else 0
+addr 1 3 1          => reg1 = reg3 + reg1                   (SKIP BASED ON PREV)
+seti 2 7 1          => reg1 = 2                             (GOTO ABS LINE 4)
+addi 5 1 5          => reg5 += 1
+gtrr 5 4 3          => reg3 = 1 if (reg5 > reg4) else 0
+addr 3 1 1          => reg1 = reg1 + reg3                   (SKIP BASED ON PREV)
+seti 1 8 1          => reg1 = 1                             (GOTO ABS LINE 3)
+mulr 1 1 1          => reg1 = reg1^2                        (EXIT)
+addi 4 2 4          => reg4 += 2
+mulr 4 4 4          => reg4 = reg4^2
+mulr 1 4 4          => reg4 = reg1 * reg4 (reg4 *= 19)
+muli 4 11 4         => reg4 = reg4*11
+addi 3 1 3          => reg3 += 1
+mulr 3 1 3          => reg3 = reg3 * reg1 (reg3 *= 22)
+addi 3 3 3          => reg3 += 3
+addr 4 3 4          => reg4 = reg4 + reg3
+addr 1 0 1          => reg1 = reg1 + reg0                   (SKIP REG0 LINES)
+seti 0 3 1          => reg1 = 0                             (GOTO ABS LINE 2)
+setr 1 1 3          => reg3 = reg1 (reg3 = 27)
+mulr 3 1 3          => reg3 = reg3 * reg1 (reg3 *= 28)
+addr 1 3 3          => reg3 = reg3 + reg1 (reg3 += 29)
+mulr 1 3 3          => reg3 = reg3 * reg1 (reg3 *= 30)
+muli 3 14 3         => reg3 = reg3 * 14
+mulr 3 1 3          => reg3 = reg3 * reg1 (reg3 *= 32)
+addr 4 3 4          => reg4 = reg4 + reg3
+seti 0 9 0          => reg0 = 0
+seti 0 4 1          => reg1 = 0                             (GOTO ABS LINE 2)
+
+
+
+ABS lines 18 on only execute once
+if reg0 = 0
+    reg3 = 25, reg4 = 861
+if reg1 = 1
+    reg3 = 10,550,400, reg4 = 10,551,261
+end at ABS line 2 w reg0 = 0
+
+
+reg0 stores the sum of the factors of reg4
+
+
+exit when reg5 > reg4
