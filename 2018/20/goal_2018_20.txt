@@ -1,0 +1,28 @@
+part a
+
+the elves constructed a base!
+but instead of giving you a map, they gave you a regex containing directions to every room
+by traversing the rooms according to this regex you can visit the entire base and build up a map of it
+
+what is the furthest shortest distance to a room? i.e. if you compute the shortest path from the start to each of the rooms, which is furthest?
+
+
+
+there's a few parts to this challenge?
+- parse the regex into a useful form (maybe that form is a string)
+- traverse the regex and build up a graph, in the form of a Map Ix2 (4-tuple of tiles?)
+- do a bfs with queue to find distances
+- printing out the grid could be kind of annoying in this format
+- let's do it by encoding door state into a 4 bit int
+
+
+part b
+
+how many rooms in this place have a shortest path from your current location that passes through at least 1000 doors?
+
+
+
+didn't do so hot on readability today, but some nice things
+- good reusing code for bfs and grid printing
+- knew what to do for the monadic modification (>> to print an extra line)
+- solution is wicked fast
