@@ -1,0 +1,18 @@
+part a
+
+we're back to time assembly
+here's a program that does some input checking before possibly entering an infinite loop
+you can change the starting value of register 0 but all others start at 0
+
+What is the lowest non-negative integer value for register 0 that causes the program to halt after executing the fewest instructions?
+this reads a bit ambiguous but I'm taking it to mean: the min of the set of non-negative integers which cause the minimal stopping time
+
+
+part b
+
+
+what is the lowest non-negative integer which causes the program to halt after executing the most instructions?
+
+
+solution was to generate the (infinite) list of all r3s that hit that final condition
+chop this off at the first time there's a recurrence and take the last element
