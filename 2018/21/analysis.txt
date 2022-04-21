@@ -1,0 +1,43 @@
+seti 123 0 3            => reg3 = 123
+bani 3 456 3            => reg3 = 456 & reg3
+eqri 3 72 3             => reg3 = 1 if reg3==72 else 0
+addr 3 2 2              => reg2 = reg3 + reg2               (skip next if prev)
+seti 0 0 2              => reg2 = 0                         (goto abs 2)
+seti 0 0 3              => reg3 = 0
+bori 3 65536 4          => reg4 = reg3 | 65536
+seti 10649702 3 3       => reg3 = 10649702
+bani 4 255 5            => reg5 = reg4 & 255
+addr 3 5 3              => reg3 = reg3 + reg5
+bani 3 16777215 3       => reg3 = reg3 & 16777215
+muli 3 65899 3          => reg3 = reg3 * 65899
+bani 3 16777215 3       => reg3 = reg3 & 16777215
+gtir 256 4 5            => reg5 = 1 if 256 > reg4 else 0
+addr 5 2 2              => reg2 = reg5 + reg2               (skip next if prev)
+addi 2 1 2              => reg2 = reg2 + 1                  (skip next)
+seti 27 7 2             => reg2 = 27                        (goto abs 29)
+seti 0 6 5              => reg5 = 0
+addi 5 1 1              => reg1 = reg5 + 1
+muli 1 256 1            => reg1 = reg1 * 256
+gtrr 1 4 1              => reg1 = 1 if reg1 > reg4 else 0
+addr 1 2 2              => reg2 = reg1 + reg2               (skip next if prev)
+addi 2 1 2              => reg2 = reg2 + 1                  (skip next)
+seti 25 9 2             => reg2 = 25                        (goto abs 27)
+addi 5 1 5              => reg5 = reg5 + 1
+seti 17 9 2             => reg2 = 17                        (goto abs 19)
+setr 5 7 4              => reg4 = reg5
+seti 7 1 2              => reg2 = 7                         (goto abs 9)
+eqrr 3 0 5              => reg5 = 1 if reg3 == reg0 else 0
+addr 5 2 2              => reg2 = reg5 + reg2               (skip next if prev)
+seti 5 4 2              => reg2 = 5                         (goto abs 7)
+
+ip is reg2
+
+
+exit occurs when last comparison gives a 1, causing abs31 to get skipped
+so need to figure out what reg3 is the first time we get to abs29
+
+
+well thought it was 10913956 (reg3 after 3 passes through 9-17) but that's too high
+mistook a bani for a bori
+so it's just the first pass we go to 29
+tried that first pass 10715601 w r4 = 0 but that is also too high
