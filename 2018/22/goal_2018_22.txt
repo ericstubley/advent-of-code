@@ -1,0 +1,70 @@
+part a
+
+you have to help get santa's friend out of the cave
+the mouth of the cave is at (0, 0) and the friend is at (y, x) (given in input)
+each square of the cave (in (y, x)) coordinates has several associated properties
+- an integer geologic index
+- an integer erosion level
+- a type (erosion level mod 3 -> 0: rocky, 1: wet, 2: narrow)
+- a risk level (again erosion mod 3 -> rocky: 0, wet: 1, narrow: 2)
+
+
+geologic index has several cases
+    | (0, 0) = 0
+    | friend = 0
+    | (0, x) = x * 16807
+    | (y, 0) = y * 48271
+    | (y, x) = erosion @ (y-1, x) * erosion @ (y, x-1)
+
+erosion level is (geologic index + cave depth) mod 20183
+
+
+
+what is the sum of the risk levels of the rectangular region between (0, 0) and the friend?
+
+
+reasonable-ness check: there's 6168 grid squares in your cave, so expect the risk to be approximately that
+
+the naive recursive thing doesn't work, but how can we get massiv to do it smarter?
+let's explore the massiv array creation operations
+- iterate with an index aware function
+- unfold (iunfoldrS_ is the function we're looking for)
+- applicative interface? unclear if that's what we're looking for
+
+- let's unfold, here's the type signature
+iunfoldrS_ :: forall ix e a. Index ix => Sz ix -> (a -> ix -> (e, a)) -> a -> Array DL ix e
+
+so give it a size, a function (Vec -> Ix2 -> (Int, Vec)), a starting Vec 
+
+
+part b
+
+you want to find the friend as fast as possible, but that involves traversing the cave, for which you need equipment.
+you have climbing gear and a torch
+- in rocky terrain you have to use climbing gear or the torch
+- in wet terrain you have to use climbing gear or neither
+- in narrow terrain you have to use neither or the torch
+
+if your gear is appropriate for both, it takes 1 minute to move to a 4-adjacent grid square
+it takes 7 minutes to change gear layout, and you can only change to a valid type for your current square
+
+coordinates can't go negative but you can go past (770:.7)
+
+start with torch equipped
+have to end @ the target and switch to torch if necessary
+
+
+this feels like a strong candidate for some kind of heuristic search
+is it time to learn A*?
+
+
+this really feels like A* especially bc the test example talks about "a" optimal path and not necessarily "the" optimal path
+our heuristic is manhattan dist + 7 if not in torch
+
+there's 3* grid size many vertices
+from each vertex there's <= 5 options: change state, go up, down, left, right
+
+
+worked first try once it compiled!
+but it was slow
+- lots of speedup (< 7s) by changing the fixed grid expansion
