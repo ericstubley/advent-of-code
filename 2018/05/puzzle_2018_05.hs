@@ -55,12 +55,25 @@ merge xs@(x:xss) ys@(y:yss)
     | switchCase x == y = merge xss yss
     | otherwise         = (reverse xs) ++ ys
 
+-- my attempt at the divide and conquer strat
+-- stabilize :: String -> String
+-- stabilize [] = []
+-- stabilize [x] = [x]
+-- stabilize s = merge (reverse $ stabilize l) (stabilize r) where
+--     (l, r) = halve s
 
+
+-- even simpler solution from reddit
+-- remember to use foldr
+-- you didn't want to use foldl because you'd need to access the last of the acc every time
+-- things are probably optimized for foldr so this'll still be fast
 stabilize :: String -> String
-stabilize [] = []
-stabilize [x] = [x]
-stabilize s = merge (reverse $ stabilize l) (stabilize r) where
-    (l, r) = halve s
+stabilize s = foldr step "" s where
+    step x (y:ys)
+        | switchCase x == y = ys
+    step x ys = x:ys
+
+-- you could just as easily reverse first and think of having two stacks; one you pop off of one onto
 
 
 
