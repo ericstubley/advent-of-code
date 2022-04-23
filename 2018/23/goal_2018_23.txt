@@ -1,0 +1,98 @@
+part a
+
+we want to get the reindeer out of the cave with the experimental emergency teleporter
+
+it releases a bunch of nanobots each with a position and a signal radius (i.e. pos=<0,0,0>, r=4)
+the distances are measured in manhattan
+
+
+for the strongest nanobot (i.e. with maximal signal radius) how many nanobots are in range of it?
+(if it matters bot 919 is the one with biggest radius)
+
+
+part b
+
+to maximize success, you want to position yourself within the range of as many nanobots as possible
+if there's multiple answers prefer those which are manhattan-closer to (0,0,0)
+
+
+what is the manhattan distance to (0,0,0) of an optimal location?
+
+
+brute force: pick a big manhattan cube around (0,0,0)
+for each point in the cube test against the 1k nanobots to see how good it is
+pick the best
+problem with this is that the distances are so massive that we'd need like a (10^8)^3 at least search cube
+
+
+consider every subset of the bots, compute intersections of their ranges
+start at all, then all but one, all but two, ... until you get a hit
+2^1000 subsets; even if we can manage to be in range of 900 bots that still way too many?
+maybe there's some pruning to do though?
+~ 500000 pairs of bots
+maybe still not enough, but the pruning gets better the further you go
+with the pairwise pruning its already bad at triples
+
+
+is there an efficient way to test a set of bots to see if there's any points in range of all?
+it is easy to test pairwise for overlaps
+but for a triple 3 pairwise overlaps don't necessarily imply global
+    manhattan is weird though?
+
+
+
+we can at least find a local maximum # of close points by moving one step at a time in a greedy direction
+maybe moving to minimize (# in range, total distance to all)
+or minimize the sum of being in range distances
+
+
+starting at each bot
+move outwards greedily based on
+(inRange of current bot, # currently in range, sum of distToRange)
+
+once you hit a max, search around locally based on
+(inRange of current bot, # in range, dist to origin)
+
+
+
+
+let's go back to the drawing board
+what is inefficient about brute force?
+- there are many spots to brute force check
+- each check is an O(1000) operation
+- if a square is in range, usually the neighbours are also in range because are ranges are so big
+
+
+lots of strats
+let's try a mixed random and deterministic strat
++ we get to learn randomness in haskell!
+start with boxes sized 2^32?? 
+size adaptively based on next power of two after 
+when boxes have size 64 or less default to grid search
+
+
+these searches hit 915 as records
+the first random search produced 58222002 :> 40601616 :. 15371264
+
+in fact there's a big region with 940!
+57646508 :> 40676886 :. 14871040
+at distance 113194434 is still too far
+
+
+we're narrowing in but the fundamental issue is that these random points just hit such a small volume
+even when we up the number of tests it's still pretty hopeless
+
+
+how to intersect octant and octahedron?
+if you can figure that out you can do an octant search real fast
+    a proxy measure would be is the center of the octahedron in the volume
+    cause we know where to start could be useful
+    but then again there's got to be a precise way to measure
+
+even this is not foolproof!
+just because we have a big box which intersects the most
+
+
+but a queue and finding the closest point in cube to a range through clamping did the trick
+
+could do with a refactoring but it works!
