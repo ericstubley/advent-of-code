@@ -1,0 +1,20 @@
+part a
+
+to save the reindeer you need to open a portal to get some hot chocolate; doing this requires aligning with some constellations
+
+you're given a list of spacetime locations (i.e. 4 tuples)
+two points are in the same constellation if they're manhattan distance <= 3
+and then these chain together to join up constellations
+
+how many constellations are there in the given points?
+
+
+part b for free bc day 25
+
+did you actually gain anything from using sets?
+set unions say that they're better than O(n+m)? doesn't really make since if we have to reconstruct the whole thing with O(n+m) elements...
+
+if it was lists of lists of stars
+we can short circuit on the near computations
+joining is just concat
+yeah really not convinced that the sets did anything, but hard to tell with this size of input
