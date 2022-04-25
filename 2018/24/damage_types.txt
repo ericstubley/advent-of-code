@@ -1,0 +1,5 @@
+radiation
+bludgeoning
+slashing
+fire
+cold

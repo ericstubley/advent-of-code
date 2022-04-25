@@ -1,0 +1,84 @@
+part a
+
+you want to help the reindeer get better
+there's a complicated system for simulating a battle between the immune system and the infection
+
+each faction has an army consisting of different groups of units
+each group has
+- a number of units
+- a hp/unit
+- maybe a list of damage type weaknesses and immunities
+- an attack damage value
+- an attack damage type
+- an initiative value
+
+
+when damaging units you only deal damage in whole units
+if a unit is weak to a damage type it takes double damage
+if its immune it takes no damage
+
+to simulate a round of the battle there's two phases
+
+selection phase:
+- each group selects a group from the opposing faction to attack
+- pick them based on 
+    which they would do the most damage to
+    then which has the most effective power (# of units * damage/unit)
+    then which has the highest initiative
+- groups pick ordered by effective power, breaking ties by initiative
+- each group can be attacked at most once
+- if the selected group is already being attacked, then don't attack anything
+
+attack phase:
+- groups attack in initiative order
+- groups without units can't attack (i.e. if all their units get killed)
+- when you attack only kill whole units at a time (so doing 17 damage to 10 units each with hp 2, would completely kill 8, leaving 2 with full hp)
+
+
+when the fight is over, how many units does the remaining army have left?
+
+
+
+well the parsing was definitely done in a suboptimal way, but it worked in remarkably short order!
+indeed there should be a good way to extract both the lists without the current janky solution
+and this was a bug that tripped you up: sometimes in the actual input the weaknesses are listed before the immunities
+
+
+
+first guess of 22137 was too high
+
+
+it's possible that the rules around selection are ambiguous
+if your desired target by the metrics given has already been selected, do you move to the next or do you just select nothing?
+
+
+
+doing the binary search in the hope that things are monotonic
+but no guarantees!
+it seems possible that some boosts cause deadlock
+should be able to detect this via battle state being unchanged
+and then pass to a maybe monad (can you IO (Maybe [Group]))
+
+
+
+
+
+oh geez so many things happened today
+
+focusing was hard because of the train ride conditions (that guy...)
+- did a good job thinking through and remembering on your own despite
+- did a good job of just getting something to work despite knowing you weren't using the most elegant possible strat
+- did a good job of testing the parsing first
+- did a good job of perservering through parsing bug
+- did a good job of thinking that errors were in your reading of the problem and not in the code you wrote
+    the errors
+    in parsing: immunities and weaknesses can come in either order!
+    in selection: if your favourite target gets selected, move on to the next
+        don't just select nothing
+- did a good job of using IO monad!
+- double monad!! IO (Maybe Faction)
+- good job thinking through the win condition, and setting it up for easy checking when you hit a deadlock
+
+
+needs a lot of refactoring but the solution is sound
+and damn Haskell is fast!
