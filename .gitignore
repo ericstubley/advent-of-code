@@ -7,3 +7,5 @@ automation/cookie.hs
 *.hi
 *.o
 *.bin
+*.dyn_hi
+*.dyn_o
