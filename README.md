@@ -43,3 +43,10 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - given all that: let's start working in Haskell, including setting up a testing and automation framework from the start
 - regular goals: correct answer first try, essentially instant runtimes
 - over than that, focus on reading about Haskell and learning new concepts from other peoples solutions (reddit and some repos to look at)
+
+2019: (May 2022)
+- Haskell is the language of choice for this year!
+- Focus this year on building reusable tools. This is the year which has an intcode computer, which should definitely be built into its own library. Parsing deserves its own library, with an actual system other than pure thought for detecting and correcting parsing errors. 2d grids are another area where you should built out a library of useful tools.
+- Also focus on project management. Your 2018 system was very ad hoc, and it would be nice for example to have a consistent sensible set of automatic imports.
+- When you need lenses, use the microlens library; it's much easier and has better docs than the full lens library.
+- Pay attention to not googling; workflow should be to try and remember first, then try to puzzle it out with ghci, then google. This loop shouldn't take more than a minute, but a bit of effort will go a long way to increasing recall.
