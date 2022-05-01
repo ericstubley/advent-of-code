@@ -1,6 +1,5 @@
 module Puzzle_2019_24 where
 
-import System.IO
 import Automation (submitAnswer)
 
 mainA :: IO ()

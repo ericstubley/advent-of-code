@@ -1,5 +1,4 @@
 import Test.HUnit
-import System.IO
 import Puzzle_2019_15
 
 -- testGamma = TestCase (do

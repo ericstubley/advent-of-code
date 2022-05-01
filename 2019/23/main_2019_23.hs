@@ -1,5 +1,5 @@
 import System.IO
-import Puzzle_2019_23
+import Puzzle_2019_23 (mainA, mainB)
 
 main :: IO ()
 main = do

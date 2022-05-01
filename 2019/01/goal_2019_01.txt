@@ -1,0 +1,15 @@
+part a
+
+santa is stranded across the solar system!
+the elves are launching you into space so you can measure 50 stars to help rescue him
+
+the fuel counter-upper hasn't determined the required fuel yet
+fuel for a module depends on its mass: fuel = (mass //3) - 2
+
+what is the total amount of fuel needed for the given masses?
+
+
+part b
+
+the fuel itself needs fuel!
+do the geometric seriesing to find the actual correct fuel amount
