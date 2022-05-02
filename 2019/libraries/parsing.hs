@@ -18,10 +18,10 @@ import System.IO
 type Parser = Parsec Void String
 
 
-parseInput :: String -> Parser a -> IO (Maybe a)
-parseInput filename p = do
+parseInput :: Parser a -> String -> IO (Maybe a)
+parseInput parser filename = do
     raw <- readFile filename
-    let result = runParser p "" raw
+    let result = runParser parser "" raw
     case result of
         (Left err) -> (print err) >> return Nothing
         (Right r)  -> return (Just r)
