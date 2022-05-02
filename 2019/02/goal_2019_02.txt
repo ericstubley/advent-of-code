@@ -1,0 +1,24 @@
+part a
+
+it's intcode time
+an intcode program is a list of integers, which self-modifies
+the opcodes you know are 1, 2, 99
+1, x, y, z takes the ints at position x, y and stores x+y into position z
+2, x, y, z takes the ints at position x, y and stores x*y into position z
+99 halts the program
+
+after executing an instruction you jump ahead 4 to the next instruction
+
+
+before running the program, replace position 1 with 12 and position 2 with 2
+what is the result in position 0?
+
+
+part b
+
+you want to determine which pairs of inputs produces the output 19690720
+the outputs are what you load into positions 1 and 2 (the noun and the verb)
+what is 100*noun + verb (this is what gives 1202 in part a)
+
+
+let's brute force things first, then understand the program
