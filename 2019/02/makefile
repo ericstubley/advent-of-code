@@ -1,5 +1,5 @@
 LIBDIR = .:/Users/eric/Dropbox/current/advent-of-code/2019/libraries/
-FLAGS = -O2
+FLAGS = -O2 -funbox-strict-fields
 
 
 
@@ -11,7 +11,7 @@ test: puzzle
 
 puzzle: libraries puzzle_2019_02.o
 
-libraries: ../libraries/cookie.o ../libraries/automation.o ../libraries/parsing.o ../libraries/grid.o
+libraries: ../libraries/cookie.o ../libraries/automation.o ../libraries/parsing.o ../libraries/grid.o ../libraries/intcode.o
 
 %.o : %.hs
 	ghc -c $(FLAGS) -i$(LIBDIR) -o $@ $<
