@@ -1,0 +1,29 @@
+part a
+
+you're given a description of two wires on a grid
+description is of the form R20,U5,D17,L54,...
+
+
+the wires intersect at several points
+what is the (manhattan) distance to the origin of the closest intersection point?
+
+
+strategy:
+- convert wire as list to a set of points
+- intersect the sets
+- find min by manhattan distance (or maybe 2nd min bc both have the origin)
+
+let's represent points with Ix2 from Massiv? really no different from tuples though
+stick to tuples to save importing
+
+
+part b
+
+each wire takes a certain number of steps to reach an intersection
+the sum of the steps to an intersection is the signal delay
+if a wire hits a point several times because of self intersections, take the steps for the first hit
+
+what number of steps is necessary to reach the intersection with minimal signal delay?
+
+
+the strat here is to use a map point -> dist instead of just a set of points
