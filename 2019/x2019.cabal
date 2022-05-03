@@ -1,0 +1,76 @@
+cabal-version:      2.4
+name:               x2019
+version:            0.1.0.0
+
+author:             Eric Stubley
+maintainer:         ericdavidstubley@gmail.com
+
+
+common common_settings
+    hs-source-dirs:     libraries
+    ghc-options:        -O2
+                        -funbox-strict-fields
+    default-language:   Haskell2010 
+    other-extensions:   TemplateHaskell,
+                        BangPatterns
+    other-modules:      Automation,
+                        Cookie,
+                        Grid,
+                        Intcode,
+                        Parsing
+    build-depends:      base,
+                        containers,
+                        vector,
+                        utf8-string,
+                        lens,
+                        microlens,
+                        microlens-th,
+                        wreq,
+                        formatting,
+                        bytestring,
+                        massiv,
+                        megaparsec,
+                        HUnit
+
+                        
+
+executable day01
+    import:             common_settings
+    main-is:            main_2019_01.hs
+    hs-source-dirs:     01
+    other-modules:      Puzzle_2019_01
+
+executable test01
+    import:             common_settings
+    main-is:            test_2019_01.hs
+    hs-source-dirs:     01
+    other-modules:      Puzzle_2019_01
+
+executable day02
+    import:             common_settings
+    main-is:            main_2019_02.hs
+    hs-source-dirs:     02
+    other-modules:      Puzzle_2019_02
+
+executable test02
+    import:             common_settings
+    main-is:            test_2019_02.hs
+    hs-source-dirs:     02
+    other-modules:      Puzzle_2019_02
+
+executable day03
+    import:             common_settings
+    main-is:            main_2019_03.hs
+    hs-source-dirs:     03
+    other-modules:      Puzzle_2019_03
+
+executable test03
+    import:             common_settings
+    main-is:            test_2019_03.hs
+    hs-source-dirs:     03
+    other-modules:      Puzzle_2019_03
+
+
+
+
+
