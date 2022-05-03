@@ -7,13 +7,13 @@ do
     cd $label
     rm goal.txt
     touch goal_2019_"$label".txt
-    # cp ../makefile .
+    cp ../makefile .
     cp ../puzzle_template.hs puzzle_2019_"$label".hs
     cp ../test_template.hs test_2019_"$label".hs
     cp ../main_template.hs main_2019_"$label".hs
     sed -i '' s/XX/"$label"/g puzzle_2019_"$label".hs
     sed -i '' s/XX/"$label"/g test_2019_"$label".hs
     sed -i '' s/XX/"$label"/g main_2019_"$label".hs
-    # sed -i '' s/XX/"$label"/g makefile 
+    sed -i '' s/XX/"$label"/g makefile 
     cd ..
 done

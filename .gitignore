@@ -1,6 +1,7 @@
 # ignore the local copy of the cookie which identifies me for login purposes
 automation/authorization_cookie.py
 automation/cookie.hs
+*cookie.hs*
 
 
 # ignore the files from compilation
@@ -9,3 +10,4 @@ automation/cookie.hs
 *.bin
 *.dyn_hi
 *.dyn_o
+*dist-newstyle*
