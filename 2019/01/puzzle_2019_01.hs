@@ -22,7 +22,7 @@ fuel' mass
 
 mainA :: IO ()
 mainA = do
-    (Just masses) <- parseInput massP "input.txt"
+    (Just masses) <- parseInput massP "01/input.txt"
     let answer = sum $ map fuel masses
     print answer
     -- result <- submitAnswer 2019 01 1 answer
@@ -32,7 +32,7 @@ mainA = do
 
 mainB :: IO ()
 mainB = do
-    (Just masses) <- parseInput massP "input.txt"
+    (Just masses) <- parseInput massP "01/input.txt"
     let answer = sum $ map fuel' masses
     print answer
     -- result <- submitAnswer 2019 01 2 answer

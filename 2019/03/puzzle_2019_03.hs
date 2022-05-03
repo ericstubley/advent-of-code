@@ -103,7 +103,7 @@ minimalDelay w1 w2 = minimum . M.elems $ M.intersectionWith (+) (wireMap w1) (wi
 
 mainA :: IO ()
 mainA = do
-    Just (a, b) <- parseInput wiresP "input.txt"
+    Just (a, b) <- parseInput wiresP "03/input.txt"
     let answer = closestIntersection a b
     print answer
     -- result <- submitAnswer 2019 03 1 answer
@@ -113,7 +113,7 @@ mainA = do
 
 mainB :: IO ()
 mainB = do
-    Just (a, b) <- parseInput wiresP "input.txt"
+    Just (a, b) <- parseInput wiresP "03/input.txt"
     let answer = minimalDelay a b
     print answer
     -- result <- submitAnswer 2019 03 2 answer

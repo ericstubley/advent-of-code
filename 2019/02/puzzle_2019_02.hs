@@ -23,7 +23,7 @@ loadProgram (noun, verb) prog = prog V.// [(1, noun), (2, verb)]
 
 mainA :: IO ()
 mainA = do
-    (Just prog) <- parseInput programP "input.txt"
+    (Just prog) <- parseInput programP "02/input.txt"
     let modifiedProg = loadProgram (12, 2) prog
     let answer = (execute modifiedProg) V.! 0
     print answer
@@ -34,7 +34,7 @@ mainA = do
 
 mainB :: IO ()
 mainB = do
-    (Just prog) <- parseInput programP "input.txt"
+    (Just prog) <- parseInput programP "02/input.txt"
     let (noun, verb) = gravityAssistSearch prog 19690720
     let answer = 100*noun + verb
     print answer
