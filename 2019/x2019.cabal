@@ -10,15 +10,16 @@ common common_settings
     ghc-options:        -O2
                         -funbox-strict-fields
     default-language:   Haskell2010 
-    other-extensions:   TemplateHaskell,
+    default-extensions: TemplateHaskell,
                         BangPatterns
     build-depends:      base,
                         containers,
+                        mtl,
+                        primitive,
                         vector,
                         utf8-string,
                         lens,
-                        microlens,
-                        microlens-th,
+                        microlens-platform,
                         wreq,
                         formatting,
                         bytestring,
