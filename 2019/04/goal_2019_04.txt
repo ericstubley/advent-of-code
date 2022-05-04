@@ -1,0 +1,20 @@
+part a
+
+the elves lost the password for the venus fuel depot
+they only remember some features about it
+- it is a 6 digit number
+- it is within the range given in the puzzle input
+- two adjacent digits are the same
+- going from left to right, the digits never decrease (112233 is good, 431567 is bad)
+
+
+how many passwords meeting these criteria are there?
+piece of cake with filters
+
+
+part b
+
+slightly more subtle rule
+- the matching digits are not part of a larger set of matching digits
+
+same question but with this new rule
