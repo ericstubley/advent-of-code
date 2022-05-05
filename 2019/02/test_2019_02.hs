@@ -22,11 +22,16 @@ import Parsing
 
 testExecute :: Test
 testExecute = TestCase (do
-    prog1After @=? execute prog1
-    prog2After @=? execute prog2
-    prog3After @=? execute prog3
-    prog4After @=? execute prog4
-    prog5After @=? execute prog5)
+    prog1' <- execute prog1
+    prog2' <- execute prog2
+    prog3' <- execute prog3
+    prog4' <- execute prog4
+    prog5' <- execute prog5
+    prog1After @=? prog1'
+    prog2After @=? prog2'
+    prog3After @=? prog3'
+    prog4After @=? prog4'
+    prog5After @=? prog5')
 
 
 testA = TestList
