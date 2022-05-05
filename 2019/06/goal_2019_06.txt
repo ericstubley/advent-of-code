@@ -1,0 +1,23 @@
+part a
+
+you're given a directed graph (really a tree) of orbit information; everything directly orbits something else, and thereby indirectly orbits things
+
+what is the total sum of direct + indirect orbits?
+
+
+
+what's the best way to represent things?
+you want to avoid recomputing depths many times over
+
+build a orbiter -> orbitee map
+make the naive depth function
+
+
+part b
+
+you want to move from where YOU are to where SANta is
+how many orbit changes are necessary?
+
+
+the idea is to use a set
+the number of transfers is the size of the symmetric difference of the two paths to the center
