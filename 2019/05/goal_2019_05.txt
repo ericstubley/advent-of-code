@@ -1,0 +1,25 @@
+part a
+
+get the air conditioner working by upgrading your intcode computer
+you'll need to add two new instructions
+- input x
+- output x
+
+and support for parameter modes
+- single digit that's part of the input
+- parameter 0 means position mode: int at iptr + i indicates the index in the program of the value to use
+- parameter 1 means immediate mode: int at iptr + i indicates the value to use
+- first parameter's mode is in hundred's digit, second in thousands, etc.
+- parameters that an instruction writes to will never be in immediate mode
+
+
+part b
+
+4 new opcodes! note that values use parameter modes
+- jump-if-true x y: if x is non-zero then set iptr to value of y
+- jump-if-false x y: if x is zero then set iptr to value of y
+- less than x y z: if x < y store 1 at index z else 0
+- equals x y z: if x < y store 1 at index z else 0
+
+
+new rule: if an instruction changes the instruction pointer, just use that rather than increasing by the width of the operation
