@@ -1,0 +1,46 @@
+part a
+
+there's 5 intcode computers hooked up in sequence
+each takes two inputs:
+- the input signal (0 for the first, piped in for the rest)
+- the phase signal (something in 0, 1, 2, 3, 4)
+
+and has one output:
+- the output signal (sent to the next)
+
+each phase signal gets sent to a distinct amplifier, but the elves don't remember the order
+
+
+try every permutation of phase signal -> amplifiers.
+what is the largest output signal produced?
+
+
+only intcode update is to change the io model around, to support better piping
+basic strat is: define a permutation -> IO Int that runs the pipeline
+needs a permutation generator
+needs monadic mapping and repeat 5 times
+
+
+
+
+another intcode overhaul?
+specify an abstract interface for interacting with an intcode machine
+(i.e. get value, write to index, ...)
+(read, curr, peek, seek, write)
+
+
+if this is monadic then you can define lots of instances based on various specifications you need
+i.e. sometimes the "input" and "output" could be pure!
+and this way you could keep the abstract interface relatively fixed, and then define both immutable and mutable instances
+
+store the memory and iptr in the monad internals, rather than passing around
+lends itself better to building big monad stacks
+
+
+
+part b
+
+now you want to run them in feedback loop mode; here the vms keep running between their inputs and outputs
+and the output from E feeds into the input of A
+
+same question, but now with phaseSpace [5,6,7,8,9] and feedback loop processing.

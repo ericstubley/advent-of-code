@@ -1,10 +1,15 @@
 module Intcode ( Program
+               , VectorVM (..)
+               , iptr
+               , prog
+               , ExitCode (..)
                , programP
                , programFromString
                -- , prettyFormat
                -- , prettyPrint
                , execute
-               , runProgram) where
+               , runProgram
+               , runOutput) where
 
 
 import Control.Monad.RWS
@@ -91,6 +96,7 @@ data OpName = Add
 
 data OpPacket = OpWrite Int
               | OpJump Int
+              | OpOutput
               | OpNone
               | OpHalt deriving (Eq, Ord, Show)
 
@@ -98,6 +104,7 @@ data Mode = Pos
           | Imm deriving (Eq, Ord, Show)
 
 data ExitCode = Continue
+              | Output
               | Halt deriving (Eq, Ord, Show)
 
 
@@ -146,7 +153,7 @@ performOp (op, mn) = case op of
     Put -> do
         x <- value mn
         vmOutput x
-        return OpNone
+        return OpOutput
     Jnz -> do
         (x, y) <- values mn
         if x /= 0
@@ -179,6 +186,7 @@ processOp op = case op of
     (OpJump val) -> do
         vmSeek val
         return Continue
+    OpOutput -> return Output
     OpNone -> return Continue
     OpHalt -> return Halt
 
@@ -212,7 +220,16 @@ execute = do
     exitCode <- step 
     case exitCode of
         Continue -> execute
+        Output   -> execute
         Halt     -> return ()
+
+
+executeToOutput :: (VMInterface m) => m ExitCode
+executeToOutput = do
+    exitCode <- step
+    case exitCode of
+        Continue -> executeToOutput
+        _        -> return exitCode
 
 
 runProgram :: Program -> [Int] -> (Program, [Int])
@@ -221,6 +238,9 @@ runProgram program inputs = (program', outputs) where
     (vm', outputs) = execRWS execute inputs vm
     program' = vm' ^. prog
 
+
+runOutput :: VectorVM -> [Int] -> (ExitCode, VectorVM, [Int])
+runOutput vm inputs = runRWS executeToOutput inputs vm
 
 
 -- program parser
@@ -275,3 +295,4 @@ programFromString s = do
 
 
 -- want to be able to run in programmatic mode or debug mode or interactive mode
+-- return to more lens usage
