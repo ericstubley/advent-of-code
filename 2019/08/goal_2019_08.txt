@@ -1,0 +1,21 @@
+part a
+
+the elves sent you an image of the password for the mars rover, but it's a terrible format
+the format is a single string of digits
+its a series of layers, each layer having the same size
+so a 3x2 image with 2 layers would have AAABBBCCCDDD where A is row1layer1, B is row2layer2, C is row1layer2, D is row2layer2
+
+
+your image is 25 wide by 6 tall
+find the layer with the fewest 0 digits
+in that layer what is the product of # of 1s vs # of 2s
+
+
+part b
+
+now you need to decode the image
+you stack up the layers
+0 is black, 1 is white, 2 is transparent
+
+
+this is just a foldl over layers with a zip to stack two layers
