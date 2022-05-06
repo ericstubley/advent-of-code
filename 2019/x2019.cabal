@@ -42,7 +42,11 @@ library
                         Parsing
     other-modules:      Cookie
 
-                        
+
+executable testIntcode
+    import:             common_executable
+    main-is:            unified_intcode_tests.hs
+    hs-source-dirs:     libraries
 
 executable day01
     import:             common_executable
