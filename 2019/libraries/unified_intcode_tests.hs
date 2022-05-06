@@ -1,5 +1,6 @@
 import Test.HUnit
 import Intcode
+import Parsing
 import qualified Data.Vector.Unboxed as V
 
 main :: IO ()
@@ -16,7 +17,7 @@ testList = TestList
     , TestLabel "Arithmetic Operations 5" testArithmeticOps5
     , TestLabel "Day 02 Puzzle Part A" testPuzzle02A
     , TestLabel "IO Operations 1" testIOOps1
-    , TestLabel "IO Operations 2" testIOOps2
+    , TestLabel "Operation with Mode" testMode1
     , TestLabel "Comparison Operations 1" testCompare1
     , TestLabel "Comparison Operations 2" testCompare2
     , TestLabel "Comparison Operations 3" testCompare3
@@ -36,40 +37,40 @@ testList = TestList
 
 testArithmeticOps1 :: Test
 testArithmeticOps1 = TestCase $ do
-    (Just prog)  <- programFromString "1,9,10,3,2,3,11,0,99,30,40,50"
-    (Just prog') <- programFromString "3500,9,10,70,2,3,11,0,99,30,40,50"
+    let (Just prog) = programFromString "1,9,10,3,2,3,11,0,99,30,40,50"
+    let (Just prog') = programFromString "3500,9,10,70,2,3,11,0,99,30,40,50"
     let (prog'', _) = runProgram prog []
     prog' @=? prog''
 
 
 testArithmeticOps2 :: Test
 testArithmeticOps2 = TestCase $ do
-    (Just prog)  <- programFromString "1,0,0,0,99"
-    (Just prog') <- programFromString "2,0,0,0,99"
+    let (Just prog)  = programFromString "1,0,0,0,99"
+    let (Just prog') = programFromString "2,0,0,0,99"
     let (prog'', _) = runProgram prog []
     prog' @=? prog''
 
 
 testArithmeticOps3 :: Test
 testArithmeticOps3 = TestCase $ do
-    (Just prog)  <- programFromString "2,3,0,3,99"
-    (Just prog') <- programFromString "2,3,0,6,99"
+    let (Just prog)  = programFromString "2,3,0,3,99"
+    let (Just prog') = programFromString "2,3,0,6,99"
     let (prog'', _) = runProgram prog []
     prog' @=? prog''
 
 
 testArithmeticOps4 :: Test
 testArithmeticOps4 = TestCase $ do
-    (Just prog)  <- programFromString "2,4,4,5,99,0"
-    (Just prog') <- programFromString "2,4,4,5,99,9801"
+    let (Just prog)  = programFromString "2,4,4,5,99,0"
+    let (Just prog') = programFromString "2,4,4,5,99,9801"
     let (prog'', _) = runProgram prog []
     prog' @=? prog''
 
 
 testArithmeticOps5 :: Test
 testArithmeticOps5 = TestCase $ do
-    (Just prog)  <- programFromString "1,1,1,4,99,5,6,0,99"
-    (Just prog') <- programFromString "30,1,1,4,2,5,6,0,99"
+    let (Just prog)  = programFromString "1,1,1,4,99,5,6,0,99"
+    let (Just prog') = programFromString "30,1,1,4,2,5,6,0,99"
     let (prog'', _) = runProgram prog []
     prog' @=? prog''
 
@@ -82,27 +83,27 @@ testPuzzle02A = TestCase $ do
     6627023 @=? V.head finalProg
 
 
--- these take a single input and output it back
+-- take a single input and output it back
 (Just progIO1)  = programFromString "3,0,4,0,99"
 (Just progIO1') = programFromString "50,0,4,0,99"
-(Just progIO2)  = programFromString "1002,4,3,4,33"
-(Just progIO2') = programFromString "1002,4,3,4,99"
 
 
 testIOOps1 :: Test
 testIOOps1 = TestCase $ do
     -- the 50 here could be anything, the point is it spits back the one input
-    let (p', ls) = runProgram progIO1 [50]
-    progIO1' @=? p'
+    let (p, ls) = runProgram progIO1 [50]
+    progIO1' @=? p
     [50] @=? ls
 
 
-testIOOps2 :: Test
-testIOOps2 = TestCase $ do
-    -- the 50 here could be anything, the point is it spits back the one input
-    let (p, ls) = runProgram progIO2 [50]
-    progIO2' @=? p
-    [50] @=? ls
+-- testing multiplication, now with a mode
+(Just progMode)  = programFromString "1002,4,3,4,33"
+(Just progMode') = programFromString "1002,4,3,4,99"
+
+testMode1 :: Test
+testMode1 = TestCase $ do
+    let (p, _) = runProgram progMode []
+    progMode' @=? p
 
 
 -- these all do input `compare` 8 using various techniques
