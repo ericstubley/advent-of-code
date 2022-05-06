@@ -3,42 +3,212 @@ module Intcode ( Program
                , programFromString
                , prettyFormat
                , prettyPrint
-               , execute) where
+               , execute
+               , runProgram) where
 
 
+import Control.Monad.RWS
 import Data.Maybe
+import Data.Word
 import Parsing (Parser, runParser, sepBy, integer, char)
-import Data.Map.Strict (Map)
 import Data.Vector.Unboxed (Vector)
-import Data.Vector.Unboxed.Mutable (IOVector)
 import Lens.Micro.Platform
-import qualified Data.Map.Strict as M
 import qualified Data.Vector.Unboxed as V
-import qualified Data.Vector.Unboxed.Mutable as VM
 
--- data types
+
+-- abstract monadic interface for an Intcode VM
+-- along with instances
+-- currently supporting:
+--      pure State monad vector
+--      PrimMonad mutable vector
+--      lift to Pipes?
+--      lift to Exceptions?
+
+class Monad m => VMInterface m where
+    vmCurr   :: m Word
+    vmRead   :: m Int
+    vmSeek   :: Word -> m ()
+    vmPeek   :: Word -> m Int
+    vmWrite  :: Word -> Int -> m()
+    vmInput  :: m Int
+    vmOutput :: Int -> m ()
+
+
+-- immutable vector memory and RWS Interface
+-- RWS used for Input (Reader), Output (Writer), VectorVM (State)
+-- the inputPtr is a bit of a hack right now, just so you can get
+--      something running without pipes
 type Program = Vector Int
-type MProgram = IOVector Int
 
-data OPName = Addition
-            | Multiplication
-            | Input
-            | Output
-            | JumpIfTrue
-            | JumpIfFalse
-            | LessThan
-            | Equals
-            | Exit deriving (Eq, Show)
+data VectorVM = VectorVM 
+    { _iptr :: Word
+    , _prog :: Program
+    , _inputPtr :: Word} deriving (Eq, Show)
+makeLenses ''VectorVM
 
-data Mode = Position
-          | Immediate deriving (Eq, Show)
 
-data OP = OP 
-    { _code :: Int
-    , _name :: OPName
-    , _width :: Int} deriving (Eq, Show)
+instance Monad m => VMInterface (RWST [Int] [Int] VectorVM m) where
+    vmCurr = gets iptr
+    vmRead = do
+        vm <- get
+        let pos = vm ^. iptr
+        put $ vm +~ iptr -- +~ is the "increment" lens operation
+        return $ vm ^. prog . (ix pos)
+    vmSeek pos = do
+        vm <- get
+        put $ vm & iptr .~ pos 
+    vmPeek pos = do
+        vm <- get
+        return $ vm ^. prog . (ix pos)
+    vmWrite pos reg = do
+        vm <- get
+        put $ vm & prog . (ix pos) .~ reg
+    vmInput = do
+        pos <- gets
+        asks $ ( !! pos)
+    vmOutput val = do
+        tell [val]
 
-makeLenses ''OP
+
+
+-- basic data enums for Ops and Modes
+
+data OpName = Add
+            | Mul
+            | Get
+            | Put
+            | Jnz
+            | Jez 
+            | Clt
+            | Ceq
+            | Hlt deriving (Eq, Ord, Show)
+
+data OpType = OpWrite
+            | OpJump
+            | OpNone
+            | OpHalt deriving (Eq, Ord, Show)
+
+data Mode = Pos
+          | Imm deriving (Eq, Ord, Show)
+
+-- what's the monadic pipeline for running programs?
+-- a single step is
+-- extract the current reg via a read
+--      if we're incrementing the iptr this is our only chance to read modes etc.
+-- split into modes and instruction with divMod
+-- all the op functions take in a mode block
+-- perform the op
+-- do some post-processing: the common write pattern, jumping, halting
+
+step :: (VMInterface m) => m Bool
+step = selectOp >>= performOp >>= processOp
+
+
+selectOp :: (VMInterface m) => m (OpName, Int)
+selectOp = do
+    reg <- vmRead
+    let (mn, opNum) = divMod reg 100
+    let op = case opNum of
+        1  -> Add
+        2  -> Mul
+        3  -> Get
+        4  -> Put
+        5  -> Jnz
+        6  -> Jez
+        7  -> Clt
+        8  -> Ceq
+        99 -> Hlt
+        _  -> error $ "Unknown opcode " ++ show opNum
+    return (op, mn)
+
+
+performOp :: (VMInterface m) => (OpName, Int) -> m (OpType, Maybe Int) 
+performOp (op, mn) = case op of
+    Add -> do
+        (x:y:[]) <- values 2 mn
+        return (OpWrite, Just $ x+y)
+    Mul -> do
+        (x:y:[]) <- values 2 mn
+        return (OpWrite, Just $ x*y)
+    Get -> do
+        inp <- vmInput
+        return (OpWrite, Just inp)
+    Put -> do
+        (x:[]) <- values 1 mn
+        vmOuput x
+        return (OpNone, Nothing)
+    Jnz -> do
+        (x:y:[]) <- values 2 mn
+        if x /= 0
+            then return (OpJump, Just y)
+            else return (OpNone, Nothing)
+    Jez -> do
+        (x:y:[]) <- values 2 mn
+        if x == 0
+            then return (OpJump, Just y)
+            else return (OpNone, Nothing)
+    Clt -> do
+        (x:y:[]) <- values 2 mn
+        if x < y
+            then return (OpWrite, Just 1)
+            else return (OpWrite, Just 0)
+    Ceq -> do
+        (x:y:[]) <- values 2 mn
+        if x == y
+            then return (OpWrite, Just 1)
+            else return (OpWrite, Just 0)
+    Hlt -> return (OpHalt, Nothing)
+
+
+processOp :: (VMInterface m) => (OpType, Maybe Int) -> m Bool
+processOp (op, queued) = case op of
+    OpWrite -> do
+        pos <- vmRead
+        val <- queued
+        vmWrite pos val
+        return True
+    OpJump  -> do
+        val <- queued
+        vmSeek $ fromIntegral val :: Word
+        return True
+    OpNone  -> return True
+    OpHalt  -> return False
+
+
+mode :: Int -> [Mode]
+mode mn = case (mod mn 10) of
+    0 -> Pos
+    1 -> Imm
+    _ -> error $ "Unknown mode " ++ show (mod mn 10)
+
+
+values :: (VMInterface m) => Int -> Int -> m [Int]
+values 0 _ = return []
+values n mn = do
+    val <- value (mode mn) 
+    rest <- values (n-1) (div mn 10)
+    return $ val : rest
+
+
+value :: (VMInterface m) => Mode -> m Int
+value m = case m of
+    Pos -> vmRead >>= (vmPeek . fromIntegral)
+    Imm -> vmRead
+
+
+-- control flow of vm
+-- need an execute
+-- execute in interactive mode would be a nice option?
+
+execute :: (VMInterface m) => m ()
+execute = do
+    halt <- step 
+    if halt then return
+            else execute
+
+
+runProgram :: Program -> [Int] -> (Program, [Int])
+runProgram program inputs = execRWS execute inputs (VectorVM 0 program 0)
 
 
 -- program parser
@@ -75,180 +245,13 @@ prettyPrint prog = do
 
 
 
-
--- top level executing programs
--- this is basically a wrapper around runST to pass to the executioner
--- needs to actually be ST and not State for actual legit mutation
-execute :: Program -> IO Program
-execute program = do
-    mProgram  <- V.thaw program
-    executioner mProgram 0
-    V.freeze mProgram
-
-
-
--- there's an input which is the instruction pointer
--- the state is the current program
-executioner :: MProgram -> Int -> IO ()
-executioner prog iptr = do
-    ptrValue <- VM.read prog iptr
-    let opCode = mod ptrValue 100
-    let (op, instruction) = opMap M.! opCode
-    if op ^. name == Exit
-        then return ()
-        else do
-            result <- instruction prog iptr
-            let iptr' = case result of
-                                Nothing -> iptr + (op ^. width)
-                                (Just jump) -> jump
-            executioner prog iptr'
-
-
--- extract the arg+2 digit (so hundreds for arg=1, thousands for arg=2)
--- convert it to mode
-mode :: MProgram -> Int -> Int -> IO Mode
-mode prog iptr arg = do
-    ptrValue <- VM.read prog iptr
-    let digit = div (mod ptrValue (10^(arg+2))) (10^(arg+1))
-    case digit of
-        0 -> return Position
-        1 -> return Immediate
-        _ -> error "Invalid mode"
-
-
-value :: MProgram -> Int -> Int -> IO Int
-value prog iptr arg = do
-    m <- mode prog iptr arg
-    case m of
-        Position  -> (VM.read prog (iptr+arg)) >>= (VM.read prog)
-        Immediate -> VM.read prog (iptr+arg)
-
-
-
--- op lookup and instruction functions
-
-opMap :: Map Int (OP, MProgram -> Int -> IO (Maybe Int))
-opMap = M.fromList
-    [ ( 1, (op1, addition))
-    , ( 2, (op2, multiplication))
-    , ( 3, (op3, input))
-    , ( 4, (op4, output))
-    , ( 5, (op5, jumpIfTrue))
-    , ( 6, (op6, jumpIfFalse))
-    , ( 7, (op7, lessThan))
-    , ( 8, (op8, equals))
-    , (99, (op99, undefined))] 
-
-
-op1 :: OP
-op1 = OP 1 Addition 4
-
-op2 :: OP
-op2 = OP 2 Multiplication 4
-
-op3 :: OP
-op3 = OP 3 Input 2
-
-op4 :: OP
-op4 = OP 4 Output 2
-
-op5 :: OP
-op5 = OP 5 JumpIfTrue 3
-
-op6 :: OP
-op6 = OP 6 JumpIfFalse 3
-
-op7 :: OP
-op7 = OP 7 LessThan 4
-
-op8 :: OP
-op8 = OP 8 Equals 4
-
-op99 :: OP
-op99 = OP 99 Exit 1
-
-
-addition :: MProgram -> Int -> IO (Maybe Int)
-addition prog iptr = do
-    val1 <- value prog iptr 1
-    val2 <- value prog iptr 2
-    idx3 <- VM.read prog (iptr+3)
-    VM.write prog idx3 (val1 + val2)
-    return Nothing
-
-
-multiplication :: MProgram -> Int -> IO (Maybe Int)
-multiplication prog iptr = do
-    val1 <- value prog iptr 1
-    val2 <- value prog iptr 2
-    idx3 <- VM.read prog (iptr+3)
-    VM.write prog idx3 (val1 * val2)
-    return Nothing
-
-
-input :: MProgram -> Int -> IO (Maybe Int)
-input prog iptr = do
-    idx <- VM.read prog (iptr+1)
-    putStrLn "input:"
-    inp <- getLine
-    let val = (read inp :: Int)
-    VM.write prog idx val
-    return Nothing
-
-
-output :: MProgram -> Int -> IO (Maybe Int)
-output prog iptr = do
-    val <- value prog iptr 1
-    print val
-    return Nothing
-
-
-jumpIfTrue :: MProgram -> Int -> IO (Maybe Int)
-jumpIfTrue prog iptr = do
-    val <- value prog iptr 1
-    if val /= 0
-        then do
-            iptr' <- value prog iptr 2
-            return $ Just iptr'
-        else return Nothing
-
-
-jumpIfFalse :: MProgram -> Int -> IO (Maybe Int)
-jumpIfFalse prog iptr = do
-    val <- value prog iptr 1
-    if val == 0
-        then do
-            iptr' <- value prog iptr 2
-            return $ Just iptr'
-        else return Nothing
-
-
-lessThan :: MProgram -> Int -> IO (Maybe Int)
-lessThan prog iptr = do
-    val1 <- value prog iptr 1
-    val2 <- value prog iptr 2
-    idx3 <- VM.read prog (iptr+3)
-    if val1 < val2
-        then VM.write prog idx3 1
-        else VM.write prog idx3 0
-    return Nothing
-
-
-equals :: MProgram -> Int -> IO (Maybe Int)
-equals prog iptr = do
-    val1 <- value prog iptr 1
-    val2 <- value prog iptr 2
-    idx3 <- VM.read prog (iptr+3)
-    if val1 == val2
-        then VM.write prog idx3 1
-        else VM.write prog idx3 0
-    return Nothing
-
-
 -- next step is perhaps better use of monads
--- make the execution types polymorphic instead of restricting to ST
--- probably eventually you're gonna want IO in the mix
 -- maybe some error handling for when all these lookups start going wrong
 -- better tracking of the output, maybe with a writer or some other state?
 -- so that you have programmatic access to the outputs
 -- also streams so that you have programmatic control over the input
+-- make a unified test so you don't have to go back and recompile all the old ones?
+-- generalize the parsing and printing
+-- separate out the Internal and External VM interfaces...
+-- is external a typeclass? what is it
+-- the list of values is a bit hack
