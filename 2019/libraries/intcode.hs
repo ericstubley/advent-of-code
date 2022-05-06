@@ -1,15 +1,17 @@
 module Intcode ( Program
                , programP
                , programFromString
-               , prettyFormat
-               , prettyPrint
+               -- , prettyFormat
+               -- , prettyPrint
                , execute
                , runProgram) where
 
 
 import Control.Monad.RWS
+import Control.Monad.Reader
+import Control.Monad.Writer
+import Control.Monad.State
 import Data.Maybe
-import Data.Word
 import Parsing (Parser, runParser, sepBy, integer, char)
 import Data.Vector.Unboxed (Vector)
 import Lens.Micro.Platform
@@ -25,11 +27,11 @@ import qualified Data.Vector.Unboxed as V
 --      lift to Exceptions?
 
 class Monad m => VMInterface m where
-    vmCurr   :: m Word
+    vmCurr   :: m Int
     vmRead   :: m Int
-    vmSeek   :: Word -> m ()
-    vmPeek   :: Word -> m Int
-    vmWrite  :: Word -> Int -> m()
+    vmSeek   :: Int -> m ()
+    vmPeek   :: Int -> m Int        -- given an index, peek
+    vmWrite  :: Int -> Int -> m()   -- given an index and a value
     vmInput  :: m Int
     vmOutput :: Int -> m ()
 
@@ -41,33 +43,37 @@ class Monad m => VMInterface m where
 type Program = Vector Int
 
 data VectorVM = VectorVM 
-    { _iptr :: Word
+    { _iptr :: Int
     , _prog :: Program
-    , _inputPtr :: Word} deriving (Eq, Show)
+    , _inputPtr :: Int} deriving (Eq, Show)
 makeLenses ''VectorVM
 
 
 instance Monad m => VMInterface (RWST [Int] [Int] VectorVM m) where
-    vmCurr = gets iptr
+    vmCurr = do
+        vm <- get
+        return $ vm ^. iptr
     vmRead = do
         vm <- get
         let pos = vm ^. iptr
-        put $ vm +~ iptr -- +~ is the "increment" lens operation
-        return $ vm ^. prog . (ix pos)
+        put $ vm & iptr .~ (pos + 1)
+        return $ (vm ^. prog) V.! pos
     vmSeek pos = do
         vm <- get
         put $ vm & iptr .~ pos 
     vmPeek pos = do
         vm <- get
-        return $ vm ^. prog . (ix pos)
-    vmWrite pos reg = do
+        return $ (vm ^. prog) V.! pos
+    vmWrite pos val = do
         vm <- get
-        put $ vm & prog . (ix pos) .~ reg
+        let p' = (vm ^. prog) V.// [(pos, val)]
+        put $ vm & prog .~ p'
     vmInput = do
-        pos <- gets
+        vm <- get
+        let pos = vm ^. inputPtr
+        put $ vm & inputPtr .~ (pos + 1)
         asks $ ( !! pos)
-    vmOutput val = do
-        tell [val]
+    vmOutput val = tell [val]
 
 
 
@@ -83,13 +89,17 @@ data OpName = Add
             | Ceq
             | Hlt deriving (Eq, Ord, Show)
 
-data OpType = OpWrite
-            | OpJump
-            | OpNone
-            | OpHalt deriving (Eq, Ord, Show)
+data OpPacket = OpWrite Int
+              | OpJump Int
+              | OpNone
+              | OpHalt deriving (Eq, Ord, Show)
 
 data Mode = Pos
           | Imm deriving (Eq, Ord, Show)
+
+data ExitCode = Continue
+              | Halt deriving (Eq, Ord, Show)
+
 
 -- what's the monadic pipeline for running programs?
 -- a single step is
@@ -100,7 +110,7 @@ data Mode = Pos
 -- perform the op
 -- do some post-processing: the common write pattern, jumping, halting
 
-step :: (VMInterface m) => m Bool
+step :: (VMInterface m) => m ExitCode
 step = selectOp >>= performOp >>= processOp
 
 
@@ -109,90 +119,87 @@ selectOp = do
     reg <- vmRead
     let (mn, opNum) = divMod reg 100
     let op = case opNum of
-        1  -> Add
-        2  -> Mul
-        3  -> Get
-        4  -> Put
-        5  -> Jnz
-        6  -> Jez
-        7  -> Clt
-        8  -> Ceq
-        99 -> Hlt
-        _  -> error $ "Unknown opcode " ++ show opNum
+                1 -> Add
+                2 -> Mul
+                3 -> Get
+                4 -> Put
+                5 -> Jnz
+                6 -> Jez
+                7 -> Clt
+                8 -> Ceq
+                99 -> Hlt
+                _  -> error $ "Unknown opcode " ++ show opNum
     return (op, mn)
 
 
-performOp :: (VMInterface m) => (OpName, Int) -> m (OpType, Maybe Int) 
+performOp :: (VMInterface m) => (OpName, Int) -> m OpPacket 
 performOp (op, mn) = case op of
     Add -> do
-        (x:y:[]) <- values 2 mn
-        return (OpWrite, Just $ x+y)
+        (x, y) <- values mn
+        return $ OpWrite (x+y)
     Mul -> do
-        (x:y:[]) <- values 2 mn
-        return (OpWrite, Just $ x*y)
+        (x, y) <- values mn
+        return $ OpWrite (x*y)
     Get -> do
         inp <- vmInput
-        return (OpWrite, Just inp)
+        return $ OpWrite inp
     Put -> do
-        (x:[]) <- values 1 mn
-        vmOuput x
-        return (OpNone, Nothing)
+        x <- value mn
+        vmOutput x
+        return OpNone
     Jnz -> do
-        (x:y:[]) <- values 2 mn
+        (x, y) <- values mn
         if x /= 0
-            then return (OpJump, Just y)
-            else return (OpNone, Nothing)
+            then return $ OpJump y
+            else return OpNone
     Jez -> do
-        (x:y:[]) <- values 2 mn
+        (x, y) <- values mn
         if x == 0
-            then return (OpJump, Just y)
-            else return (OpNone, Nothing)
+            then return $ OpJump y
+            else return OpNone
     Clt -> do
-        (x:y:[]) <- values 2 mn
+        (x, y) <- values mn
         if x < y
-            then return (OpWrite, Just 1)
-            else return (OpWrite, Just 0)
+            then return $ OpWrite 1
+            else return $ OpWrite 0
     Ceq -> do
-        (x:y:[]) <- values 2 mn
+        (x, y) <- values mn
         if x == y
-            then return (OpWrite, Just 1)
-            else return (OpWrite, Just 0)
-    Hlt -> return (OpHalt, Nothing)
+            then return $ OpWrite 1
+            else return $ OpWrite 0
+    Hlt -> return OpHalt
 
 
-processOp :: (VMInterface m) => (OpType, Maybe Int) -> m Bool
-processOp (op, queued) = case op of
-    OpWrite -> do
+processOp :: (VMInterface m) => OpPacket -> m ExitCode
+processOp op = case op of
+    (OpWrite val) -> do
         pos <- vmRead
-        val <- queued
         vmWrite pos val
-        return True
-    OpJump  -> do
-        val <- queued
-        vmSeek $ fromIntegral val :: Word
-        return True
-    OpNone  -> return True
-    OpHalt  -> return False
+        return Continue
+    (OpJump val) -> do
+        vmSeek val
+        return Continue
+    OpNone -> return Continue
+    OpHalt -> return Halt
 
 
-mode :: Int -> [Mode]
+mode :: Int -> Mode
 mode mn = case (mod mn 10) of
     0 -> Pos
     1 -> Imm
     _ -> error $ "Unknown mode " ++ show (mod mn 10)
 
 
-values :: (VMInterface m) => Int -> Int -> m [Int]
-values 0 _ = return []
-values n mn = do
-    val <- value (mode mn) 
-    rest <- values (n-1) (div mn 10)
-    return $ val : rest
+values :: (VMInterface m) => Int -> m (Int, Int)
+values mn = do
+    x <- value mn
+    y <- value (div mn 10)
+    return (x, y)
 
 
-value :: (VMInterface m) => Mode -> m Int
-value m = case m of
-    Pos -> vmRead >>= (vmPeek . fromIntegral)
+value :: (VMInterface m) => Int -> m Int
+value mn = case (mode mn) of
+    Pos -> vmRead >>= vmPeek
     Imm -> vmRead
 
 
@@ -202,13 +209,18 @@ value m = case m of
 
 execute :: (VMInterface m) => m ()
 execute = do
-    halt <- step 
-    if halt then return
-            else execute
+    exitCode <- step 
+    case exitCode of
+        Continue -> execute
+        Halt     -> return ()
 
 
 runProgram :: Program -> [Int] -> (Program, [Int])
-runProgram program inputs = execRWS execute inputs (VectorVM 0 program 0)
+runProgram program inputs = (program', outputs) where
+    vm = VectorVM 0 program 0
+    (vm', outputs) = execRWS execute inputs vm
+    program' = vm' ^. prog
+
 
 
 -- program parser
@@ -227,21 +239,21 @@ programFromString s = do
 
 
 -- pretty printing programs
-prettyFormat :: Program -> [String]
-prettyFormat prog = helper $ V.toList prog where
-    helper :: [Int] -> [String]
-    helper [] = []
-    helper ls = line : helper rest where
-        (op, _) = opMap M.! head ls
-        (thisOp, rest) = splitAt (op ^. width) ls
-        thisOpStr = init . tail . show $ thisOp
-        line = show (op ^. name) ++ "\t\t" ++ thisOpStr
-
-
-prettyPrint :: Program -> IO ()
-prettyPrint prog = do 
-    let ls = prettyFormat prog
-    putStrLn $ unlines ls
+-- prettyFormat :: Program -> [String]
+-- prettyFormat prog = helper $ V.toList prog where
+--     helper :: [Int] -> [String]
+--     helper [] = []
+--     helper ls = line : helper rest where
+--         (op, _) = opMap M.! head ls
+--         (thisOp, rest) = splitAt (op ^. width) ls
+--         thisOpStr = init . tail . show $ thisOp
+--         line = show (op ^. name) ++ "\t\t" ++ thisOpStr
+-- 
+-- 
+-- prettyPrint :: Program -> IO ()
+-- prettyPrint prog = do 
+--     let ls = prettyFormat prog
+--     putStrLn $ unlines ls
 
 
 
@@ -255,3 +267,11 @@ prettyPrint prog = do
 -- separate out the Internal and External VM interfaces...
 -- is external a typeclass? what is it
 -- the list of values is a bit hack
+-- PRETTY PRINTING IS JUST ANOTHER INTERFACE!
+-- passing the Maybe Int around for the processing is a bit clunky
+-- while it would be nice to distinguish Words and Ints, the libraries are not set up to handle it well :(
+--      for the moment let's just let it all be ints
+-- change the OpType to OpPacket with some of the types having data
+
+
+-- want to be able to run in programmatic mode or debug mode or interactive mode
