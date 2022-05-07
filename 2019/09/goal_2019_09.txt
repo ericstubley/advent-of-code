@@ -1,0 +1,35 @@
+part a
+
+you pick up a distress signal coming from Ceres! In order to boost your sensors to decode it you need to increase Intcode capabilities
+
+Add in relative mode: if the parameter is n the value you use is whatever is in register n; but since we're relative its n+Base
+Also add in opcode 9, Chb to Change base
+
+Also make sure that you support large memory (with unmodified values defaulting to 0)
+Also make sure that you support large numbers
+
+The Intcode computer is fully functional when the given program runs with input 1 and produces a signal value (the BOOST keycode). What is that value?
+
+
+
+here's the battle plan
+- write day09 part a tests
+- put in an index type
+- rename program to list of ints rather than vector
+    you want to use the same field names, but then there's conflicts...
+    for now just comment it out
+- write a new map-based interface
+- switch runProgram over to the map interface
+- remove the processOp step; separate each op into its own function
+    (with some commonalities like getting values with modes and writing abstracted out)
+- write the neat lazy infinite list of modes trick
+- get unified tests working
+- add in mode 2, op 9
+- test day 09 part a
+- part a
+
+
+
+got tripped up by trying to combine value extraction between reading and writing
+- position mode read n is the value in the value of register n
+- position mode write n is write to the register at the value of n
