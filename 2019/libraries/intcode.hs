@@ -1,5 +1,5 @@
 module Intcode ( Program
-               , VectorVM (..)
+               , MapVM (..)
                , iptr
                , prog
                , ExitCode (..)
@@ -18,43 +18,96 @@ import Control.Monad.Writer
 import Control.Monad.State
 import Data.Maybe
 import Parsing (Parser, runParser, sepBy, integer, char)
-import Data.Vector.Unboxed (Vector)
 import Lens.Micro.Platform
-import qualified Data.Vector.Unboxed as V
+import Data.IntMap.Strict (IntMap)
+import qualified Data.IntMap.Strict as M
+-- import Data.Vector.Unboxed (Vector)
+-- import qualified Data.Vector.Unboxed as V
 
 
 -- abstract monadic interface for an Intcode VM
 -- along with instances
 -- currently supporting:
---      pure State monad vector
---      PrimMonad mutable vector
---      lift to Pipes?
---      lift to Exceptions?
+--      pure RWS monad vector
+--      pure RWS monad intmap
+
 
 class Monad m => VMInterface m where
-    vmCurr   :: m Int
+    vmCurr   :: m Index
     vmRead   :: m Int
-    vmSeek   :: Int -> m ()
-    vmPeek   :: Int -> m Int        -- given an index, peek
-    vmWrite  :: Int -> Int -> m()   -- given an index and a value
+    vmSeek   :: Index -> m ()
+    vmPeek   :: Index -> m Int        -- given an index, peek
+    vmWrite  :: Index -> Int -> m()   -- given an index and a value
     vmInput  :: m Int
     vmOutput :: Int -> m ()
+    vmBase   :: m Index
+    vmOffset :: Index -> m ()
 
+
+-- use this type for memory locations in intcode programs
+-- just to help with conceptual clarity when i.e. reading type signatures
+type Index = Int
+
+-- everything that we export that deals with program should just treat them 
+-- as lists, even though the internals may be very different
+type Program = [Int]
 
 -- immutable vector memory and RWS Interface
 -- RWS used for Input (Reader), Output (Writer), VectorVM (State)
 -- the inputPtr is a bit of a hack right now, just so you can get
 --      something running without pipes
-type Program = Vector Int
 
-data VectorVM = VectorVM 
-    { _iptr :: Int
-    , _prog :: Program
-    , _inputPtr :: Int} deriving (Eq, Show)
-makeLenses ''VectorVM
+-- commenting this out to avoid lens name conflicts, but it would be nice to
+-- reenable support for this eventually
+-- data VectorVM = VectorVM 
+--     { _iptr :: Index
+--     , _prog :: Vector Int
+--     , _inputPtr :: Int} deriving (Eq, Show)
+-- makeLenses ''VectorVM
+-- 
+-- 
+-- instance Monad m => VMInterface (RWST [Int] [Int] VectorVM m) where
+--     vmCurr = do
+--         vm <- get
+--         return $ vm ^. iptr
+--     vmRead = do
+--         vm <- get
+--         let pos = vm ^. iptr
+--         put $ vm & iptr .~ (pos + 1)
+--         return $ (vm ^. prog) V.! pos
+--     vmSeek pos = do
+--         vm <- get
+--         put $ vm & iptr .~ pos 
+--     vmPeek pos = do
+--         vm <- get
+--         return $ (vm ^. prog) V.! pos
+--     vmWrite pos val = do
+--         vm <- get
+--         let p' = (vm ^. prog) V.// [(pos, val)]
+--         put $ vm & prog .~ p'
+--     vmInput = do
+--         vm <- get
+--         let pos = vm ^. inputPtr
+--         put $ vm & inputPtr .~ (pos + 1)
+--         asks $ ( !! pos)
+--     vmOutput val = tell [val]
 
 
-instance Monad m => VMInterface (RWST [Int] [Int] VectorVM m) where
+-- immutable intmap memory and RWS interface
+-- same strategy as when we did it for vectors
+-- still don't have a fix for the inputPtr hack
+
+data MapVM = MapVM
+    { _iptr :: Index
+    , _prog :: IntMap Int
+    , _base :: Index
+    , _inputPos :: Int}
+    deriving (Eq, Show)
+
+makeLenses ''MapVM
+
+
+instance Monad m => VMInterface (RWST [Int] [Int] MapVM m) where
     vmCurr = do
         vm <- get
         return $ vm ^. iptr
@@ -62,46 +115,50 @@ instance Monad m => VMInterface (RWST [Int] [Int] VectorVM m) where
         vm <- get
         let pos = vm ^. iptr
         put $ vm & iptr .~ (pos + 1)
-        return $ (vm ^. prog) V.! pos
+        return $ M.findWithDefault 0 pos (vm ^. prog)
     vmSeek pos = do
         vm <- get
-        put $ vm & iptr .~ pos 
+        put $ vm & iptr .~ pos
     vmPeek pos = do
         vm <- get
-        return $ (vm ^. prog) V.! pos
+        return $ M.findWithDefault 0 pos (vm ^. prog)
     vmWrite pos val = do
         vm <- get
-        let p' = (vm ^. prog) V.// [(pos, val)]
+        let p' = M.insert pos val (vm ^. prog)
         put $ vm & prog .~ p'
     vmInput = do
         vm <- get
-        let pos = vm ^. inputPtr
-        put $ vm & inputPtr .~ (pos + 1)
+        let pos = vm ^. inputPos
+        put $ vm & inputPos .~ (pos + 1)
         asks $ ( !! pos)
     vmOutput val = tell [val]
-
+    vmBase = do
+        vm <- get
+        return $ vm ^. base
+    vmOffset val = do
+        vm <- get
+        let b = vm ^. base
+        put $ vm & base .~ (val + b)
 
 
 -- basic data enums for Ops and Modes
 
-data OpName = Add
-            | Mul
-            | Get
-            | Put
-            | Jnz
-            | Jez 
-            | Clt
-            | Ceq
-            | Hlt deriving (Eq, Ord, Show)
+data OpName = Add -- addition
+            | Mul -- multiplication
+            | Get -- input
+            | Put -- output
+            | Jnz -- jump if not zero
+            | Jez -- jump if equal zero
+            | Clt -- compare less than
+            | Ceq -- compare equal
+            | Rbo -- relative base offset
+            | Hlt -- halt
+            deriving (Eq, Ord, Show)
 
-data OpPacket = OpWrite Int
-              | OpJump Int
-              | OpOutput
-              | OpNone
-              | OpHalt deriving (Eq, Ord, Show)
-
-data Mode = Pos
-          | Imm deriving (Eq, Ord, Show)
+data Mode = Pos -- positional
+          | Imm -- immediate
+          | Rel -- relative
+          deriving (Eq, Ord, Show)
 
 data ExitCode = Continue
               | Output
@@ -118,97 +175,126 @@ data ExitCode = Continue
 -- do some post-processing: the common write pattern, jumping, halting
 
 step :: (VMInterface m) => m ExitCode
-step = selectOp >>= performOp >>= processOp
+step = selectOp >>= performOp
 
 
-selectOp :: (VMInterface m) => m (OpName, Int)
+selectOp :: (VMInterface m) => m (OpName, [Mode])
 selectOp = do
     reg <- vmRead
     let (mn, opNum) = divMod reg 100
     let op = case opNum of
-                1 -> Add
-                2 -> Mul
-                3 -> Get
-                4 -> Put
-                5 -> Jnz
-                6 -> Jez
-                7 -> Clt
-                8 -> Ceq
+                1  -> Add
+                2  -> Mul
+                3  -> Get
+                4  -> Put
+                5  -> Jnz
+                6  -> Jez
+                7  -> Clt
+                8  -> Ceq
+                9  -> Rbo
                 99 -> Hlt
                 _  -> error $ "Unknown opcode " ++ show opNum
-    return (op, mn)
+    let ms = modes mn
+    return (op, ms)
 
 
-performOp :: (VMInterface m) => (OpName, Int) -> m OpPacket 
-performOp (op, mn) = case op of
+performOp :: (VMInterface m) => (OpName, [Mode]) -> m ExitCode 
+performOp (op, ms) = case op of
     Add -> do
-        (x, y) <- values mn
-        return $ OpWrite (x+y)
+        (x, y, i) <- vvt ms 
+        vmWrite i (x+y)
+        return Continue
     Mul -> do
-        (x, y) <- values mn
-        return $ OpWrite (x*y)
+        (x, y, i) <- vvt ms 
+        vmWrite i (x*y)
+        return Continue
     Get -> do
+        i <- target (head ms)
         inp <- vmInput
-        return $ OpWrite inp
+        vmWrite i inp
+        return Continue
     Put -> do
-        x <- value mn
+        x <- value (head ms)
         vmOutput x
-        return OpOutput
+        return Output
     Jnz -> do
-        (x, y) <- values mn
-        if x /= 0
-            then return $ OpJump y
-            else return OpNone
+        (x, y) <- vv ms
+        when (x /= 0) $ vmSeek y
+        return Continue
     Jez -> do
-        (x, y) <- values mn
-        if x == 0
-            then return $ OpJump y
-            else return OpNone
+        (x, y) <- vv ms
+        when (x == 0) $ vmSeek y
+        return Continue
     Clt -> do
-        (x, y) <- values mn
+        (x, y, i) <- vvt ms
         if x < y
-            then return $ OpWrite 1
-            else return $ OpWrite 0
+            then vmWrite i 1
+            else vmWrite i 0
+        return Continue
     Ceq -> do
-        (x, y) <- values mn
+        (x, y, i) <- vvt ms
         if x == y
-            then return $ OpWrite 1
-            else return $ OpWrite 0
-    Hlt -> return OpHalt
-
-
-processOp :: (VMInterface m) => OpPacket -> m ExitCode
-processOp op = case op of
-    (OpWrite val) -> do
-        pos <- vmRead
-        vmWrite pos val
+            then vmWrite i 1
+            else vmWrite i 0
         return Continue
-    (OpJump val) -> do
-        vmSeek val
+    Rbo -> do
+        b <- value (head ms)
+        vmOffset b
         return Continue
-    OpOutput -> return Output
-    OpNone -> return Continue
-    OpHalt -> return Halt
+    Hlt -> return Halt
 
 
-mode :: Int -> Mode
-mode mn = case (mod mn 10) of
-    0 -> Pos
-    1 -> Imm
-    _ -> error $ "Unknown mode " ++ show (mod mn 10)
+-- utility functions for the instructions
+
+-- infinite list of modes extracted from a number; we only ever access up to
+-- 3 elements from this list
+modes :: Int -> [Mode]
+modes mn = m : modes (div mn 10) where
+    m = case (mod mn 10) of
+        0 -> Pos
+        1 -> Imm
+        2 -> Rel
+        _ -> error $ "Unknown mode " ++ show (mod mn 10)
 
 
-values :: (VMInterface m) => Int -> m (Int, Int)
-values mn = do
-    x <- value mn
-    y <- value (div mn 10)
+value :: (VMInterface m) => Mode -> m Int
+value m = case m of
+    Pos -> vmRead >>= vmPeek
+    Imm -> vmRead
+    Rel -> do
+        i <- vmRead
+        b <- vmBase
+        vmPeek (i+b)
+
+
+target :: (VMInterface m) => Mode -> m Index
+target m = case m of
+    Pos -> vmRead
+    Rel -> do
+        i <- vmRead
+        b <- vmBase
+        return (i+b)
+
+vt :: (VMInterface m) => [Mode] -> m (Int, Index)
+vt ms = do
+    x <- value (ms !! 0)
+    i <- target (ms !! 1)
+    return (x, i)
+
+
+vv :: (VMInterface m) => [Mode] -> m (Int, Int)
+vv ms = do
+    x <- value (ms !! 0)
+    y <- value (ms !! 1)
     return (x, y)
 
 
-value :: (VMInterface m) => Int -> m Int
-value mn = case (mode mn) of
-    Pos -> vmRead >>= vmPeek
-    Imm -> vmRead
+vvt :: (VMInterface m) => [Mode] -> m (Int, Int, Index)
+vvt ms = do
+    x <- value (ms !! 0)
+    y <- value (ms !! 1)
+    i <- target (ms !! 2)
+    return (x, y, i)
 
 
 -- control flow of vm
@@ -234,20 +320,20 @@ executeToOutput = do
 
 runProgram :: Program -> [Int] -> (Program, [Int])
 runProgram program inputs = (program', outputs) where
-    vm = VectorVM 0 program 0
+    vm = MapVM 0 (M.fromList (zip [0..] program)) 0 0
     (vm', outputs) = execRWS execute inputs vm
-    program' = vm' ^. prog
+    program' = M.elems $ M.union (vm' ^. prog) blankProgram
+    blankProgram = (M.fromList $ zip [0..m] (repeat 0))
+    m = fst $ M.findMax (vm' ^. prog)
 
 
-runOutput :: VectorVM -> [Int] -> (ExitCode, VectorVM, [Int])
+runOutput :: MapVM -> [Int] -> (ExitCode, MapVM, [Int])
 runOutput vm inputs = runRWS executeToOutput inputs vm
 
 
 -- program parser
 programP :: Parser Program
-programP = do
-    ints <- sepBy integer (char ',')
-    return $ V.fromList ints
+programP = sepBy integer (char ',')
 
 
 programFromString :: String -> Maybe Program
@@ -296,3 +382,4 @@ programFromString s = do
 
 -- want to be able to run in programmatic mode or debug mode or interactive mode
 -- return to more lens usage
+-- is there a better solution than pipes, just using RWS?
