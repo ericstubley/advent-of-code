@@ -33,3 +33,8 @@ here's the battle plan
 got tripped up by trying to combine value extraction between reading and writing
 - position mode read n is the value in the value of register n
 - position mode write n is write to the register at the value of n
+
+
+part b
+
+run it with an input of 2. What is the single output?
