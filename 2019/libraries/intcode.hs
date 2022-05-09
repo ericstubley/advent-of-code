@@ -7,17 +7,23 @@ module Intcode ( Program
                -- , prettyPrint
                , execute
                , runProgram
-               , runOutput) where
+               , runInteractive) where
+               -- , runOutput) where
 
 
 import Control.Monad.RWS
 import Control.Monad.Reader
 import Control.Monad.Writer
 import Control.Monad.State
+import Data.ByteString.Char8 (pack)
+import Data.Conduino
 import Data.Maybe
+import Data.Void (Void)
 import Parsing (Parser, runParser, sepBy, integer, char)
 import Lens.Micro.Platform
 import Data.IntMap.Strict (IntMap)
+import qualified Data.Conduino.Combinators as C
+import qualified Data.Conduino.Lift as L
 import qualified Data.IntMap.Strict as M
 -- import Data.Vector.Unboxed (Vector)
 -- import qualified Data.Vector.Unboxed as V
@@ -40,7 +46,7 @@ class Monad m => VMInternalInterface m where
 
 
 class VMInternalInterface m => VMInterface m where
-    vmInput  :: m Int
+    vmInput  :: m (Maybe Int)
     vmOutput :: Int -> m ()
 
 
@@ -53,26 +59,30 @@ type Index = Int
 type Program = [Int]
 
 
--- immutable intmap memory and RWS interface
+-- immutable intmap memory and StateT Interface
+-- to do this without pipes switch to RWST with inputPos
 -- same strategy as when we did it for vectors
--- still don't have a fix for the inputPtr hack
 
 data MapVM = MapVM
     { iptr :: Index
     , base :: Index
-    , prog :: IntMap Int
-    , inputPos :: Int}
+    , prog :: IntMap Int}
+    -- , inputPos :: Int}
     deriving (Eq, Show)
 
 
-instance Monad m => VMInternalInterface (RWST [Int] [Int] MapVM m) where
+-- instance Monad m => VMInternalInterface (RWST [Int] [Int] MapVM m) where
+instance Monad m => VMInternalInterface (StateT MapVM m) where
     vmCurr = gets iptr
     vmRead = do
         vm <- get
         let pos = iptr vm
         put $ vm {iptr = pos + 1}
         return $ M.findWithDefault 0 pos (prog vm)
-    vmSeek pos = modify (\vm -> vm {iptr = pos})
+    vmSeek pos = do
+        if pos < 0
+            then error $ "Tried to seek to negative memory " ++ show pos
+            else modify (\vm -> vm {iptr = pos})
     vmPeek pos = gets (\vm -> M.findWithDefault 0 pos (prog vm))
     vmWrite pos val = do
         vm <- get
@@ -85,13 +95,29 @@ instance Monad m => VMInternalInterface (RWST [Int] [Int] MapVM m) where
         put $ vm {base = val + b}
 
 
-instance Monad m => VMInterface (RWST [Int] [Int] MapVM m) where
-    vmInput = do
-        vm <- get
-        let pos = inputPos vm
-        put $ vm {inputPos = pos+1}
-        asks $ ( !! pos)
-    vmOutput val = tell [val]
+-- instance Monad m => VMInterface (RWST [Int] [Int] MapVM m) where
+--     vmInput = do
+--         vm <- get
+--         let pos = inputPos vm
+--         put $ vm {inputPos = pos+1}
+--         val <- asks $ ( !! pos)
+--         return (Just val)
+--     vmOutput val = tell [val]
+
+
+instance VMInternalInterface m => VMInternalInterface (Pipe i o u m) where
+    vmCurr = lift vmCurr
+    vmRead = lift vmRead
+    vmSeek pos = lift $ vmSeek pos
+    vmPeek pos = lift $ vmPeek pos
+    vmWrite pos val = lift $ vmWrite pos val
+    vmBase = lift vmBase
+    vmOffset val = lift $ vmOffset val
+
+
+instance VMInternalInterface m => VMInterface (Pipe Int Int () m) where
+    vmInput = await
+    vmOutput val = yield val
 
 
 
@@ -122,7 +148,6 @@ data ExitCode = Continue
 -- what's the monadic pipeline for running programs?
 -- a single step is
 -- extract the current reg via a read
---      if we're incrementing the iptr this is our only chance to read modes etc.
 -- split into modes and instruction with divMod
 -- all the op functions take in a mode block
 -- perform the op
@@ -159,7 +184,9 @@ performOp (op, ms) = case op of
     Ipt -> do
         i <- target (head ms)
         inp <- vmInput
-        vmWrite i inp
+        case inp of
+            Nothing -> error "Ran out of input"
+            (Just val) -> vmWrite i val
         return Continue
     Opt -> do
         x <- value (head ms)
@@ -255,20 +282,52 @@ executeToOutput = do
 -- this is the fixed interface that we export
 -- as we change the monad stack around update this definition
 runProgram :: Program -> [Int] -> (Program, [Int])
-runProgram = runProgramRWS
+runProgram = runProgramPipeState
 
 
-runProgramRWS :: Program -> [Int] -> (Program, [Int])
-runProgramRWS program inputs = (program', outputs) where
-    vm = MapVM 0 0 (M.fromList (zip [0..] program)) 0
-    (vm', outputs) = execRWS execute inputs vm
-    program' = M.elems $ M.union (prog vm') blankProgram
-    blankProgram = (M.fromList $ zip [0..m] (repeat 0))
-    m = fst $ M.findMax (prog vm')
+-- runProgramRWS :: Program -> [Int] -> (Program, [Int])
+-- runProgramRWS program inputs = (program', outputs) where
+--     vm = MapVM 0 0 (programToMap program) 0
+--     (vm', outputs) = execRWS execute inputs vm
+--     program' = mapToProgram (prog vm')
 
 
-runOutput :: MapVM -> [Int] -> (ExitCode, MapVM, [Int])
-runOutput vm inputs = runRWS executeToOutput inputs vm
+runProgramPipeState :: Program -> [Int] -> (Program, [Int])
+runProgramPipeState program inputs = (program', outputs) where
+    vm = MapVM 0 0 (programToMap program)
+    (outputs, vm') = runState (programmaticPipeline inputs execute) vm
+    program' = mapToProgram (prog vm')
+
+
+programmaticPipeline :: 
+    (VMInternalInterface m) => 
+    [Int] -> Pipe Int Int () m () -> m [Int]
+programmaticPipeline inputs executor = runPipe
+    $ (C.sourceList inputs) .| executor .| C.sinkList
+
+
+runInteractive :: Program -> IO ()
+runInteractive program = runPipe
+    $  C.stdinLines
+    .| C.map (read :: String -> Int)
+    .| L.execStateP vm execute
+    .| C.mapM (print :: Int -> IO ())
+    .| C.sinkNull
+    where vm = MapVM 0 0 (programToMap program)
+
+
+-- runOutput :: MapVM -> [Int] -> (ExitCode, MapVM, [Int])
+-- runOutput vm inputs = runRWS executeToOutput inputs vm
+
+
+programToMap :: Program -> IntMap Int
+programToMap p = M.fromList (zip [0..] p)
+
+
+mapToProgram :: IntMap Int -> Program
+mapToProgram m = M.elems $ M.union m blankProgram
+    where blankProgram = M.fromList $ zip [0..eom] (repeat 0)
+          eom = fst $ M.findMax m
 
 
 -- program parser

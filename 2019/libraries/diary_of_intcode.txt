@@ -17,6 +17,7 @@ Plans for the future
     trying to access negative parts of memory
     can't parse op
     can't parse mode
+    ran out of input
 - once we're in a relatively settled state go back and update all the puzzles to work with that
 - maybe the way to frame it is
     selectOp >>= performOp >>= updateState
