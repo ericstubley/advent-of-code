@@ -27,7 +27,8 @@ common common_settings
                         massiv,
                         megaparsec,
                         HUnit,
-                        sort
+                        sort,
+                        conduino
 
 
 common common_executable

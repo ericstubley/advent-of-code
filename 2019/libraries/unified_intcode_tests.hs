@@ -17,6 +17,7 @@ testList = TestList
     , TestLabel "Arithmetic Operations 5" testArithmeticOps5
     , TestLabel "Day 02 Puzzle Part A" testPuzzle02A
     , TestLabel "IO Operations 1" testIOOps1
+    , TestLabel "Interactive Mode" testInteractive
     , TestLabel "Operation with Mode" testMode1
     , TestLabel "Comparison Operations 1" testCompare1
     , TestLabel "Comparison Operations 2" testCompare2
@@ -99,6 +100,13 @@ testIOOps1 = TestCase $ do
     let (p, ls) = runProgram progIO1 [50]
     progIO1' @=? p
     [50] @=? ls
+
+
+testInteractive :: Test
+testInteractive = TestCase $ do
+    putStrLn ""
+    runInteractive progIO1
+    return ()
 
 
 -- testing multiplication, now with a mode
