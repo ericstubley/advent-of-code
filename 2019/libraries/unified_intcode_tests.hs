@@ -32,7 +32,10 @@ testList = TestList
     , TestLabel "Jump Operations 4" testJump4
     , TestLabel "Full Comparison 1" testFullComparison1
     , TestLabel "Full Comparison 2" testFullComparison2
-    , TestLabel "Full Comparison 3" testFullComparison3]
+    , TestLabel "Full Comparison 3" testFullComparison3
+    , TestLabel "Relative Mode Quine" testRelativeMode
+    , TestLabel "Large Numbers 1" testLarge1
+    , TestLabel "Large Numbers 2" testLarge2]
 
 
 testArithmeticOps1 :: Test
@@ -212,6 +215,27 @@ testFullComparison3 = TestCase $ do
     let (_, ls) = runProgram progFullComparison [9]
     [1001] @=? ls
 
+
+-- irrelevant that it's a quine, it's really testing relative mode
+testRelativeMode :: Test
+testRelativeMode = TestCase $ do
+    let (Just p) = programFromString "109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99"
+    let (_, out) = runProgram p []
+    p @=? out
+
+
+testLarge1 :: Test
+testLarge1 = TestCase $ do
+    let (Just p) = programFromString "1102,34915192,34915192,7,4,7,99,0"
+    let (_, out) = runProgram p []
+    (34915192^2) @=? head out
+
+
+testLarge2 :: Test
+testLarge2 = TestCase $ do
+    let (Just p) = programFromString "104,1125899906842624,99"
+    let (_, out) = runProgram p []
+    1125899906842624 @=? head out
 
 
 

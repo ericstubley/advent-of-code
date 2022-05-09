@@ -1,0 +1,40 @@
+Day 02: add, mul, hlt
+    original implementation; pure with vectors
+Day 05: ipt, opt, positional and immediate modes in part a; jnz, jez, clt, ceq in part b
+    IO monad with mutable vectors
+Day 07: strictly speaking nothing necessarily new internally, this is the feedback loop problem
+    VMInterface with immutable vectors
+Day 09: rbo and relative mode in general
+    VMInterface with immutable intmaps
+
+
+Plans for the future
+- have thought about having a mutable map instance, but unclear if that's necssary
+    keep this in your back pocket
+- debug mode, where you can get a record of all 
+- interactive mode
+- error instance for all the possible errors?
+    trying to access negative parts of memory
+    can't parse op
+    can't parse mode
+- once we're in a relatively settled state go back and update all the puzzles to work with that
+- maybe the way to frame it is
+    selectOp >>= performOp >>= updateState
+    to separate out when various things happen; though that is disingenuous because reading updates the state
+- the exit modes thing is a bit jank
+- reorganize the intcode file; maybe split it up into several
+- not actually a good idea from readability, but keep the iptr and base in -1 and -2 of the map...
+- at one point you had the idea to prettyprint as just another interface
+    probably not actually a good idea because you really want to redefine the instructions, not the interface 
+    also prettyprinting is not so well defined an operation
+    and you wanted to avoid hardcoding the width of the instructions in several places, which this could very well require
+- fix up the export list; this probably requires better control flow tools to export
+
+
+What do you think you're gonna need?
+- speed to run slow programs
+- tools to help in meta-analysis of impossible runtime programs
+- more versatile types of input/output, i.e. pipes?
+    conduino is the simple version of conduit? do some research
+- define a cluster? for doing things like feedback loops
+- just more control flow tools probably?
