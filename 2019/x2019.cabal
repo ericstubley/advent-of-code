@@ -26,7 +26,8 @@ common common_settings
                         bytestring,
                         massiv,
                         megaparsec,
-                        HUnit
+                        HUnit,
+                        sort
 
 
 common common_executable
@@ -40,7 +41,8 @@ library
     exposed-modules:    Automation,
                         Grid,
                         Intcode,
-                        Parsing
+                        Parsing,
+                        Utilities
     other-modules:      Cookie
 
 

@@ -1,0 +1,29 @@
+part a
+
+you're given a grid of asteroids (#) and empty space (.)
+you want to know which asteroid has uninterrupted line of sight on the most other asteroids
+
+how many other asteroids can be detected from that best one?
+
+
+strategy:
+well you could just brute force it; given an asteroid look over all the others, folding up the closest in any given direction
+better strategy is maybe to just one-time build up a graph of line of sight; then the number you're looking for is just the number of neighbours
+how to build the graph?
+Map V2 (Map V2 V2): point -> direction -> point
+is there a less iterative way to gestalt the graph?
+
+
+part b
+
+the newly installed station has a giant rotating laser; it starts pointing up and rotates clockwise
+this laser starts destroying asteroids; if there are many in a line then it only destroys 1 per rotation
+
+the elves are placing bets on which will be the 200th destroyed
+for that one, what is 100*x + y?
+
+
+strategy:
+create a map Float -> [Ix2] where the Float is the angle (starting from up clockwise) to a direction vector, and the list of Ix2 is the list of asteroids along that vector, ordered by distance to the base
+what's the math to convert direction vector to angle from up
+v . w = |v| |w| cos(theta)
