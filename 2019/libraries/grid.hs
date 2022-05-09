@@ -1,6 +1,5 @@
 module Grid ( Array2
-            , Ix2(..)
-            , module A) where
+            , Ix2(..)) where
 
 
 import Data.Massiv.Array (Array, Ix2(..))
