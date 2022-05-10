@@ -1,0 +1,26 @@
+part a
+
+its a gravity simulation of the moons of Jupiter
+
+at each timestep you want to
+- apply gravity: the velocities get a queued set of changes
+    for each pair of moons, each coordinate of their velocities gets +1, 0, -1 based on positions
+- apply velocities: update positions by adding velocity to each
+
+
+the energy of a moon is the sum of absolute values of the position and velocity coords
+
+what is the total energy of the system after 1000 steps?
+
+
+part b
+
+how many steps does it take for to reach a state that matches a previous state?
+not necessarily an initial state, just one seen before
+as the examples show it can take a realllllly long time (one of the examples takes 4 billion), so you need some mega efficient solution
+
+
+the strat: x, y, z evolve independently
+    so find the x, y, z periods and then do some lcm magic
+
+in fact all of them repeat back to the initial state, so can just lcm the repeat times

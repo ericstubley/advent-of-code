@@ -29,7 +29,8 @@ common common_settings
                         megaparsec,
                         HUnit,
                         sort,
-                        conduino
+                        conduino,
+                        linear
 
 
 common common_executable
