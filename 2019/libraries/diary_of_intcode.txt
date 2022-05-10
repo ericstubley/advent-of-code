@@ -6,6 +6,8 @@ Day 07: strictly speaking nothing necessarily new internally, this is the feedba
     VMInterface with immutable vectors
 Day 09: rbo and relative mode in general
     VMInterface with immutable intmaps
+Day 11: paint the hull with the robot
+    Eventually got the conduino working, but it was a nightmare
 
 
 Plans for the future
@@ -30,6 +32,7 @@ Plans for the future
     also prettyprinting is not so well defined an operation
     and you wanted to avoid hardcoding the width of the instructions in several places, which this could very well require
 - fix up the export list; this probably requires better control flow tools to export
+- type synonyms for the monad stack
 
 
 What do you think you're gonna need?

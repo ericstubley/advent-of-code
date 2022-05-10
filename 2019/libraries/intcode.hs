@@ -6,6 +6,7 @@ module Intcode ( Program
                -- , prettyFormat
                -- , prettyPrint
                , execute
+               , initVM
                , runProgram
                , runInteractive) where
                -- , runOutput) where
@@ -294,7 +295,7 @@ runProgram = runProgramPipeState
 
 runProgramPipeState :: Program -> [Int] -> (Program, [Int])
 runProgramPipeState program inputs = (program', outputs) where
-    vm = MapVM 0 0 (programToMap program)
+    vm = initVM program
     (outputs, vm') = runState (programmaticPipeline inputs execute) vm
     program' = mapToProgram (prog vm')
 
@@ -313,7 +314,7 @@ runInteractive program = runPipe
     .| L.execStateP vm execute
     .| C.mapM (print :: Int -> IO ())
     .| C.sinkNull
-    where vm = MapVM 0 0 (programToMap program)
+    where vm = initVM program
 
 
 -- runOutput :: MapVM -> [Int] -> (ExitCode, MapVM, [Int])
@@ -328,6 +329,10 @@ mapToProgram :: IntMap Int -> Program
 mapToProgram m = M.elems $ M.union m blankProgram
     where blankProgram = M.fromList $ zip [0..eom] (repeat 0)
           eom = fst $ M.findMax m
+
+
+initVM :: Program -> MapVM
+initVM program = MapVM 0 0 (programToMap program)
 
 
 -- program parser

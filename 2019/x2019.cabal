@@ -12,6 +12,7 @@ common common_settings
     default-language:   Haskell2010 
     default-extensions: TemplateHaskell,
                         BangPatterns,
+                        FlexibleContexts,
                         FlexibleInstances
     build-depends:      base,
                         containers,
