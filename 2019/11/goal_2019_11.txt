@@ -1,0 +1,23 @@
+part a
+
+you need an emergency hull painting robot; the elves sent you the intcode program it runs
+the robot has a camera which is where the input comes from; 0 if its on a black plates, 1 if white
+for each input the robot will give two outputs; a colour, and a turn value (0 for left, 1 for right)
+the robot always advances forward by 1 after turning
+
+the robot starts facing up
+
+
+this is a job for a state monad
+we'll set up camera and paintAndMove pipes to connect to an execute
+think through the laziness/order of operations
+????
+clearly you don't understand the conduits that well
+and we need to work on getting that better 
+do something with simple conduit examples?
+
+
+part b
+
+actually you should start it on a white panel
+then it should print out eight capital letters, that you should submit
