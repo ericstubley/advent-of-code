@@ -8,6 +8,13 @@ Day 09: rbo and relative mode in general
     VMInterface with immutable intmaps
 Day 11: paint the hull with the robot
     Eventually got the conduino working, but it was a nightmare
+Day 13: play breakout through intcode
+    Hooked up the conduino in remarkably short order
+    Would have been nice to figure out the score computation by "pure thought"; figure out the program
+    Some of the reddit suggestions were things like: always move the paddle under the ball
+    Would have been nice to write an AI to play the game 
+    Need to have a clearer outline of the transformer stack you're using
+
 
 
 Plans for the future
@@ -38,6 +45,8 @@ Plans for the future
 What do you think you're gonna need?
 - speed to run slow programs
 - tools to help in meta-analysis of impossible runtime programs
+    this!
+    figuring out what the day 13 computer was doing to compute scores would have been great
 - more versatile types of input/output, i.e. pipes?
     conduino is the simple version of conduit? do some research
 - define a cluster? for doing things like feedback loops

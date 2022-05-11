@@ -6,6 +6,11 @@ import Puzzle_2019_13
 --     let gr = binaryToInt $ gammaRate report
 --     22 @=? gr)
 
+
+testBlockCount :: Test
+testBlockCount = TestCase $ do
+    0 @=? blockCount [1,2,3,6,5,4]
+
 testA = TestList
     []
 
