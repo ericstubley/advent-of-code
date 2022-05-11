@@ -1,0 +1,34 @@
+part a
+
+you're given a breakout ball game machine program!
+the output comes in a stream of (x, y, tile) where x indicates position from the left of the screen, y indicates position from the top, and tile is a tile ID
+
+how many block tiles are on the screen when the game starts?
+
+
+part b
+
+play the game! there's also a score which is positioned at (-1, 0)
+switch memory address 0 to 2 to play for free :P
+control the joystick by inputting 0 for neutral, -1 for left, 1 for right
+
+what's the score once you break all the blocks?
+
+
+
+lol as much as you want to play the game, or write a bot that plays the game, you can probably extract the score from computer memory?
+you had the right idea; apparently the score is a function of x, y and some constant (the constants are what you found presumably)
+but there's a hack! just change the input board to have paddles all across the bottom lol
+this might lock but it's worth a try...?
+no lock!
+
+
+You got stuck between
+- write an AI to play, which felt unsatisfactory because you wouldn't be confident of generality
+- figure out the inner workings of this program; this felt like a big "from first principles" task
+
+So you missed the more obvious solutions:
+- hack the game so it's impossible to lose
+
+
+Also if you try with multiple balls it doesn't work :(, only moves one of them
