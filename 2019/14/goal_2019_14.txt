@@ -1,0 +1,48 @@
+part a
+
+you're given a list of chemical reactions for converting ORE into FUEL
+reactions may have by products, and the chain of reactions necessary is possibly long
+reactions always happen in whole integer units
+so 10 ORE => 5 ABC doesn't allow you to perform 2 ORE => 1 ABC
+each type of compound is produced by exactly 1 reaction, except for ORE which has none
+
+what is the minimum amount of ORE required to produce 1 FUEL?
+
+
+strategy:
+- topological sort the compound dependencies (2018 day 7 you can adapt it)
+- working backwards from FUEL, add up how much of everything is required
+- eventually it'll all reduce to ORE
+
+
+there's a linear algebra interpretation...
+each chemical defines a vector; at the end of the day in terms of ORE
+each relation gives a way to collapse down one dimension into the others
+is there a way
+or more like free Z module
+
+
+
+part b
+
+you have 1 trillion units of ORE
+what is the maximum amount of fuel you can produce with that?
+
+with the naive strat of just doing the process to produce 1 fuel from part a its 508305
+probably you want to do an iterative
+produce 508305 fuel with byproducts
+then produce ??? with more byproducts
+until the byproducts can't produce more fuel
+
+the other strat is some kind of search
+you have a length 57 vector whose entries add up to 1 trillion; well not quite add up to
+this seems hopeless...
+
+I think the strategy is to run with a list of by products, and pull from those without pulling 
+
+
+
+welp
+the strategy is apparently not to implement a function computing this exactly, 
+but to implement a function which outputs if producing something is feasible
+and then binary search, given that you can estimate a range from there
