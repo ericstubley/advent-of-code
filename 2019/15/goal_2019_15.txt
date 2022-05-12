@@ -1,0 +1,19 @@
+part a
+
+you need to repair your oxygen tank using the repair droid
+you can issue commands 1 (North) 2 (South) 3 (West) 4 (East) to the droid
+the drop will respond with a 0 (hit a wall) 1 (moved) 2 (moved onto the tank)
+any other input will exit immediately
+
+what is the fewest number of movement commands required to move the droid to the oxygen tank?
+
+strategy:
+state monad input and output pipes
+track the droid's path with a stack
+
+oh and then you had to write a shortest path finder; probably could do much more elegant but could write this fast at least
+
+
+part b
+
+how long does it take oxygen to fill the maze? i.e. what is the longest path starting at the tank?
