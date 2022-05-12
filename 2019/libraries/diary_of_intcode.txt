@@ -14,6 +14,7 @@ Day 13: play breakout through intcode
     Some of the reddit suggestions were things like: always move the paddle under the ball
     Would have been nice to write an AI to play the game 
     Need to have a clearer outline of the transformer stack you're using
+Day 15: repair the oxygen tank with the repair droid
 
 
 
