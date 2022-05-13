@@ -1,0 +1,34 @@
+part a
+
+you need to implement the Flawed Frequency Transmission (FFT) algorithm
+take a list of digits 0-9
+the output will be another list of the same length
+
+each output digit is calculated by multiplying the input list pointwise by a pattern (of 0, +1, -1), adding up those numbers, and taking the last digit
+
+the pattern used depends on which digit
+the base pattern is 0, 1, 0, -1
+the nth digit pattern is 
+    take the base pattern and repeat each digit n times (so 0 0 1 1 0 0 -1 -1)
+    drop the first of that
+
+
+when you run your input 100 times, what are the first 8 digits of the output?
+
+
+part b
+
+mostly the same idea except
+- the actual signal is your signal repeated 10k times
+- instead of the first 8 digits you'll find the 8 digits using a message offset
+- message offset n means drop n
+- the message offset is the first 7 digits of your 100 phase fft
+    NO the message offset is the first 7 digits of the INITIAL INPUT
+    read the question
+    my message offest is 5976733; well over the halfway point in 6.5million
+
+
+for the second half the fft is just a sum of digits
+that combined with the fact that we're repeating the input 10k times probably makes this tick
+
+ended up just being a scan for partial sums 100 times
