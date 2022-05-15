@@ -1,0 +1,86 @@
+    X   R
+        6
+        L
+        10
+    Y   R
+        8
+        R
+        8
+    C   R
+        12
+        L
+        8
+        L
+        10
+    X   R
+        6
+        L 
+        10
+    Y   R
+        8
+        R
+        8
+    W   R
+        12
+        L
+        10
+    X   R
+        6
+        L
+        10
+    C   R
+        12
+        L
+        8
+        L
+        10
+    W   R
+        12
+        L
+        10
+    X   R
+        6
+        L
+        10
+    X   R
+        6
+        L
+        10
+    Y   R
+        8
+        R
+        8
+    C   R
+        12
+        L
+        8
+        L
+        10
+    X   R
+        6
+        L
+        10
+    Y   R
+        8
+        R
+        8
+    W   R
+        12
+        L
+        10
+    X   R
+        6
+        L
+        10
+
+XYCXYWXCWXXYCXYWX
+A CA B CB A CA B
+ACABCBACAB
+
+   12345678901234567890
+X: R,6,L,10
+Y: R,8,R,8
+C: R,12,L,8,L,10
+W: R,12,L,10
+A: R,6,L,10,R,8,R,8
+B: R,12,L,10,R,6,L,10

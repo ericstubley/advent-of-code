@@ -1,0 +1,51 @@
+part a
+
+you've got to rescue all the little bots that are trapped outside during the solar flare, using your rescue bot
+you have an intcode program that uses ascii for IO
+
+the program prints a track of where the bot has traveled
+for each intersection in the track, its alignment parameter is the product of its x (from the left) and y (from the top) coordinates
+
+what is the sum of the alignment parameters of the track?
+
+
+could hack it with a map but let's practice using massiv stencils
+the strat
+    get the output as a string
+    lines it
+    massiv it to an Array2 Char
+    apply a stencil which sends non intersections to 0 and intersections to the alignment parameter
+    sum the resulting array
+
+
+part b
+
+you need to supply the movement commands to the bot
+you give to L, R, or a number and it does that movement (turn or forward n)
+
+because of bot memory limitations you can't give it more than 20 chars at a time (excluding newlines)
+but thankfully you can split the movement up into 3 subroutines
+so you give it a main subroutine (like A,B,C,B,A,A)
+then each of A, B, C
+then a y or n to tell it to display video
+it will output a single int (not char!) that says how much space dust it collected
+
+move the bot across the whole track; what is the space dust at the end?
+
+
+
+let's talk strategy
+    there are 13 intersections
+    which gives 2^13 = 8192 possible tracks; assuming we don't split in the middle of a straight line
+    if we did that how could we identify the splitting into A,B,C?
+    the track has length 319, on the order of 42 turns
+        nope in fact its 319 + 13 = 332 because of the intersections
+
+    maybe we can design the track by hand?
+    R,8,L,8,L,8,L,8,R takes us around a square, end with opposite 
+    6,2 is a common pattern
+
+just found it manually!
+    broke it up into obvious pieces
+    then looked for patterns in the string of A,B,C,D
+    could group up AB and DA which reduced size enough to fit into memory
