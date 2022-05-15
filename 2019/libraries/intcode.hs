@@ -1,22 +1,19 @@
 module Intcode ( Program
-               , MapVM (..)
-               , ExitCode (..)
                , programP
                , programFromString
-               -- , prettyFormat
-               -- , prettyPrint
-               , execute
-               , initVM
                , runProgram
-               , runInteractive) where
-               -- , runOutput) where
+               , runProgramAscii
+               , runInteractive
+               , runInteractiveAscii
+               , intcodePipe
+               , intcodePipeAscii) where
 
 
 import Control.Monad.RWS
 import Control.Monad.Reader
 import Control.Monad.Writer
 import Control.Monad.State
-import Data.ByteString.Char8 (pack)
+import Data.Char (ord, chr)
 import Data.Conduino
 import Data.Maybe
 import Data.Void (Void)
@@ -26,22 +23,28 @@ import Data.IntMap.Strict (IntMap)
 import qualified Data.Conduino.Combinators as C
 import qualified Data.Conduino.Lift as L
 import qualified Data.IntMap.Strict as M
--- import Data.Vector.Unboxed (Vector)
--- import qualified Data.Vector.Unboxed as V
 
+
+-- everything that we export that deals with intcodes programs should just 
+-- treat them as lists, even though the internals may be very different
+type Program = [Int]
+
+-- use this type for memory locations in intcode programs
+-- just a synonym o help with conceptual clarity when reading type signatures
+type Index = Int
 
 -- abstract monadic interface for an Intcode VM
--- along with instances
--- currently supporting:
---      pure RWS monad intmap
-
+-- basically it's a glorified state monad
+-- is this an idomatic way to do things? this feels like it's not really
+-- something that general and you're using it to emulate oop...
+-- also the fact that there's basically only one instance seems a bit silly
 
 class Monad m => VMInternalInterface m where
     vmCurr   :: m Index
     vmRead   :: m Int
     vmSeek   :: Index -> m ()
-    vmPeek   :: Index -> m Int        -- given an index, peek
-    vmWrite  :: Index -> Int -> m()   -- given an index and a value
+    vmPeek   :: Index -> m Int
+    vmWrite  :: Index -> Int -> m()
     vmBase   :: m Index
     vmOffset :: Index -> m ()
 
@@ -51,28 +54,15 @@ class VMInternalInterface m => VMInterface m where
     vmOutput :: Int -> m ()
 
 
--- use this type for memory locations in intcode programs
--- just to help with conceptual clarity when i.e. reading type signatures
-type Index = Int
-
--- everything that we export that deals with program should just treat them 
--- as lists, even though the internals may be very different
-type Program = [Int]
-
-
--- immutable intmap memory and StateT Interface
--- to do this without pipes switch to RWST with inputPos
--- same strategy as when we did it for vectors
+-- immutable intmap memory and StateT VMInternalInterface
 
 data MapVM = MapVM
     { iptr :: Index
     , base :: Index
     , prog :: IntMap Int}
-    -- , inputPos :: Int}
     deriving (Eq, Show)
 
 
--- instance Monad m => VMInternalInterface (RWST [Int] [Int] MapVM m) where
 instance Monad m => VMInternalInterface (StateT MapVM m) where
     vmCurr = gets iptr
     vmRead = do
@@ -96,15 +86,8 @@ instance Monad m => VMInternalInterface (StateT MapVM m) where
         put $ vm {base = val + b}
 
 
--- instance Monad m => VMInterface (RWST [Int] [Int] MapVM m) where
---     vmInput = do
---         vm <- get
---         let pos = inputPos vm
---         put $ vm {inputPos = pos+1}
---         val <- asks $ ( !! pos)
---         return (Just val)
---     vmOutput val = tell [val]
-
+-- you can make a pipe out of the internal interface, and then use the pipe
+-- for the external parts of the interface
 
 instance VMInternalInterface m => VMInternalInterface (Pipe i o u m) where
     vmCurr = lift vmCurr
@@ -116,13 +99,12 @@ instance VMInternalInterface m => VMInternalInterface (Pipe i o u m) where
     vmOffset val = lift $ vmOffset val
 
 
-instance VMInternalInterface m => VMInterface (Pipe Int Int () m) where
+instance VMInternalInterface m => VMInterface (Pipe Int Int u m) where
     vmInput = await
     vmOutput val = yield val
 
 
-
--- basic data enums for Ops and Modes
+-- basic data enums for Ops and Modes and Exiting
 
 data Op = Add -- addition
         | Mul -- multiplication
@@ -146,13 +128,13 @@ data ExitCode = Continue
               | Halt deriving (Eq, Ord, Show)
 
 
--- what's the monadic pipeline for running programs?
--- a single step is
--- extract the current reg via a read
--- split into modes and instruction with divMod
--- all the op functions take in a mode block
--- perform the op
--- do some post-processing: the common write pattern, jumping, halting
+-- how to run an intcode program:
+-- step does one "clock cycle" of the vm
+-- this clock cycle sort of happens in 3 parts
+--      1: selectOp figure out what op we're going to do and with what modes
+--      2: performOp does the actual logic, often farming it out to some
+--          helper functions (for i.e. binary operations)
+--      3: send out an ExitCode to say whether to continue or not
 
 step :: (VMInterface m) => m ExitCode
 step = selectOp >>= performOp
@@ -260,8 +242,12 @@ jump ms f = do
 
 
 -- control flow of vm
--- need an execute
--- execute in interactive mode would be a nice option?
+-- we'll export both regular and ascii versions of the things
+-- the basic things to support are
+--      a. programmatic mode: pass in an input list, return an output list
+--      b. interative mode: what it says on the box
+--      c. pipe mode: just provide a pipe that can be hooked up to whatever
+--          the problem demands
 
 execute :: (VMInterface m) => m ()
 execute = do
@@ -272,70 +258,50 @@ execute = do
         Halt     -> return ()
 
 
-executeToOutput :: (VMInterface m) => m ExitCode
-executeToOutput = do
-    exitCode <- step
-    case exitCode of
-        Continue -> executeToOutput
-        _        -> return exitCode
-
-
--- this is the fixed interface that we export
--- as we change the monad stack around update this definition
 runProgram :: Program -> [Int] -> (Program, [Int])
-runProgram = runProgramPipeState
+runProgram program input = runPipePure
+     $ C.sourceList input
+    .| intcodePipe program
+    &| C.sinkList
 
 
--- runProgramRWS :: Program -> [Int] -> (Program, [Int])
--- runProgramRWS program inputs = (program', outputs) where
---     vm = MapVM 0 0 (programToMap program) 0
---     (vm', outputs) = execRWS execute inputs vm
---     program' = mapToProgram (prog vm')
-
-
-runProgramPipeState :: Program -> [Int] -> (Program, [Int])
-runProgramPipeState program inputs = (program', outputs) where
-    vm = initVM program
-    (outputs, vm') = runState (programmaticPipeline inputs execute) vm
-    program' = mapToProgram (prog vm')
-
-
-programmaticPipeline :: 
-    (VMInternalInterface m) => 
-    [Int] -> Pipe Int Int () m () -> m [Int]
-programmaticPipeline inputs executor = runPipe
-    $ (C.sourceList inputs) .| executor .| C.sinkList
+runProgramAscii :: Program -> String -> (Program, String)
+runProgramAscii program input = runPipePure 
+     $ C.sourceList input
+    .| intcodePipeAscii program
+    &| C.sinkList
 
 
 runInteractive :: Program -> IO ()
 runInteractive program = runPipe
     $  C.stdinLines
     .| C.map (read :: String -> Int)
-    .| L.execStateP vm execute
+    .| intcodePipe program
     .| C.mapM (print :: Int -> IO ())
     .| C.sinkNull
+
+
+runInteractiveAscii :: Program -> IO ()
+runInteractiveAscii program = runPipe
+    $  C.stdinLines
+    .| C.map (read :: String -> Int)
+    .| intcodePipe program
+    .| C.mapM (print :: Int -> IO ())
+    .| C.sinkNull
+
+
+intcodePipe :: Monad m => Program -> Pipe Int Int u m Program
+intcodePipe program = fmap extractor $ L.execStateP vm execute
     where vm = initVM program
+          extractor vm' = mapToProgram $ prog vm'
 
 
--- runOutput :: MapVM -> [Int] -> (ExitCode, MapVM, [Int])
--- runOutput vm inputs = runRWS executeToOutput inputs vm
+intcodePipeAscii :: Monad m => Program -> Pipe Char Char u m Program
+intcodePipeAscii program = C.map ord .| intcodePipe program .| C.map chr 
 
 
-programToMap :: Program -> IntMap Int
-programToMap p = M.fromList (zip [0..] p)
+-- general utility functions
 
-
-mapToProgram :: IntMap Int -> Program
-mapToProgram m = M.elems $ M.union m blankProgram
-    where blankProgram = M.fromList $ zip [0..eom] (repeat 0)
-          eom = fst $ M.findMax m
-
-
-initVM :: Program -> MapVM
-initVM program = MapVM 0 0 (programToMap program)
-
-
--- program parser
 programP :: Parser Program
 programP = sepBy integer (char ',')
 
@@ -348,42 +314,18 @@ programFromString s = do
         (Right r)  -> Just r
 
 
--- pretty printing programs
--- prettyFormat :: Program -> [String]
--- prettyFormat prog = helper $ V.toList prog where
---     helper :: [Int] -> [String]
---     helper [] = []
---     helper ls = line : helper rest where
---         (op, _) = opMap M.! head ls
---         (thisOp, rest) = splitAt (op ^. width) ls
---         thisOpStr = init . tail . show $ thisOp
---         line = show (op ^. name) ++ "\t\t" ++ thisOpStr
--- 
--- 
--- prettyPrint :: Program -> IO ()
--- prettyPrint prog = do 
---     let ls = prettyFormat prog
---     putStrLn $ unlines ls
+programToMap :: Program -> IntMap Int
+programToMap p = M.fromList (zip [0..] p)
 
 
-
--- next step is perhaps better use of monads
--- maybe some error handling for when all these lookups start going wrong
--- better tracking of the output, maybe with a writer or some other state?
--- so that you have programmatic access to the outputs
--- also streams so that you have programmatic control over the input
--- make a unified test so you don't have to go back and recompile all the old ones?
--- generalize the parsing and printing
--- separate out the Internal and External VM interfaces...
--- is external a typeclass? what is it
--- the list of values is a bit hack
--- PRETTY PRINTING IS JUST ANOTHER INTERFACE!
--- passing the Maybe Int around for the processing is a bit clunky
--- while it would be nice to distinguish Words and Ints, the libraries are not set up to handle it well :(
---      for the moment let's just let it all be ints
--- change the OpType to OpPacket with some of the types having data
+-- convert a map to a program (list of ints)
+-- slightly involved because the map may have "gaps" in the memory that we
+-- need to fill in
+mapToProgram :: IntMap Int -> Program
+mapToProgram m = M.elems $ M.union m blankProgram
+    where blankProgram = M.fromList $ zip [0..eom] (repeat 0)
+          eom = fst $ M.findMax m
 
 
--- want to be able to run in programmatic mode or debug mode or interactive mode
--- return to more lens usage
--- is there a better solution than pipes, just using RWS?
+initVM :: Program -> MapVM
+initVM program = MapVM 0 0 (programToMap program)
