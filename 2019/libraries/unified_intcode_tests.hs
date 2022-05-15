@@ -105,6 +105,7 @@ testIOOps1 = TestCase $ do
 testInteractive :: Test
 testInteractive = TestCase $ do
     putStrLn ""
+    putStrLn "This program should just repeat the number you input below:"
     runInteractive progIO1
     return ()
 
