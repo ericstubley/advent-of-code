@@ -285,7 +285,7 @@ runInteractiveAscii :: Program -> IO ()
 runInteractiveAscii program = runPipe
     $  C.stdinLines
     .| C.map (read :: String -> Int)
-    .| intcodePipe program
+    .| intcodePipeAscii program
     .| C.mapM (print :: Int -> IO ())
     .| C.sinkNull
 
