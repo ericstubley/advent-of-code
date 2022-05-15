@@ -49,3 +49,11 @@ just found it manually!
     broke it up into obvious pieces
     then looked for patterns in the string of A,B,C,D
     could group up AB and DA which reduced size enough to fit into memory
+
+
+how to find it non-manually:
+    build the list of turn, max move that you found manually
+    do list monad magic on all prefixes to try that as A (and then sim for B, C)
+    a <- tail $ inits path is the monad thing that iterates over all non-empty prefixes of the path
+    the guard is the monadic function which will discard the bad choices (i.e. length > 20, trying to use A inside B,...)
+    people used show and showList to correctly format the list of commands so you can easily check for length <= 20 
