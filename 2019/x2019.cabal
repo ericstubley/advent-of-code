@@ -30,7 +30,8 @@ common common_settings
                         HUnit,
                         sort,
                         conduino,
-                        linear
+                        linear,
+                        heaps
 
 
 common common_executable

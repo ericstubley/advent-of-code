@@ -1,0 +1,38 @@
+part a
+
+you land on Triton and find a maze
+the tunnels have doors (A) and keys (a)
+the goal is to obtain all the keys
+
+what is the shortest number of steps necessary to obtain all the keys?
+
+strategy
+    at least one strat is to do an A* search, but that is complicated by the fact that the paths change as you get more keys
+    rather than thinking about traversing the whole maze, let's cut out some of the cruft
+    at any given time there's the shortest paths between each pair of keys
+    you want to pick the sequence of keys to go for which minimizes that
+    problem: there's 26! == very big many possible orders to try for the keys
+    maybe that's not so bad, i.e. not all are available, some are obviously better
+    the actual optimal is very different from the no doors optimal
+
+
+maybe something like this
+    find all the currently open keys (i.e can get to without going over locked door or other key)
+    add to heap, sorted by distance
+    keep heap popping until you get all 26
+
+
+let's use a reader monad to save passing around the same maze all over the place
+or maybe it needs to be state? if we're updating key distances based on doors or something
+???
+well you started doing this and then the simple task of extracting a char stumped you
+in general today's data structure choices ended up being bad and hacky
+not what you want to strive for
+
+this is mega mega slow, even on the test input which has some 8 fold symmetry
+(but its fine on all the other ones?)
+
+still not clear how to do this without things going out of control
+    one option: cache current keys
+    another option: assume that the optimal solution will use only shortest paths between consecutive keys
+    and then you can kind of brute force a graph search on 26 vertices?
