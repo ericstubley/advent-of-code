@@ -15,7 +15,15 @@ Day 13: play breakout through intcode
     Would have been nice to write an AI to play the game 
     Need to have a clearer outline of the transformer stack you're using
 Day 15: repair the oxygen tank with the repair droid
-
+    Introduced Ascii IO 
+    Both parts were BFS (part a was shortest start -> tank, part b was longest shortest path tank -> anywhere)
+Day 17: move the bot around the scaffold in an optimal way
+    Cleaned up the interfaces and exports, hopefully we're in final form now
+    Part B was the meat, about finding an optimal compression of the path
+    Solved part B by hand :P
+Day 19: test out the tractor beam
+    This was very straightfoward!
+    Involved making many many small calls to the tractor beam boolean intcode
 
 
 Plans for the future
