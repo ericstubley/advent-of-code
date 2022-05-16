@@ -1,0 +1,36 @@
+part a
+
+you borrow the tractor beam, and test out controlling it with and intcode program
+the given program will take two integer inputs x y and then produce an output: 1 for in the beam, 0 for not
+
+in the 50x50 grid (of non-negative x, y starting at 0, 0) how many locations are in the beam?
+
+
+hits the edge at (49, 25)
+
+
+part b
+
+the beam gets wider as you move out from your ship
+you want to find a minimum distance so that you can fit santa's ship into the beam
+
+find the 100x100 square closest to the emitter that fits entirely within the tractor beam
+what do you get when you multiply the x coord by 10000 and add the y coord
+(so likely 4 digit)
+
+to know if the square starting at x, y is in, it suffices to know that (x+100,y) and (x,y+100) are in
+
+let's say you knew the x and y width of the beam at every point
+even better: let's say we know the x and y terminus of the beam at every point
+then the 100x100 square at x,y is in if x, y are greater than the respective lower terminuses and at least 100 away from the upper ones
+
+
+two levels of binary searching?
+given an x which is good, is there eventually a good y? not necessarily
+
+
+
+because convexity if you can move back x to x0 and y to y0 then you can move the whole thing to x0,y0
+
+so the strategy of do the move backwards along the axes and then search a grid worked well
+I think the intcode is a bit slow?
