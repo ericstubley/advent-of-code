@@ -33,6 +33,29 @@ this is mega mega slow, even on the test input which has some 8 fold symmetry
 (but its fine on all the other ones?)
 
 still not clear how to do this without things going out of control
-    one option: cache current keys
+    one option: cache current keys, position; but even without positions that 2^26 = 67 million key subsets
+        with positions is not actually much worse, just * 26
+        this feels like a good strategy
+        give this a try
     another option: assume that the optimal solution will use only shortest paths between consecutive keys
     and then you can kind of brute force a graph search on 26 vertices?
+    how to convert to a graph problem
+        build up a graph with for each pair of vertices: the optimal distance + the keys blocking it off?
+        this makes some assumptions about the optimal solution always being per edge optimal
+
+
+fuck this the cache strat also is just bad on the 8-fold test also
+fuck this all you've made 3 working solutions and each just fails out on test 4 :(:(:(
+eventually got the bfs with pruning working
+
+
+part b
+
+there's 4 bots instead of 1
+same deal but now they move independently
+
+
+
+really slap-dashing my way through this but that's because I'm super fed up
+yeah got it done but not happy about it
+lots of hacks to make it work
