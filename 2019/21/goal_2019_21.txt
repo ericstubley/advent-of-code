@@ -1,0 +1,89 @@
+part a
+
+you pulled an asteroid into the hull while testing the tractor beam
+now you have to inspect the damage
+use a springdroid, which you can program using the given intcode program
+
+the springdroid has very limited capabilities
+- 2 writable boolean registers T (temp) and J (jump), init at false
+- 4 read only boolean registers A, B, C, D; true if ground 1,2,3,4 tiles ahead false if hole
+- instructions AND X Y, OR X Y, NOT X Y (Y must be a writable register, X any)
+- the instructions perform the boolean arithmetic with X or both and store it in Y
+- the program can be at most 15 instructions
+- send a WALK afterwards
+
+
+what large number does the program report at the end when you make it across successfully?
+
+
+this feels like a circuit design problem!
+there's 16 = 2^4 possible inputs, and you want to design a circuit with at most 15 operations which will compute it
+
+.... => cry
+..## => jump
+##.# => jump
+#### => walk
+
+
+your simple programs are dying around ###.#..####
+
+if you jump onto #.#. when you could have jumped onto
+
+is the program about designing a circuit or is it about providing inputs to search with the death oracle...?
+it's both! successive deaths give you more information about how your circuit should work
+
+
+too many program to just try them all...?
+even just length 15 programs there's 36 options for a single line, 36^15 == very large
+otoh of the circuits that you could want there's only 2^16 = 65536; and then you maybe can't even build them all
+
+
+looool well you just found it by hand
+the program is the following
+#### => walk
+otherwise if there's a 4 
+
+(load AnBnCnD into T; not it; and with D; load to J)
+OR A T
+AND B T
+AND C T
+AND D T
+NOT T T
+AND D T
+OR T J
+WALK
+
+
+simplified
+OR A J
+AND B J
+AND C J
+NOT J J
+AND D J
+WALK
+5 instructions is probably minimal given that you need all to access bits at least 4 bits
+
+
+part b
+
+if you end your program with RUN instead of WALK you get access to extended sensor mode
+same problem but now with input registers E,F,G,H,I which show up to 9 tiles away
+
+final program
+OR A J
+AND B J
+AND C J
+NOT J J
+AND D J
+OR E T
+OR H T
+AND T J
+RUN
+
+
+the simplified version of the part a program, along with the caveat that if E and H are both blank then don't jump
+this is just another look ahead; to avoid situations like this, where you jump and then can't walk or jump
+
+@
+#xxx#.xx.x    
+ ABCDEFGHI

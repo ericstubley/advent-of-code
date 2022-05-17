@@ -24,6 +24,11 @@ Day 17: move the bot around the scaffold in an optimal way
 Day 19: test out the tractor beam
     This was very straightfoward!
     Involved making many many small calls to the tractor beam boolean intcode
+Day 21: run the hull scanning springdroid
+    solved both parts by hand :P:P:P
+    the challenge here was circuit design
+    in a constrained space fit a circuit which obeys some rules
+    again nothing really special about the intcode itself
 
 
 Plans for the future
