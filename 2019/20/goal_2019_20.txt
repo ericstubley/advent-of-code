@@ -1,0 +1,14 @@
+part a
+
+you're given a maze, but there's portals in it
+what is the length of the shortest path AA to ZZ
+
+
+part b
+
+in fact the puzzle is a recursive space
+the outer level of portals connects to a bigger version of the maze, the inner level to a smaller version
+
+you start at level 0; the only working outer portals are AA and ZZ, all the inner portals work
+
+what is the shortest path AA level 0 to ZZ level 0?
