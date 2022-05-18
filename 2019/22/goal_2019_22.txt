@@ -1,0 +1,59 @@
+part a
+
+you play shuffling games with space cards while you wait for things to happen
+the deck has 10007 cards
+
+you're practicing shuffling techniques, of which you have 3
+- deal into new stack (reverse) 
+- cut n (or -n)
+- deal with increment n
+
+
+part b
+
+same deal except now the deck has
+119315717514047 many cards
+and you're going to apply the shuffle procedure
+101741582076661 many times
+
+after doing that, what number is on the card that ends up in position 2020?
+that changes the game...
+
+still somehow you're gonna want to know what cycle 2020 goes through and then work backwards from there?
+
+
+2020 goes through a cycle of length k, let's call them a0 through a(k-1)
+
+what's in position 2020 at time n is always one of the ak
+
+at time 1 its a(k-1), at time 2 its a(k-2), until at time k its a(k-k) = a0 back to 2020
+
+
+you're having overflow problems!
+but that got fixed quickly by switching things to Integral/Integer
+
+
+do you have to do some kind of modular exponentiation trick to compute
+permutation ^ big power 
+
+let's suppose that the group has exponent = deck size
+what's the group?
+it should be Z/nZ semidirect (Z/nZ)^x
+this group is one you're used to :P since n is prime in our case
+
+
+the deck size is prime, which surely isn't a coincidence
+the loop size is also prime, which is maybe less relevant
+
+
+
+so you know the operation has order n * (n-1)
+you don't want technique^loops 2020
+you want technique^(-loops) 2020
+
+well you could figure out -loops mod n*(n-1)
+compute technique ^ that using modular exponentiation; good in any monoid
+then just apply it
+
+
+how are you supposed to do this though?
