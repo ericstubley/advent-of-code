@@ -1,0 +1,60 @@
+part a
+
+finally an intcode problem involving a whole big network
+initialize 50 copies of the machine with inputs (their addresses) 0-49
+
+they'll run and produce outputs in groups of 3 (an address, an x, a y)
+when they request input if there's any queued up for their address you give them the x and then the y; if not give them a -1
+
+eventually one of them will send something to address 255; what is the y value?
+
+
+
+I think altSink is what you need
+everything is running in a state monad
+
+the source is a global queue
+yields Packets
+    a Packet is either just an EmptyPacket Int or Packet Int Int Int
+
+you want to altSink together a bunch of pipes
+each pipe is 
+
+preprocessor
+    input type is Packet
+    output type is Int
+    upstream type irrelevant
+    return type ()
+
+    this will yield the id
+    and then go into a loop of awaiting packets, sending -1 if empty or the x y if nonempty
+
+the actual VM
+    input type Int
+    output type Int
+    upstream type irrelevant
+    return type Program
+
+    just does its thing
+
+the postprocessor
+    input type Int
+    output type Void
+    upstream type Program
+    return type Int
+
+    takes three outputs and puts them into the queue
+
+
+
+uhhhh wow that worked first try
+
+
+part b
+
+packets sent to 255 are stored in the NAT
+the NAT only stores one packet at a time
+when the input queue is empty, the controller sends the packet in the NAT to address 0
+
+
+what is the first y value delivered twice in a row by the nat?
