@@ -29,6 +29,11 @@ Day 21: run the hull scanning springdroid
     the challenge here was circuit design
     in a constrained space fit a circuit which obeys some rules
     again nothing really special about the intcode itself
+Day 23: rebuild the network of 50 machines after the cat6 disaster
+    you did some pipe magic by using the Alternative instance of sinks
+    tbh you wrote it and it worked first try, but it seems a bit black magic
+    redesigned things a bit to get part 2 working
+    key insight was to separate out the running of the network from the packet snooping
 
 
 Plans for the future
