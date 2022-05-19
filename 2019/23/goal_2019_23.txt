@@ -58,3 +58,19 @@ when the input queue is empty, the controller sends the packet in the NAT to add
 
 
 what is the first y value delivered twice in a row by the nat?
+
+
+
+well you tried a lot of things to make this work and you're getting bamboozled by it
+the key issue seems to be that you can detect the failure at the beginning of the loop, but only exit from the end
+and you can't force your way into some kind of end state easily
+and the one way you can is by just feeding -1 to everything; but then you never get to the output stage???
+revisit in the morning
+
+
+the issue that you're having is that currently controlling the network and snooping the packets for exit conditions are happening in the same place
+separate them!
+and then altSink on a snooper to provide the exit condition
+
+
+awww yeeee the snooping strat worked super well once you fixed the silly mistakes
