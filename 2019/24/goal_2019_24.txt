@@ -1,0 +1,83 @@
+part a
+
+you've got a 5x5 grid of bugs
+they have cellular automaton rules
+- a bug dies unless there's exactly one bug adjacent to it
+- an empty space gets a bug if there's exactly one or two bugs adjacent
+
+
+a grid has a biological diversity rating (spot have score 1, 2, 4, 8...)
+
+what is the rating for the first grid that appears twice?
+
+
+
+you could it with massiv + stencils
+but let's do it with bits!
+
+put spots 1 through 25 in the bits 1 through 25 of an int
+so spot 1 is in the 1 bit, spot 2 in the 2 bit, spot 3 in the 4 bit, ...
+
+to see the neighbour above, shift right (down) 5 bits
+to see the neighbour below, cut off the top 5 and shift left (up) 5 bits
+to see the neighbour to the left, cut off bits 5, 10, 15, 20, 25 and shift left 1
+to see the neighbour to the right, cut off bits 1, 6, 11, 16, 21 and shift right 1 bit
+
+
+
+the set bits are
+- the ones which are set and for which there's exactly 1 set neighbour
+- the ones which aren't set and for which there's exactly 1 or 2 neighbours
+
+
+- so it's the ones where's there's exactly 1 neighbour
+- and the ones where there is no bit and exactly 2 neighbours
+
+
+xor them all tests if an odd number are set
+
+
+(aubucud) n not (all 4 | any 3 | any 2)
+
+all 4 = anbncnd
+any 3 = (anbnc)u(anbnd)u(anbnd)u(bncnd)
+any 2 = (anb)u(anc)u(and)u(bnc)u(bnd)u(cnd)
+
+
+
+
+to find 2:
+- xor of all tests for odd
+- not xor of all and at least one is set
+
+these circuits aren't very elegant, but they sure work well
+
+
+part b
+
+
+the bugs live in a recursive plutonian structure
+this grid actually has another whole grid in its center, and it is the center of a bigger grid
+initially only this level has bugs in it
+the recursive relation means that some cells have more than 4 adjacent cells; but the rules for bug growth/death stay the same
+
+how many bugs are present after 200 timesteps?
+
+
+this isn't hard with a map
+and additionally each level has at most 24 bugs (none in center); each time step creates at most 2 new levels => at most 9624 = 24*401 bugs
+
+(even better it takes two timesteps to move across a level, so you only hits new levels every other step)
+so the better upper bound is 24*201 = 4824
+(final answer was 1921, so about 2/5)
+
+
+
+the involved thing is finding the list of neighbours
+00 01 02 03 04
+10 11 12 13 14
+20 21 in 23 24
+30 31 32 33 34
+40 41 42 43 44
+
+
