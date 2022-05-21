@@ -1,0 +1,18 @@
+part a
+
+you're controlling a droid inside santa's ship
+you can issue it north south east west movement commands
+take <item>
+drop <item>
+inv
+
+probably you need to do some weight balancing of items to get through pressure plates
+
+
+indeed that's what you need to do
+hardcoded the full list of instructions into the puzzle
+
+
+part b
+
+freebie because it's the last day

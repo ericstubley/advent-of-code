@@ -34,6 +34,8 @@ Day 23: rebuild the network of 50 machines after the cat6 disaster
     tbh you wrote it and it worked first try, but it seems a bit black magic
     redesigned things a bit to get part 2 working
     key insight was to separate out the running of the network from the packet snooping
+Day 25: weight balance your droid to make it past the pressure plates on santa's ship
+    another solve by hand
 
 
 Plans for the future
