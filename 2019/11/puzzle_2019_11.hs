@@ -25,27 +25,42 @@ data Spaceship = Spaceship
 
 -- functions
 
-camera :: (MonadState Spaceship m) => Pipe () Int Void m ()
+camera :: (MonadState Spaceship m) => Pipe i Int u m a
 camera = C.repeatM $ do
     ship <- get
     return $ M.findWithDefault 0 (plate ship) (hull ship)
 
 
-paintAndMove :: (MonadState Spaceship m) => Int -> Pipe Int Void () m ()
-paintAndMove c =  do
-    ship <- get
+updater :: MonadState Spaceship m => Pipe Int Void u m ()
+updater = do
+    c <- await
     t <- await
-    case t of 
-        Nothing -> return ()
-        (Just t') -> do
-            let h' = M.insert (plate ship) c (hull ship)
-            let d' = turn t' (direction ship)
+    ship <- get
+    case (c, t) of
+        (Just colour, Just turnSignal) -> do
+            let h' = M.insert (plate ship) colour (hull ship)
+            let d' = turn turnSignal (direction ship)
             let p' = move d' (plate ship)
             modify $ \s -> Spaceship h' d' p'
+            updater
+        (_, _) -> return ()
 
 
-updater :: MonadState Spaceship m => Pipe Int Void () m ()
-updater = awaitForever paintAndMove
+-- paintAndMove :: (MonadState Spaceship m) => Int -> Pipe Int Void u m u
+-- paintAndMove c = do
+--     ship <- get
+--     t <- await
+--     case t of 
+--         Nothing -> return
+--         (Just t') -> do
+--             let h' = M.insert (plate ship) c (hull ship)
+--             let d' = turn t' (direction ship)
+--             let p' = move d' (plate ship)
+--             modify $ \s -> Spaceship h' d' p'
+-- 
+-- 
+-- updater :: MonadState Spaceship m => Pipe Int Void u m u
+-- updater = awaitForever paintAndMove
 
 
 turn :: Int -> Direction -> Direction
@@ -63,12 +78,11 @@ move dir (x, y) = case dir of
 
 
 runRobot :: Program -> Int -> Spaceship
-runRobot program colour = runPipePure $ L.execStateP initialShip pipeline where
-    pipeline =     camera
-                .| L.evalStateP vm execute
-                .| updater
-    vm = initVM program
-    initialShip = Spaceship (M.singleton (0, 0) colour) North (0, 0)
+runRobot program colour = runPipePure pipeline
+  where pipeline = L.execStateP initialShip $ camera
+                                           .| intcodePipe program
+                                           .| updater
+        initialShip = Spaceship (M.singleton (0, 0) colour) North (0, 0)
 
 
 -- healthCheck :: (MonadIO m, MonadState Spaceship m) => Pipe Void Void u m u
@@ -86,7 +100,7 @@ printableHull h = lls where
     ls y = map charAt [(x, y) | x <- [(minimum xs)..(maximum xs)]]
     lls = [ls y | y <- reverse [(minimum ys)..(maximum ys)]]
     charAt (x, y) = if (M.findWithDefault 0 (x, y) h) == 0 
-                        then '.' 
+                        then ' ' 
                         else '#'
 
 

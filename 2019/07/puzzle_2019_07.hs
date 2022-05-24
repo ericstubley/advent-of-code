@@ -5,7 +5,9 @@ import Data.List (permutations)
 import Automation (submitAnswer)
 import Intcode
 import Parsing
+import Data.Conduino
 import Lens.Micro.Platform
+import qualified Data.Conduino.Combinators as C
 
 
 phaseThrust :: Program -> [Int] -> Int
@@ -17,22 +19,39 @@ phaseThrust program phases = go phases 0 where
 
 
 feedbackThrust :: Program -> [Int] -> Int
-feedbackThrust program phases = loop config 0
-  where
-    blankVM = VectorVM 0 program 0
-    config = map (\p -> ([p], blankVM, [])) phases
-    loop :: [([Int], VectorVM, [Int])] -> Int -> Int
-    loop state i = case result of
-        Output -> loop state' next
-        Halt   -> if i == (l-1) then last outputs
-                                else loop state' next
-        where
-            l = length phases
-            (prev, next) = (mod (i-1) l, mod (i+1) l)
-            (inputs, vm, outputs) = state !! i
-            inputs' = inputs ++ [(last' 0) $ (state !! prev) ^. _3]
-            (result, vm', outputs') = runOutput vm inputs'
-            state' = replace i (inputs', vm', outputs ++ outputs') state
+feedbackThrust program phases = last $ runPipePure feedbackLoop
+  where feedbackLoop = C.sourceList [0]
+                    .| feedbackPipe amplifiers
+                    .| C.sinkList
+        amplifiers = feedInput (intcodePipe program) (phases !! 0)
+                  .| feedInput (intcodePipe program) (phases !! 1)
+                  .| feedInput (intcodePipe program) (phases !! 2)
+                  .| feedInput (intcodePipe program) (phases !! 3)
+                  .| feedInput (intcodePipe program) (phases !! 4)
+
+
+feedInput :: Monad m => Pipe i o u m a -> i -> Pipe i o u m a
+feedInput p i = (yield i >> awaitForever (\x -> yield x))
+             .| p
+
+
+-- feedbackThrust :: Program -> [Int] -> Int
+-- feedbackThrust program phases = loop config 0
+--   where
+--     blankVM = VectorVM 0 program 0
+--     config = map (\p -> ([p], blankVM, [])) phases
+--     loop :: [([Int], VectorVM, [Int])] -> Int -> Int
+--     loop state i = case result of
+--         Output -> loop state' next
+--         Halt   -> if i == (l-1) then last outputs
+--                                 else loop state' next
+--         where
+--             l = length phases
+--             (prev, next) = (mod (i-1) l, mod (i+1) l)
+--             (inputs, vm, outputs) = state !! i
+--             inputs' = inputs ++ [(last' 0) $ (state !! prev) ^. _3]
+--             (result, vm', outputs') = runOutput vm inputs'
+--             state' = replace i (inputs', vm', outputs ++ outputs') state
 
 
 last' :: a -> [a] -> a
@@ -42,9 +61,8 @@ last' _ ls = last ls
 
 replace :: Int -> a -> [a] -> [a]
 replace i x xs = before ++ [x] ++ after
-  where
-    (before, cutoff) = splitAt i xs
-    after = tail cutoff
+  where (before, cutoff) = splitAt i xs
+        after = tail cutoff
 
 
 maxThrust :: Program -> Int
@@ -71,6 +89,7 @@ mainB :: IO ()
 mainB = do
     (Just program) <- parseInput programP "07/input.txt"
     let answer = maxFeedbackThrust program
-    result <- submitAnswer 2019 07 2 answer
-    print result
+    print answer
+    -- result <- submitAnswer 2019 07 2 answer
+    -- print result
     return ()

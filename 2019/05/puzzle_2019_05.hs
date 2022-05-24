@@ -9,7 +9,7 @@ mainA = do
     (Just prog) <- parseInput programP "05/input.txt"
     -- should have a single input of 1, then output a bunch of 0s, 
     -- then output the answer and exit
-    execute prog
+    runInteractive prog
     -- let answer = 0 
     -- print answer
     -- result <- submitAnswer 2019 05 1 answer
@@ -21,7 +21,7 @@ mainB :: IO ()
 mainB = do
     (Just prog) <- parseInput programP "05/input.txt"
     -- should have a single input of 5, then output the answer and exit
-    execute prog
+    runInteractive prog
     -- let answer = 0
     -- print answer
     -- result <- submitAnswer 2019 05 2 answer
