@@ -22,11 +22,11 @@ import Parsing
 
 testExecute :: Test
 testExecute = TestCase (do
-    prog1' <- execute prog1
-    prog2' <- execute prog2
-    prog3' <- execute prog3
-    prog4' <- execute prog4
-    prog5' <- execute prog5
+    let (prog1', _) = runProgram prog1 []
+    let (prog2', _) = runProgram prog2 []
+    let (prog3', _) = runProgram prog3 []
+    let (prog4', _) = runProgram prog4 []
+    let (prog5', _) = runProgram prog5 []
     prog1After @=? prog1'
     prog2After @=? prog2'
     prog3After @=? prog3'

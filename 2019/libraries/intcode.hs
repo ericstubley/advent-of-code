@@ -9,17 +9,13 @@ module Intcode ( Program
                , intcodePipeAscii) where
 
 
-import Control.Monad.RWS
-import Control.Monad.Reader
-import Control.Monad.Writer
 import Control.Monad.State
 import Data.Char (ord, chr)
 import Data.Conduino
-import Data.Maybe
+import Data.IntMap.Strict (IntMap)
+import Data.Maybe (Maybe)
 import Data.Void (Void)
 import Parsing (Parser, runParser, sepBy, integer, char)
-import Lens.Micro.Platform
-import Data.IntMap.Strict (IntMap)
 import qualified Data.Conduino.Combinators as C
 import qualified Data.Conduino.Lift as L
 import qualified Data.IntMap.Strict as M
@@ -30,7 +26,7 @@ import qualified Data.IntMap.Strict as M
 type Program = [Int]
 
 -- use this type for memory locations in intcode programs
--- just a synonym o help with conceptual clarity when reading type signatures
+-- just a synonym to help with conceptual clarity when reading type signatures
 type Index = Int
 
 -- abstract monadic interface for an Intcode VM
@@ -125,7 +121,8 @@ data Mode = Pos -- positional
 
 data ExitCode = Continue
               | Output
-              | Halt deriving (Eq, Ord, Show)
+              | Halt 
+              deriving (Eq, Ord, Show)
 
 
 -- how to run an intcode program:
@@ -274,7 +271,7 @@ runProgramAscii program input = runPipePure
 
 runInteractive :: Program -> IO ()
 runInteractive program = runPipe
-    $  C.stdinLines
+     $ C.stdinLines
     .| C.map (read :: String -> Int)
     .| intcodePipe program
     .| C.mapM (print :: Int -> IO ())
@@ -283,7 +280,7 @@ runInteractive program = runPipe
 
 runInteractiveAscii :: Program -> IO ()
 runInteractiveAscii program = runPipe
-    $  C.repeatM getChar
+     $ C.repeatM getChar
     .| intcodePipeAscii program
     .| C.mapM putChar
     .| C.sinkNull
@@ -296,7 +293,9 @@ intcodePipe program = fmap extractor $ L.execStateP vm execute
 
 
 intcodePipeAscii :: Monad m => Program -> Pipe Char Char u m Program
-intcodePipeAscii program = C.map ord .| intcodePipe program .| C.map chr 
+intcodePipeAscii program = C.map ord 
+                        .| intcodePipe program 
+                        .| C.map chr 
 
 
 -- general utility functions

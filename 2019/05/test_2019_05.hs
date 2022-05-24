@@ -26,8 +26,8 @@ import Intcode
 testIOIC :: Test
 testIOIC = TestCase $ do
     putStrLn "input 50 if asked"
-    prog1Final <- execute prog1
-    prog2Final <- execute prog2
+    let (prog1Final, _) = runProgram prog1 [50]
+    let (prog2Final, _) = runProgram prog2 []
     prog1' @=? prog1Final
     prog2' @=? prog2Final
 
@@ -35,45 +35,45 @@ testIOIC = TestCase $ do
 testCompare :: Test
 testCompare = TestCase $ do
     putStrLn "expecting 8 -> 1"
-    execute prog8EqPos
+    runInteractive prog8EqPos
     putStrLn "expecting 8 -> 1"
-    execute prog8EqImm
+    runInteractive prog8EqImm
     putStrLn "expecting 7 -> 0"
-    execute prog8EqPos
+    runInteractive prog8EqPos
     putStrLn "expecting 7 -> 0"
-    execute prog8EqImm
+    runInteractive prog8EqImm
     putStrLn "expecting 7 -> 1"
-    execute prog8LtPos
+    runInteractive prog8LtPos
     putStrLn "expecting 7 -> 1"
-    execute prog8LtImm
+    runInteractive prog8LtImm
     putStrLn "expecting 8 -> 0"
-    execute prog8LtPos
+    runInteractive prog8LtPos
     putStrLn "expecting 8 -> 0"
-    execute prog8LtImm
+    runInteractive prog8LtImm
     return ()
 
 
 testJump :: Test
 testJump = TestCase $ do
     putStrLn "expecting 0 -> 0" 
-    execute progJumpPos
+    runInteractive progJumpPos
     putStrLn "expecting 0 -> 0" 
-    execute progJumpImm
+    runInteractive progJumpImm
     putStrLn "expecting 1 -> 1"
-    execute progJumpPos
+    runInteractive progJumpPos
     putStrLn "expecting 1 -> 1"
-    execute progJumpImm
+    runInteractive progJumpImm
     return ()
 
 
 testLarge :: Test
 testLarge = TestCase $ do
     putStrLn "expecting 7 -> 999"
-    execute progLarge
+    runInteractive progLarge
     putStrLn "expecting 8 -> 1000"
-    execute progLarge
+    runInteractive progLarge
     putStrLn "expecting 9 -> 1001"
-    execute progLarge
+    runInteractive progLarge
     return ()
 
 

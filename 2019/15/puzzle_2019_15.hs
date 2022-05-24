@@ -123,9 +123,8 @@ updater i = do
 runDroid :: Program -> Environment
 runDroid program = runPipePure $ L.execStateP env pipeline where
     pipeline = mapOutput translateCommand commander
-              .| void (L.evalStateP vm execute)
+              .| void (intcodePipe program)
               .| updateHandler
-    vm = initVM program
     env = Environment (M.singleton (0, 0) Open) (0, 0) [] Nothing
 
 
@@ -181,6 +180,6 @@ mainB = do
     let tank = findTank (maze env)
     let answer = longestPath (maze env) tank
     print answer
-    result <- submitAnswer 2019 15 2 answer
-    print result
+    -- result <- submitAnswer 2019 15 2 answer
+    -- print result
     return ()

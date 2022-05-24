@@ -69,10 +69,10 @@ printScreen sm score output = do
     return (sm', score')
 
 
-runGame :: [Int] -> IO ()
-runGame program = gameLoop M.empty 0 (L.execStateP vm execute) where
-    vm = initVM program
-    gameLoop :: (Monad m, MonadIO m) => ScreenMap -> Int -> Pipe Int Int () m a -> m ()
+runGame :: Program -> IO ()
+runGame program = gameLoop M.empty 0 (intcodePipe program) where
+    gameLoop :: (Monad m, MonadIO m) 
+             => ScreenMap -> Int -> Pipe Int Int () m a -> m ()
     gameLoop sm score p = do
         (output, result) <- squeezePipe p
         (sm', score') <- liftIO $ printScreen sm score output
@@ -93,15 +93,16 @@ joystick = do
        _   -> return 0
 
 
-runNoMovement program = hackLoop M.empty 0 (L.execStateP vm execute) where
-    vm = initVM program
-    hackLoop :: (Monad m, MonadIO m) => ScreenMap -> Int -> Pipe Int Int () m a -> m ()
+runNoMovement :: Program -> IO Int
+runNoMovement program = hackLoop M.empty 0 (intcodePipe program) where
+    hackLoop :: (Monad m, MonadIO m) 
+             => ScreenMap -> Int -> Pipe Int Int () m a -> m Int
     hackLoop sm score p = do
         (output, result) <- squeezePipe p
         (sm', score') <- liftIO $ printScreen sm score output
         case result of
             (Left cont) -> hackLoop sm' score' (cont 0)
-            (Right val) -> return ()
+            (Right val) -> return score'
 
 
 
@@ -121,8 +122,8 @@ mainB :: IO ()
 mainB = do
     (Just breakout) <- parseInput programP "13/sneakier_input.txt"
     let freeBreakout = 2 : tail breakout
-    runNoMovement freeBreakout
-    let answer = 0
+    score <- runNoMovement freeBreakout
+    let answer = score
     print answer
     -- result <- submitAnswer 2019 13 2 answer
     -- print result

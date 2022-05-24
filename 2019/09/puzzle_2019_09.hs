@@ -19,9 +19,8 @@ mainB :: IO ()
 mainB = do
     (Just p) <- parseInput programP "09/input.txt"
     let (p', out) = runProgram p [2]
-    print out
     let answer = head out
-    -- print answer
-    result <- submitAnswer 2019 09 2 answer
-    print result
+    print answer
+    -- result <- submitAnswer 2019 09 2 answer
+    -- print result
     return ()
