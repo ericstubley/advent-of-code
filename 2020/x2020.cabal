@@ -1,0 +1,358 @@
+cabal-version:      2.4
+name:               x2020
+version:            0.1.0.0
+
+author:             Eric Stubley
+maintainer:         ericdavidstubley@gmail.com
+
+
+common common_settings
+    ghc-options:        -O2
+                        -funbox-strict-fields
+    default-language:   Haskell2010 
+    default-extensions: TemplateHaskell,
+                        BangPatterns,
+                        FlexibleContexts,
+                        FlexibleInstances
+    build-depends:      base,
+                        containers,
+                        mtl,
+                        primitive,
+                        vector,
+                        utf8-string,
+                        lens,
+                        microlens-platform,
+                        wreq,
+                        formatting,
+                        bytestring,
+                        massiv,
+                        megaparsec,
+                        HUnit,
+                        sort,
+                        conduino,
+                        linear,
+                        heaps
+
+
+common common_executable
+    import:             common_settings
+    build-depends:      x2020
+
+
+library
+    import:             common_settings
+    hs-source-dirs:     libraries
+    exposed-modules:    Automation,
+                        Grid,
+                        Intcode,
+                        Parsing,
+                        Utilities
+    other-modules:      Cookie
+
+
+executable testIntcode
+    import:             common_executable
+    main-is:            unified_intcode_tests.hs
+    hs-source-dirs:     libraries
+    other-modules:      Intcode,
+                        Parsing
+
+executable day01
+    import:             common_executable
+    main-is:            main_2020_01.hs
+    hs-source-dirs:     01
+    other-modules:      Puzzle_2020_01
+
+executable test01
+    import:             common_executable
+    main-is:            test_2020_01.hs
+    hs-source-dirs:     01
+    other-modules:      Puzzle_2020_01
+
+executable day02
+    import:             common_executable
+    main-is:            main_2020_02.hs
+    hs-source-dirs:     02
+    other-modules:      Puzzle_2020_02
+
+executable test02
+    import:             common_executable
+    main-is:            test_2020_02.hs
+    hs-source-dirs:     02
+    other-modules:      Puzzle_2020_02
+
+executable day03
+    import:             common_executable
+    main-is:            main_2020_03.hs
+    hs-source-dirs:     03
+    other-modules:      Puzzle_2020_03
+
+executable test03
+    import:             common_executable
+    main-is:            test_2020_03.hs
+    hs-source-dirs:     03
+    other-modules:      Puzzle_2020_03
+
+executable day04
+    import:             common_executable
+    main-is:            main_2020_04.hs
+    hs-source-dirs:     04
+    other-modules:      Puzzle_2020_04
+
+executable test04
+    import:             common_executable
+    main-is:            test_2020_04.hs
+    hs-source-dirs:     04
+    other-modules:      Puzzle_2020_04
+
+executable day05
+    import:             common_executable
+    main-is:            main_2020_05.hs
+    hs-source-dirs:     05
+    other-modules:      Puzzle_2020_05
+
+executable test05
+    import:             common_executable
+    main-is:            test_2020_05.hs
+    hs-source-dirs:     05
+    other-modules:      Puzzle_2020_05
+
+executable day06
+    import:             common_executable
+    main-is:            main_2020_06.hs
+    hs-source-dirs:     06
+    other-modules:      Puzzle_2020_06
+
+executable test06
+    import:             common_executable
+    main-is:            test_2020_06.hs
+    hs-source-dirs:     06
+    other-modules:      Puzzle_2020_06
+
+executable day07
+    import:             common_executable
+    main-is:            main_2020_07.hs
+    hs-source-dirs:     07
+    other-modules:      Puzzle_2020_07
+
+executable test07
+    import:             common_executable
+    main-is:            test_2020_07.hs
+    hs-source-dirs:     07
+    other-modules:      Puzzle_2020_07
+
+executable day08
+    import:             common_executable
+    main-is:            main_2020_08.hs
+    hs-source-dirs:     08
+    other-modules:      Puzzle_2020_08
+
+executable test08
+    import:             common_executable
+    main-is:            test_2020_08.hs
+    hs-source-dirs:     08
+    other-modules:      Puzzle_2020_08
+
+executable day09
+    import:             common_executable
+    main-is:            main_2020_09.hs
+    hs-source-dirs:     09
+    other-modules:      Puzzle_2020_09
+
+executable test09
+    import:             common_executable
+    main-is:            test_2020_09.hs
+    hs-source-dirs:     09
+    other-modules:      Puzzle_2020_09
+
+executable day10
+    import:             common_executable
+    main-is:            main_2020_10.hs
+    hs-source-dirs:     10
+    other-modules:      Puzzle_2020_10
+
+executable test10
+    import:             common_executable
+    main-is:            test_2020_10.hs
+    hs-source-dirs:     10
+    other-modules:      Puzzle_2020_10
+
+executable day11
+    import:             common_executable
+    main-is:            main_2020_11.hs
+    hs-source-dirs:     11
+    other-modules:      Puzzle_2020_11
+
+executable test11
+    import:             common_executable
+    main-is:            test_2020_11.hs
+    hs-source-dirs:     11
+    other-modules:      Puzzle_2020_11
+
+executable day12
+    import:             common_executable
+    main-is:            main_2020_12.hs
+    hs-source-dirs:     12
+    other-modules:      Puzzle_2020_12
+
+executable test12
+    import:             common_executable
+    main-is:            test_2020_12.hs
+    hs-source-dirs:     12
+    other-modules:      Puzzle_2020_12
+
+executable day13
+    import:             common_executable
+    main-is:            main_2020_13.hs
+    hs-source-dirs:     13
+    other-modules:      Puzzle_2020_13
+
+executable test13
+    import:             common_executable
+    main-is:            test_2020_13.hs
+    hs-source-dirs:     13
+    other-modules:      Puzzle_2020_13
+
+executable day14
+    import:             common_executable
+    main-is:            main_2020_14.hs
+    hs-source-dirs:     14
+    other-modules:      Puzzle_2020_14
+
+executable test14
+    import:             common_executable
+    main-is:            test_2020_14.hs
+    hs-source-dirs:     14
+    other-modules:      Puzzle_2020_14
+
+executable day15
+    import:             common_executable
+    main-is:            main_2020_15.hs
+    hs-source-dirs:     15
+    other-modules:      Puzzle_2020_15
+
+executable test15
+    import:             common_executable
+    main-is:            test_2020_15.hs
+    hs-source-dirs:     15
+    other-modules:      Puzzle_2020_15
+
+executable day16
+    import:             common_executable
+    main-is:            main_2020_16.hs
+    hs-source-dirs:     16
+    other-modules:      Puzzle_2020_16
+
+executable test16
+    import:             common_executable
+    main-is:            test_2020_16.hs
+    hs-source-dirs:     16
+    other-modules:      Puzzle_2020_16
+
+executable day17
+    import:             common_executable
+    main-is:            main_2020_17.hs
+    hs-source-dirs:     17
+    other-modules:      Puzzle_2020_17
+
+executable test17
+    import:             common_executable
+    main-is:            test_2020_17.hs
+    hs-source-dirs:     17
+    other-modules:      Puzzle_2020_17
+
+executable day18
+    import:             common_executable
+    main-is:            main_2020_18.hs
+    hs-source-dirs:     18
+    other-modules:      Puzzle_2020_18
+
+executable test18
+    import:             common_executable
+    main-is:            test_2020_18.hs
+    hs-source-dirs:     18
+    other-modules:      Puzzle_2020_18
+
+executable day19
+    import:             common_executable
+    main-is:            main_2020_19.hs
+    hs-source-dirs:     19
+    other-modules:      Puzzle_2020_19
+
+executable test19
+    import:             common_executable
+    main-is:            test_2020_19.hs
+    hs-source-dirs:     19
+    other-modules:      Puzzle_2020_19
+
+executable day20
+    import:             common_executable
+    main-is:            main_2020_20.hs
+    hs-source-dirs:     20
+    other-modules:      Puzzle_2020_20
+
+executable test20
+    import:             common_executable
+    main-is:            test_2020_20.hs
+    hs-source-dirs:     20
+    other-modules:      Puzzle_2020_20
+
+executable day21
+    import:             common_executable
+    main-is:            main_2020_21.hs
+    hs-source-dirs:     21
+    other-modules:      Puzzle_2020_21
+
+executable test21
+    import:             common_executable
+    main-is:            test_2020_21.hs
+    hs-source-dirs:     21
+    other-modules:      Puzzle_2020_21
+
+executable day22
+    import:             common_executable
+    main-is:            main_2020_22.hs
+    hs-source-dirs:     22
+    other-modules:      Puzzle_2020_22
+
+executable test22
+    import:             common_executable
+    main-is:            test_2020_22.hs
+    hs-source-dirs:     22
+    other-modules:      Puzzle_2020_22
+
+executable day23
+    import:             common_executable
+    main-is:            main_2020_23.hs
+    hs-source-dirs:     23
+    other-modules:      Puzzle_2020_23
+
+executable test23
+    import:             common_executable
+    main-is:            test_2020_23.hs
+    hs-source-dirs:     23
+    other-modules:      Puzzle_2020_23
+
+executable day24
+    import:             common_executable
+    main-is:            main_2020_24.hs
+    hs-source-dirs:     24
+    other-modules:      Puzzle_2020_24
+
+executable test24
+    import:             common_executable
+    main-is:            test_2020_24.hs
+    hs-source-dirs:     24
+    other-modules:      Puzzle_2020_24
+
+executable day25
+    import:             common_executable
+    main-is:            main_2020_25.hs
+    hs-source-dirs:     25
+    other-modules:      Puzzle_2020_25
+
+executable test25
+    import:             common_executable
+    main-is:            test_2020_25.hs
+    hs-source-dirs:     25
+    other-modules:      Puzzle_2020_25
