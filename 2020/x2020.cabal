@@ -44,18 +44,10 @@ library
     hs-source-dirs:     libraries
     exposed-modules:    Automation,
                         Grid,
-                        Intcode,
                         Parsing,
                         Utilities
     other-modules:      Cookie
 
-
-executable testIntcode
-    import:             common_executable
-    main-is:            unified_intcode_tests.hs
-    hs-source-dirs:     libraries
-    other-modules:      Intcode,
-                        Parsing
 
 executable day01
     import:             common_executable

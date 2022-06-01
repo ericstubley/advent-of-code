@@ -1,0 +1,11 @@
+part a
+
+you need to find star(fish coin)s in order to save your vacation!
+today you're cleaning up your expense report before you leave
+given a long list of numbers, find the pair which sum to 2020
+what is their product?
+
+
+part b
+
+find the product of the three numbers which add to 2020
