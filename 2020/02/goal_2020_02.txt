@@ -1,0 +1,11 @@
+part a
+
+you're given a list of rules and passwords, and you want to know how many of them are valid
+the rule is m n c for ints m, n and character c
+pwd is valid if it has between m and n many cs in it
+
+
+part b
+
+actually the validity rules are different
+pwd is valid if it has exactly one c at either position m or n (1-indexed)
