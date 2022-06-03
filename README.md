@@ -50,3 +50,9 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - Also focus on project management. Your 2018 system was very ad hoc, and it would be nice for example to have a consistent sensible set of automatic imports.
 - When you need lenses, use the microlens library; it's much easier and has better docs than the full lens library.
 - Pay attention to not googling; workflow should be to try and remember first, then try to puzzle it out with ghci, then google. This loop shouldn't take more than a minute, but a bit of effort will go a long way to increasing recall.
+
+
+2020: (Jun 2022)
+- Haskell is the language
+- At this point the goal is to get it done before Mathcamp
+- Keep up the good habits!
