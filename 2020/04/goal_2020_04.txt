@@ -1,0 +1,15 @@
+part a
+
+you hack the passport scanning system so that you can sneak your north pole credentials past it
+
+each passport has up to 8 fields
+consider passports valid if they have: all 8 fields, or all fields except cid
+
+
+how many valid passports are there?
+
+
+part b
+
+now you have to validate each field!
+how many valid passports are there if you also validate each field?
