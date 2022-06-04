@@ -1,0 +1,14 @@
+part a
+
+you want to help the plane fill out their customs forms
+there are 26 questions a-z on the form
+you get the data in groups; each line is a single person in the group (the questions to which they answer yes)
+
+each group has a score: the number of questions anyone in that group answered yes to
+what is the sum of those scores?
+
+
+part b
+
+you misread the instructions!
+you want the count of the questions to which everyone in the group answered yes!
