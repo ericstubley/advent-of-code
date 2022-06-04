@@ -1,0 +1,11 @@
+part a
+
+you lost your boarding pass! you need to figure out what your seat is
+every boarding pass has the row and col encoding in binary basically
+7 characters F or B (front or back; F=0, B=1) for the row
+3 characters R or L (right or left; R=1, L=0) for the column
+
+the seat id is 8*row + col
+
+
+what is the highest seat id on a boarding pass?
