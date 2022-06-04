@@ -1,0 +1,13 @@
+part a
+
+there's an arcane list of baggage rules; bags of a certain colour must contain an exact list of other bags
+
+shiny gold bags are at the bottom; they contain no others
+so you get a directed graph
+how many bag types are below shiny gold in this directed graph?
+
+
+part b
+
+you want to figure out exactly how impractical it would be to use your shiny gold bag
+how many bags will have to be inside it?
