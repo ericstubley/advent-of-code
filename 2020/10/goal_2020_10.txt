@@ -1,0 +1,20 @@
+part a
+
+your device runs out of battery mid-flight
+fortunately you brought a whole mess of adapters, so let's construct a janky adapter chain to charge it
+every adapter produces a certain joltage as output, and can takes joltages 1-3 lower as input
+you start with a joltage of 0 from the socket, and your device takes the max of the adapters + 3
+
+
+in a chain of adapters that uses all of the adapters you have, what is the product of the # of 1-jolt differences and the # of 3-jolt differences
+
+
+part b
+
+the same rules still apply
+how many different adapter chains are possible?
+
+
+strategies:
+- memoized recursive
+- divide and conquer
