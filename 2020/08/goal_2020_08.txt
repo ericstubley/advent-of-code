@@ -1,0 +1,24 @@
+part a
+
+it's an assembly puzzle!
+their gameboy is broken, you'll have to understand the assembly to fix it
+
+only three codes:
+acc - increase or decrease the accumulator value by the argument
+jmp - move ahead/behind to the instruction given
+nop - does nothing
+
+
+since there's no conditionals on the jumping, you know that as soon as you see an instruction for a second time you're in an infinite loop
+
+what is the value of the accumulator immediately before you execute something for the second time?
+
+
+part b
+
+the program is supposed to work by terminating when you move to one past the end of the program
+fix the program by changing exactly one jmp to nop or nop to jmp
+what is the value of the acc when the correct program terminates?
+
+
+not the cleanest code ever, but you sure are getting fluent with writing these haskell solutions
