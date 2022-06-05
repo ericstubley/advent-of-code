@@ -1,0 +1,19 @@
+part a
+
+you want to hack the inflight entertainment system, which uses the XMAS protocol
+it gives you a list of integers
+after the first 25 (5 in the test) every number is supposed to be the sum of two of the preceding 25, but never x+x if x appears twice
+
+what is the first number which isn't the sum of two of the preceding ones?
+
+
+part b
+
+to find the encryption weakness the first step is to find the number as in part a
+
+this number is the sum of a contiguous set of at least two numbers from the original input
+add together the smallest and largest numbers in this contiguous set to get the answer
+
+
+
+your solution it technically not fully general but it's almost surely gonna work on all these big inputs
