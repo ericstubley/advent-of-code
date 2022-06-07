@@ -1,0 +1,26 @@
+part a
+
+you're given a list of commands for how to move your ship, to escape the storm!
+each command is a letter (N, E, S, W, L, R, F) followed by a number
+
+the cardinal directions move in that direction
+L, R turn that many degrees
+F moves in whatever direction you're facing
+
+
+part b
+
+the instructions were on the back of the card all along! you had them wrong
+everything is relative to a waypoint, which itself is relative to the ship
+
+N, E, S, W move the waypoint
+
+L, R rotate the waypoint around the ship
+
+F moves the ship by the ship -> waypoint vector
+
+this is an excellent opportunity for complex numbers! Z[i] in fact
+
+turns out making a good Z[i] instance in Haskell is less straightforward than you wanted
+but you got something working first try!
+there's a LOT of duplicate code here...
