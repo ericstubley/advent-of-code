@@ -1,0 +1,26 @@
+part a
+
+you are sitting in an empty waiting area to board the ferry
+the seats fit onto a grid, which you are given
+tiles are denoted . for floor, L for empty seat, # for occupied seat
+
+as people arrive they take seats according to a set of cellular automata rules
+decisions are based on the number of 8-adjacent occupied seats
+- if a seat is empty and there are no occupied neighbours it becomes occupied
+- if a seat is occupied and there are 4 or more occupied neighbours it becomes empty
+- otherwise remain the same
+
+
+eventually the seating configuration becomes stable
+how many seats are occupied in the stable configuration?
+
+
+part b
+
+the seating decision is now based on rays in the 8 directions
+the 8 pieces of information are the first empty/occupied seat you see when looking in a given direction
+also the occupied -> empty rule now takes 5 or more neighbours
+
+
+little bit hacky hardcoded to make the stencils work but that's okay
+also compile times were real slow today?
