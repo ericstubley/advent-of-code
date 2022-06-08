@@ -1,0 +1,45 @@
+part a
+
+you want to figure out the bus schedule
+each bus route's number is also how long it takes the bus to make a full round trip
+your input has two lines:
+- estimate of the earliest time you could get a bus
+- the list of bus routes in service
+
+for whichever bus you can catch earliest, multiply the bus route # by the number of minutes you have to wait for it
+
+
+(number of minutes to wait for bus n is just -t mod n)
+
+
+part b
+
+there's a contest to find the times when buses depart with a certain pattern
+given 7,13,x,x,59 you want to find the earliest time t such that
+- bus 7 departs at time t
+- bus 13 departs at time t+1
+- bus 59 departs at time t+4
+
+
+i.e. you want the smallest t such that
+t == 0 mod 7
+t == -1 mod 13
+t == -4 mod 59
+CRT to the rescue
+
+
+what is this smallest timestamp?
+
+
+
+how to do CRT
+you have the condition (n, a) (soln == a mod n)
+you're given the condition (m, b) (soln == b mod m)
+and you want to combine
+
+soln will be of the form a + kn; just keep increasing k until you hit == b mod m?
+and then new solution is (lcm n m, a+kn)
+
+
+oof you were to much in math world that you made some dumb mistakes with - signs
+but still super fast!
