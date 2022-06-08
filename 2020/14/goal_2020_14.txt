@@ -1,0 +1,29 @@
+part a
+
+the seaport computer's initialization program is weird; uses a strange bitmask system
+two types of operations
+mask = string of 36 X 0 1
+mem[address] = value
+
+
+whenever you hit a mem operation you write something to memory
+the something is value but modified by the mask
+1s and 0s in the mask overwrite those bits in value
+Xs do nothing
+
+
+what is the sum of the values in memory once you're done?
+
+
+part b
+
+in fact the mask acts as a memory address decoder rather than acting on values
+1 in the mask sets the memory bit to 1
+0 in the mask leaves the bit unchanged
+X acts as a floating bit; a mask with n Xs will write to all the 2^n memory locations
+
+
+think about the mask as a Int -> [Int]
+similar process
+
+(lots of duplicate code in the parsing, oh well)
