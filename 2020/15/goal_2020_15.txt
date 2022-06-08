@@ -1,0 +1,31 @@
+part a
+
+you're playing a memory game with the elves while you wait for your flight
+based on all the previous numbers said you say a new number
+- if the previous number was said for the first time, you say 0
+- if the previous number has been said more than once, say the difference between the turns things were said on
+
+for example if the numbers said are 0, 3, 6, 0 the next number would be 3 (difference of turn 3 and turn 0)
+
+
+what will be the 2020th number spoken?
+
+
+part b
+
+determine the 30000000th number spoken
+
+
+to do this, can we guarantee some looping?
+or how would we even test for looping?
+I don't think its looping because one of the things is ~6million; i.e. the last thing was said ~6 million turns ago
+that can't be part of a loop that cut things down quite a lot
+
+
+nope this really looks like you just have to do it all
+where I'm being held back: the immutable map
+    you have a very tight loop and a big immutable data structure
+    that's a recipe for slowness
+    the fast haskell solutions are using ST and a mutable map
+    another speedup would be to use a vector instead of a map for the lookup
+    you can upper bound the required vector size by the turn you're looking for
