@@ -1,0 +1,28 @@
+part a
+
+you want to help the elves with their fancy Conway Cube energy source
+basically its 3d game of life
+
+cubes are either active or inactive points in 3d space
+if active and exactly 2 or 3 active neighbours, then active; else inactive
+if inactive and exactly 3 neighbours active, then active; else inactive
+
+every cube has 26 neighbours (considering diagonals and straight in 3d space)
+
+
+after simulating 6 steps how many cubes are active?
+
+
+
+part b
+
+
+lol everything is actually 4 dimn
+all the same rules but now with 4 dimns
+
+
+I'm gonna be lazy and just duplicate the code....
+surely this is a good way to do this, but I have other things to do today
+decidedly non-optimal solution today, mostly because you didn't do the polymorphism
+also the 80 neighbours every time was maybe making it very slow?
+somehow even just 6 iterates in 4d was quite slow
