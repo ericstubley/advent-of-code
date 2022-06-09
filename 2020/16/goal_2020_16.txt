@@ -1,0 +1,34 @@
+part a 
+
+you want to figure out what the fields on the tickets are
+you know what the names of the fields are, and what the ranges for valid values are
+but you don't know which numbers on the tickets are which fields
+
+step 1: for all the tickets except yours figure out how many of the fields are not valid for ANY of the possible fields, and take the sum of those values
+
+
+part b
+
+remove all tickets which have a value that's invalid
+the field order between tickets is consistent
+use the nearby tickets to figure out what the field order is
+
+then for your ticket, take the 6 fields whose names start with "departure" and multiply your ticket's values together
+
+
+
+
+extract from the tickets a list of (all first elements), (all second elements), etc.
+for each of those filter out the list of remaining ranges based on which are valid for that position
+
+whenever we get a position which has a single valid range we add it to the map
+restrict the positions and ranges based on the ones we found and repeat
+
+
+rather than lots of recomputing
+build a list of lists (index i is the list of ranges valid for position i)
+
+
+
+loooool silly mistake: you computed the list of validTickets and then didn't feed it in :P
+other than that it worked first try! good job
