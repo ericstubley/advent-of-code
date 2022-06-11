@@ -1,0 +1,22 @@
+part a
+
+on the plane there's a kid sitting next to you who wants help with their math homework
+
+operator precedence rules have changed: + and x have the same precedence
+can be overridden by parentheses
+
+if you evaluated each expression and added them up, what do you get? 
+
+
+my solution isn't nearly as nice as I think it has the potential to be
+
+
+part b
+
+now its time for advanced arithmetic!
+addition has precedence above multiplication!
+
+same question: evaluate each expression and add them up
+
+
+definitely still janky, this is another one that deserves a maximally clean fixup
