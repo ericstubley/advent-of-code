@@ -1,0 +1,21 @@
+part a
+
+you're given a list of rules in a standard expression syntax
+and a list of strings (all just using the characters 'a', 'b')
+
+how many of the strings are matched by rule 0?
+
+
+part b
+
+you have to fix some of the rules
+replace rules 8 and 11 by
+8: 42 | 42 8
+11: 42 31 | 42 11 31
+
+
+it might be worth looking at which rules always match the same set of values and how those rules (especially rules 42 and 31) are used by rules 8 and 11
+
+
+fortunately for us, the set of things matched by 42 and the set matched by 31 never overlap in our messages
+(maybe they do overlap and we just don't see them, or maybe they don't overlap)
