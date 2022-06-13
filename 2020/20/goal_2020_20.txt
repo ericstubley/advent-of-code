@@ -1,0 +1,53 @@
+part a
+
+this is flavoured as decoding the satellite image
+you're given a bunch of square (10x10) tiles which have been rotated/flipped
+match them up into the original square
+
+what is the product of the tile ids of the 4 corners?
+
+
+strategy is to just brute force tile match
+the corners are the ones which have only 2 matches
+edge have 3 matches
+interiors have 4 matches
+
+assuming that things are set up so that local solutions is guaranteed to be the global solution
+
+
+part b
+
+now you're ready to look for sea monsters!
+remove the boundaries and glue the images together to make the big image
+a sea monster is the following pattern
+                  # 
+#    ##    ##    ###
+ #  #  #  #  #  #   
+
+where the spaces can match anything
+
+for one of the 8 possible orientations, there are sea monsters in the grid
+
+how many # are not part of a sea monster? 
+
+
+
+
+how are we going to perform the tile matching?
+need to pay attention to which edges matched, in which orientation
+or could be lazy :P
+
+the first of the corners has 2 matches
+just declare that this first corner is gonna be the (0, 0), with the two matches being the (0, 1) and (1, 0) in that order
+
+
+break it up into four steps
+- place the tiles onto the grid
+- figure out the orientation of each tile
+- remove the edges
+- collapse
+
+
+
+your code is a huge mess
+but other than having some silly typos there were no logical errors in all the part b code!
