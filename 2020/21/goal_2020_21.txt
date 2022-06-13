@@ -1,0 +1,40 @@
+part a
+
+(I feel like you've literally gotten the exact same problem before)
+(hypothesis: 2020 was hard on everyone)
+you're given a list of ingredients for foods, but unfortunately its in a language you don't understand
+each list also has a list of allergens which appear; though not necessarily complete
+
+each allergen occurs in exactly one ingredient
+
+some ingredients you know don't correspond to any allergen; because for each allergen i there exists a food having that allergen and not having that ingredient
+
+how many times do those ingredients appear?
+
+
+part b
+
+now that you've removed the inert ingredients, you have enough info to find the allergen->ingredient pairing
+arrange the remaining ingredients alphabetically by allergen without spaces
+submit that
+
+
+let's be lazy, just do it by hand
+
+
+("dairy",fromList ["spcqmzfg"])                             -> spcqmzfg
+("eggs",fromList ["bltrbvz","dzqlq","rpf","spql","xbdh"])   -> rpf
+("fish",fromList ["dzqlq","xbdh"])                          -> dzqlq
+("nuts",fromList ["bltzkxx","pflk","spcqmzfg"])             -> pflk
+("peanuts",fromList ["bltrbvz","spql"])                     -> bltrbvz
+("sesame",fromList ["spql","xbdh"])                         -> xbdh
+("shellfish",fromList ["spcqmzfg","spql"])                  -> spql
+("wheat",fromList ["bltzkxx","dzqlq"])                      -> bltzkxx
+
+
+
+spcqmzfg,rpf,dzqlq,pflk,bltrbvz,xbdh,spql,bltzkxx
+
+
+that was absolutely a good choice of knowing when to code and when to just do it manually
+we're now in the home stretch, no more gaps in the calendar!
