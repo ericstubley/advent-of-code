@@ -1,0 +1,57 @@
+part a
+
+your crab friend suggests a game to play!
+there are 9 cups (labelled 1 through 9)
+placed in a circle
+there's a deterministic set of rules for how the crab will pick the cups up and move them around
+    from the current cup, pick up the 3 cups clockwise from it
+    pick a destination cup: the cup numbered (current cup - 1)
+        wrap around if you go below 1
+        if you want to go to a cup that's one of the 3 picked up go the next 
+    add the three you picked up clockwise of the destination cup
+    move the current cup 1 clockwise
+
+
+after 100 moves, what is the order clockwise after 1? (i.e. you want an 8 digit number)
+
+
+part b
+
+in fact there are 1 million cups
+the starting order is your original 9 and the 10,11,12,13,...
+there will be 10 million moves instead of 100
+
+you want to predict which two cups will end up immediately clockwise of 1
+what do you get when you multiply those labels together?
+
+
+
+
+
+strategy
+not so clear what to do
+
+what can cause a change in the two labels clockwise of 1?
+1 itself is the current thing
+
+clockwise 1 is current; changes clockwise 2 
+
+
+
+
+here's an idea: store the whole as an IntMap
+everybody just points to the next things in the list
+you never need to use the actual positions
+
+
+this is pretty darn good for immutable maps of size 1 million
+the mutable version has gotta be super quick, though I suppose it's still dealing with
+ahhhhh does it have to be a map even?
+just make it a mutable vector???
+
+yeah I bet with a mutable vector this would be wicked fast
+FOR FUTURE SELF
+IF YOU READ THIS, MUTABLE VECTOR IS THE WAY TO DO IT
+
+basically you have to do O(10mil) reads and writes from the mutable vector
+each of those is O(1) so this should be mega fast
