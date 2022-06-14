@@ -1,0 +1,22 @@
+part a
+
+you get to the hotel, but they're re-laying the tiles and won't let you cross the lobby to check in!
+you're given a list of instructions to lay tiles from a reference point
+
+let's use q+r+s = 0 coords
+
+q=0: nw/se (nw = +s/-r)
+r=0: w/e (e = +q/-s)
+s=0: ne/sw (ne = +q/-r)
+
+
+how many tiles are set in the end? (they might get toggled back off)
+
+
+part b
+
+the tiles are in fact a hex grid cellular automaton
+a black tile with 0 or more than 2 adjacent black tiles flips to white
+a white tile with 2 adjacent black tiles flips to black
+
+after 100 days how many black tiles are there?
