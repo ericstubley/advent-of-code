@@ -1,0 +1,16 @@
+part a
+
+you want to hack the door/room key card encryption, in order to get into your room
+
+encryption is modular arithmetic based
+the door and card each have hidden loop sizes; to encrypt a number they compute
+    number ^ (loop size) mod 20201227
+
+you start knowing the public keys of the card and door, which are 7^(loop size)
+
+
+of course the authentication would bail right at the last day
+I think this was the first year where there were absolutely no submission errors!!!
+
+
+part b : free because it's the last day
