@@ -1,0 +1,29 @@
+part a
+
+you're on a raft to your vacation destination
+you play a card game that is basically war against a crab friend who came aboard
+
+both players play the top card of their deck
+the higher card wins, and the winner puts them on the bottom of their deck in decreasing order (higher first)
+
+keep going until one player has all the cards
+the score is based on the order; last card is its value x1, 2nd last x2, 3rd last x3 and so on
+
+
+part b
+
+recursive combat!
+
+if you enter a state you've been in before, player 1 wins
+if a deck is empty, other player wins
+if you both draw, either
+    both have at least as many cards left as the number you drew
+        if you drew a, b, play a subgame with (take a) (take b) as your decks
+        winner of that subgame is winner of this round
+    not, regular combat rules apply
+
+
+what is the winning deck score?
+
+good job only doing what you need, didn't actually need a memoized recursive combat
+also that's gotta be a time record for solving a day 22 problem?
