@@ -49,9 +49,10 @@ the mutable version has gotta be super quick, though I suppose it's still dealin
 ahhhhh does it have to be a map even?
 just make it a mutable vector???
 
-yeah I bet with a mutable vector this would be wicked fast
-FOR FUTURE SELF
-IF YOU READ THIS, MUTABLE VECTOR IS THE WAY TO DO IT
 
 basically you have to do O(10mil) reads and writes from the mutable vector
 each of those is O(1) so this should be mega fast
+
+
+confirmed: even a first try non-optimized python mutable array is several times faster
+reddit reports optimized python solutions under 300ms
