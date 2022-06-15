@@ -103,6 +103,6 @@ mainB :: IO ()
 mainB = do
     let answer = nbhd $ playBig 137826495 10000000
     print answer
-    result <- submitAnswer 2020 23 2 answer
-    print result
+    -- result <- submitAnswer 2020 23 2 answer
+    -- print result
     return ()
