@@ -1,0 +1,12 @@
+overall goal this year: scour the jungle for star fruit to feed the reindeer
+
+part a
+
+the elves each brought some food items
+given a list of calories
+find the maximum number of calories brought by a single elf
+
+
+part b
+
+the elves want to know the total carried by the top three elves
