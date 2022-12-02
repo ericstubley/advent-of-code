@@ -1,0 +1,10 @@
+part a
+
+given a list of A|B|C X|Y|Z by the elf, rock paper scissors guide
+if you follow the listed plays, what is the score?
+scored by shape you played (1, 2, 3 points) + outcome (0, 3, 6 points)
+
+part b
+
+second column is outcome not shape
+what is the score in this case?
