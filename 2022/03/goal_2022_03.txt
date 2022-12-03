@@ -1,0 +1,16 @@
+part a
+
+you're given a list of bags packed improperly
+each bag is a string of alpha characters
+the first half and second half have exactly one character in common
+each char has a priority; 1-26 for a-z, 27-52 for A-Z
+
+what is the sum of the priorities of the overlap characters?
+
+
+part b
+
+each group of three elves has a common badge
+their only item in common
+
+what is the sum of the priorities of the badges?
