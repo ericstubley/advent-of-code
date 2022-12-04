@@ -14,3 +14,10 @@ each group of three elves has a common badge
 their only item in common
 
 what is the sum of the priorities of the badges?
+
+
+
+the internet points out the following clever thing
+the list of objects that can appear in a bag is bounded (52 = 2*26 of them)
+so rather than building sets you can build a bitmask (in 64 bit ints say)
+and then logical and is the set intersection
