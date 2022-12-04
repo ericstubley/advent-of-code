@@ -1,0 +1,30 @@
+part a
+
+you're given assignments in the form
+
+a-b,c-d where a, b, c, d are natural numbers
+
+assignments inidicate sections of the jungle the elves have to clean out
+sections might overlap
+
+how many of the pairs have one fully contained in the other? (equal on one or both sides counts as contained)
+
+
+part b
+
+how many of the assignment pairs overlap at all?
+
+
+from reddit?
+the cleaner way to write comparisons are
+
+   a <= c <= d <= b
+or c <= a <= b <= d
+
+for containment (the middle ones are automatic)
+
+
+max(a, c) <= min(b, d)
+
+vs my choice of
+a <= d and c <= b (accomplishes the same comparison with 2 rather than 3!)
