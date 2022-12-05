@@ -1,0 +1,18 @@
+part a
+
+you're given a grid with stacks of crates, along with a list of instructions for how much to move between piles
+when moving between piles the crates get moved one at a time, so orders get reversed
+
+when you follow the given instructions, which crates do you end up with on top of the piles?
+
+
+part b
+
+the crane is a crate mover 9001, which means it can pick up multiple crates
+so rather than rearranging one at a time it just picks up the whole stack
+
+when you follow the instructions this way, which end up on top?
+
+
+
+...as predicted parsing was the hardest part
