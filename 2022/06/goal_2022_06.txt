@@ -1,0 +1,24 @@
+part a
+
+you have a communication device that needs to find the actual start in a datastream
+
+you need to find the index of the place in the datastream after the first occurrence of 4 distinct characters in a row
+
+
+part b
+
+14 instead of 4
+
+
+let's write out a more general version
+(Eq a) => [a] -> Int -> Int
+is it worth making the algorithm that is smarter than just nub?
+what is that algorithm?
+    if you come across a conflict, remove characters until you remove the duplicate
+    then add characters back on until you hit the required length
+
+
+so really the good algorithm is to just build the longest distinct string until you have a length at least n
+do this with a sequence and a set
+it'll be good practice
+even though nub is fast
