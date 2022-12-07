@@ -1,0 +1,27 @@
+part a
+
+you have the output from a bunch of cd and ls commands exploring a directory tree
+each directory has a total size: the size of all files plus subdirectories
+
+what is the sum of the directory sizes of those directories with size < 100000 
+
+
+part b
+
+
+total system size is 70000000 (70 million), you need at least 30000000 (30 million) of empty space
+you need to pick one directory to delete which will leave enough room for the update
+what is the size of the smallest directory you can delete which will free up enough space?
+
+
+
+so today parsing gave you a real hard time
+but you learned about sepEndBy! that should make future parsing more straightfoward
+
+also you did a good job of re-writing things in a cleaner point-free style as you thought it through
+
+
+one thing you could have done is to have the parsing directly compute sizes?
+although that probably decreases readability
+and actually not so clear how it would work
+all in all you made good choices
