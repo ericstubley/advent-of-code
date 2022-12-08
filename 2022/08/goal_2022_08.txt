@@ -1,0 +1,62 @@
+part a
+
+you're given a grid with numbers 0-9 representing heights of trees
+a tree is visible if it is (strictly) taller than trees in the slice row or column seeing to an edge
+how many trees are visible?
+
+
+what's the algorithm?
+- could iterate the whole grid, checking the whole rows/columns for each
+- this would be O(n^3)
+- make 4 passes, visible from left, right, top, bottom and then OR them together
+- the marking algorithm is just (> current max -> T, <= current max -> F)
+- how to get massiv to do this? 
+- or is there a better data structure? its 99x99 which is really not that big
+- what if it was a list of lists
+
+
+
+- seeing from the left is traversing each list
+- transpose is seeing from the top
+- (map reverse) is seeing from the right
+- (map reverse) . transpose is seeing from the bottom
+
+
+what is the order 2 operation for looking from below
+
+left : id
+
+right:
+ab    ba 
+cd -> dc (map reverse)
+
+above:
+ab    ac
+cd -> bd transpose
+
+
+below:
+ab    db
+cd -> ca
+
+
+part b
+
+each tree has a scenic score
+take the viewing distances in each of the 4 directions (distance to next tree at least as big) and multiply them
+
+what is the highest possible scenic score?
+
+
+what is the algorithm to find viewing distance in one direction?
+- use a stack based approach
+- if you're a place things could get stuck, add to stack
+- pop things off stack until you get to a higher one
+- add to stack
+- this has a bug? found and fixed with more testing, was an arithmetic mistake in the == case
+
+
+
+2310 is too low?
+solved
+but the tests didn't find it?
