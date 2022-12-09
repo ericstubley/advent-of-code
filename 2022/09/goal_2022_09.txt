@@ -1,0 +1,17 @@
+part a
+
+rope simulator 9000
+you're given a sequence of instructions for how the head of the rope moves (by some RLDU commands)
+moving one space at a time, the head of the rope moves in a 2d grid
+the tail catches up, but only when the head is sufficiently far away (2 in a single direction or a knight move); moves so that it is diagonal or right beside 
+
+how many positions does the tail occupy over the course of the movement?
+
+
+part b
+
+now the rope has many knots, each consecutive pair following the rules as before
+if the rope has 10 knots (rather than 2) how many positions does the tail occupy?
+
+
+did a real good job using haskell powers to take the existing functions and work up a fast solution to part b
