@@ -1,0 +1,20 @@
+part a
+
+you want to design a new screen for your very simple computer
+there's only two instructions NOOP and ADDX int, for the single register X which starts at 1
+noop just does nothing for a cycle
+addx takes 2 cycles to do the adding
+
+
+you want to consider the sum of the signal strengths for those cycles which are 20 mod 40 (20, 60, 100, etc)
+signal strength is register * cycle number
+
+what is the sum of those signal strengths?
+
+
+part b
+
+the register x tells you the middle position of a 3-wide sprite
+the crt screen is 40 pixels wide by 6 high
+the cpu draws a pixel each cycle; so cycles 1 through 240 correspond to pixels 0 through 39 for 6 rows
+if the sprite is positioned so that one of its 3 pixels is the current pixel being drawn, then that pixel is lit; otherwise its unlit

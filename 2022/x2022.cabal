@@ -31,7 +31,8 @@ common common_settings
                         sort,
                         conduino,
                         linear,
-                        heaps
+                        heaps,
+                        split
 
 
 common common_executable
