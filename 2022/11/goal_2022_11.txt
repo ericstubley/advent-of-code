@@ -1,0 +1,67 @@
+part a
+
+this is a reading comprehension test puzzle
+there's a bunch of monkeys who are playing keepaway with your items
+
+
+each monkey has a bunch of your items
+    one at a time they inspect them
+    this increases their worry level according to a monkey specific function
+    then div by 3
+    if it passes some divisibility test throw to monkey T, else to monkey F
+
+go through many rounds like this
+count how many items each monkey inspects
+
+
+for the most active two monkeys, what is the product of the number of items they inspected?
+
+
+
+keep the monkey items and other properties separate
+    the items change over time
+    all the rules stay fixed
+
+
+
+Monkey is a record type containing
+    _update :: Int -> Int
+    _test :: Int -> Bool
+    _success :: Int
+    _fail :: Int
+
+
+need a function: Monkey -> [Int] -> [(Int, Int)]
+which is really just a map (inspect Monkey)
+
+
+
+
+
+ah okay realization
+the order in which the monkeys process the items doesn't matter
+    so for example we could figure out where the first item goes through after 20 rounds, then the next, then the next etc
+so rather than tracking as written, track each item through the list of changes
+
+
+
+guess for part b
+    simulate for absurd number of rounds
+    and then the actual solution is to just analyze the loops that items go through?
+
+
+
+part b
+
+worry levels are no longer divided by 3!
+also you have to put up with this for 10000 rounds!
+
+
+you don't actually care about the value of the items, just about the divisibility by 2*3*5*7*11*13*17*19
+
+
+gonna be a hardcoded hack but at this point you should just do it because you want to solve this and this isn't your favourite puzzle type
+
+
+
+there's also still the possibility of tracking individual objects
