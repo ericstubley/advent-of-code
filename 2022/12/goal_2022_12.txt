@@ -1,0 +1,25 @@
+part a
+
+it's a shortest path search in a grid
+you're given a start and an end spot
+you can only move to grid squares whose elevation is at most 1 higher
+
+
+what's the search algorithm?
+store a set of visited places, a queue of places to visit along with distances
+
+
+reader monad to store the grid, start, end spots
+
+
+
+part b
+
+now this time start from any place labelled a
+what is the shortest path?
+
+the strategy here is to just search outwards from the END rather than the start
+and we change the termination condition of the search, from hitting the actual start to hitting anything of height 0
+
+
+430 is the second part answer
