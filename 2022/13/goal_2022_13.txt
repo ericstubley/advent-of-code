@@ -1,0 +1,28 @@
+part a
+
+you get a list of packets to compare
+packets are Int | [Packet]
+comparison is the sensible thing
+
+so just define packets and define an Ord instance on them and compare
+
+what is the sum of the (1-indexed) indices of the correctly ordered packet pairs?
+
+
+part b
+
+find the decoder key:
+- insert into the list of packets [[2]] and [[6]]
+- ignoring the pairing of packets, sort the entire list of packets
+- find the (1-indexed) indices of [[2]] and [[6]]
+- take the product
+
+
+can we do it by just sorting the list of packets? I trust haskells sorting algorithm to be very good
+my worry is that my compare of packets is too inefficient and there's a smarter way to do it (maybe not? most of the comparisons short circuit return fast)
+let's try this though
+
+
+
+ah the actual efficient way to do it is not to sort the whole list
+just compare dividerPacketA against everything and compute how many things are before/after
