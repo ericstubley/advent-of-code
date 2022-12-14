@@ -1,0 +1,29 @@
+part a
+
+this is a callback to 2018 day 17
+you're in a cave with sand falling from the ceiling through some rock obstructions
+the rocks are given by paths i1,j1 -> i2,j2 -> i3,j3 -> ... -> in,jn
+
+sand falls starting from 500,0
+- fall down 1 tile i,j -> i,(j+1)
+- if that's blocked by sand or rock, try i,j -> (i-1),(j+1)
+- if that's blocked by sand or rock, try i,j -> (i+1),(j+1)
+- if that's blocked by sand or rock rest
+- if you go below the lowest rock you fall off the screen
+
+
+how many units of sand come to rest?
+
+
+part b
+
+in fact there's a floor!
+its infinitely long, and two units lower than the lowest rock
+
+
+huh, wrote up a thing which passes the tests, but it is maximum slow??
+I think it's just an immutable maps things
+let's try to speed it up
+
+answers are 672, 26831
+smarter rewrite made it fast, yay!
