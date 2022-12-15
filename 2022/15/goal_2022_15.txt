@@ -1,0 +1,44 @@
+part a
+
+you're given a list of sensors, and for each the closest (in manhattan distance) beacon to them
+eventually we'll want to find the beacon which isn't closest to any of the sensors
+for now, in row y=2,000,000, how many cells are there where a beacon can't be?
+
+
+the idea is that each sensor will mark off a range of cells, and we union those
+the problem is actually just asking for a count
+there's very few sensors, so a brute force overlapping of intervals is still fast
+
+
+
+what's the strategy
+
+sensors contribute if the distance to the desired row is <= distance to beacon
+if it contributes, then it covers [x - discrepancy, x + discrepancy]
+foldl to produce a list of intervals over those intervals
+    where the foldl function
+    splits into overlapping and not overlapping
+    does another fold to union all overlapping
+
+
+part b
+
+beacon's coords must be between 0 and 4000000
+
+find the tuning frequency, which is beacon x * 4000000 + beacon y
+
+
+for each of the possible rows get the coverage set, ignoring the existing beacons
+clip it off at the given bounds
+
+find the row: each row has a total width, should be one where that's < width (lower, upper)
+
+within that row: should have either one or two intervals
+
+
+
+
+you solution was pretty fast for doing the complicated check 4 million times
+but in fact you can just check based on the lines bounding the ranges seen by sensors
+see reddit for solutions like this
+it's quadratic in the number of sensors, but that number is very small
