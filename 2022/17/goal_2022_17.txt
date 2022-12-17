@@ -28,4 +28,9 @@ and we check after we have successfully dropped a thing
 
 
 
-okay maybe key off of the current rock and the jet index
+okay maybe key off of the current rock and the jet index to find a cycle
+and you'll get two indices
+
+1551906158350 is too low ....
+
+got it by dropping 10000 rocks first
