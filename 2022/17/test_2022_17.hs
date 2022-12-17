@@ -23,18 +23,20 @@ testHeight = TestCase $ do
 
 
 testFiddle = TestCase $ do
-    let jets = [L]
-    let (Chamber rp rs js c) = initialChamber jets
-    let ic = Chamber rp (cycle [Horizontal]) js c
-    1 @=? (evalState cycleLength ic)
-    1 @=? (evalState (computeHeight 1) ic)
-    1000000000000 @=? heightAfterLong jets 1000000000000
+    (Just jets) <- parseInput jetsP "17/test_input.txt"
+    print $ evalState detectCycle (initialChamber jets)
+    -- let jets = [L]
+    -- let (Chamber rp rs js c) = initialChamber jets
+    -- let ic = Chamber rp (cycle [Horizontal]) js c
+    -- 1 @=? (evalState cycleLength ic)
+    -- 1 @=? (evalState (computeHeight 1) ic)
+    -- 1000000000000 @=? heightAfterLong jets 1000000000000
 
 
 testLongHeight = TestCase $ do
     (Just jets) <- parseInput jetsP "17/test_input.txt"
-    print $ (evalState cycleLength (initialChamber jets))
-    -- 1514285714288 @=? heightAfterLong jets 1000000000000 
+    print $ (evalState detectCycle (initialChamber jets))
+    1514285714288 @=? heightAfterLong jets 1000000000000 
 
 
 testA = TestList
@@ -42,8 +44,8 @@ testA = TestList
     , testHeight]
 
 testB = TestList
-    [ testFiddle]
-    -- , testLongHeight]
+    [ testFiddle
+    , testLongHeight]
 
 testList = TestList
     [ TestLabel "Part A" testA

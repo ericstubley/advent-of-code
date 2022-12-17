@@ -12,7 +12,7 @@ import qualified Data.Set as S
 import Lens.Micro.Platform
 
 -- data types
-data Jet = L | R | Flag
+data Jet = L | R
     deriving (Eq, Ord, Show)
 
 data Rock = Horizontal | Cross | Bend | Vertical | Square 
@@ -26,6 +26,7 @@ data Chamber = Chamber
     { _rockpile :: Rockpile
     , _rocks :: [Rock]
     , _jets :: [Jet]
+    , _jetIndex :: Int
     , _current :: Coord}
         deriving (Eq, Ord, Show)
 
@@ -59,12 +60,11 @@ rockMap :: Rock -> Coord -> Rockpile
 rockMap rock offset = S.map (shift offset) (baseMap rock)
 
 
-
 initialChamber :: [Jet] -> Chamber
-initialChamber j = Chamber rp rs js c where
+initialChamber js = Chamber rp rs js ji c where
     rp = S.fromList $ map (\x -> (0, x)) [0..(width-1)]
     rs = cycle [minBound::Rock .. maxBound::Rock]
-    js = cycle (j ++ [Flag])
+    ji = 0
     c = (3, 2)
 
 
@@ -82,9 +82,11 @@ push :: MonadState Chamber m => m ()
 push = do
     ch <- gets (^. rockpile)
     r <- gets $ head . (^. rocks)
-    j <- gets $ head . (^. jets)
+    ji <- gets (^. jetIndex)
+    js <- gets (^. jets)
+    let j = js !! ji
     (h, x) <- gets (^. current)
-    modify $ over jets tail
+    modify $ set jetIndex (mod (ji+1) (length js))
     let rp = rockMap r (h, x)
     let rp' = applyJet rp j
     let jv = case j of
@@ -124,7 +126,7 @@ down = do
 
 
 dropRock :: MonadState Chamber m => m ()
-dropRock = spawn >> (repeatUntilM (clearFlag >> push >> down))
+dropRock = spawn >> (repeatUntilM (push >> down))
 
 
 computeHeight :: MonadState Chamber m => Int -> m Int
@@ -162,29 +164,32 @@ heightAfter :: [Jet] -> Int -> Int
 heightAfter js n = evalState (computeHeight n) (initialChamber js)
 
 
-detectCycle :: MonadState Chamber m => m Bool
-detectCycle = do
-    r <- gets $ head . (^. rocks)
-    j <- gets $ head . (^. jets)
-    return $ r == (minBound :: Rock) && j == Flag
-
-
-cycleLength :: MonadState Chamber m => m Int
-cycleLength = countRepeatUntilM (dropRock >> detectCycle)
-
-
-clearFlag :: MonadState Chamber m => m ()
-clearFlag = modify $ over jets (dropWhile (== Flag))
+-- rather than smart cycle detection, just drop a bunch of rocks first
+detectCycle :: MonadState Chamber m => m (Int, Int)
+detectCycle = repeatM 10000 dropRock >> go M.empty 10001 where
+    go seen n = do
+        dropRock
+        r <- gets $ head . (^. rocks)
+        ji <- gets (^. jetIndex)
+        -- h <- height
+        -- let fullTop = S.fromList $ map (\x -> (h, x)) [0..(width-1)]
+        -- fullRow <- gets $ (S.isSubsetOf fullTop) . (^. rockpile)
+        if M.member (r, ji) seen
+            then return (seen M.! (r, ji), n)
+            else go (M.insert (r, ji) n seen) (n+1)
 
 
 heightAfterLong :: [Jet] -> Int -> Int
 heightAfterLong js n = cycleHeight * cycles + remainderHeight where
-    ic = initialChamber js
-    ic' = set rocks (cycle [Horizontal]) ic
-    period = evalState cycleLength ic'
-    (cycles, remainder) = divMod n period
-    cycleHeight = evalState (computeHeight period) ic'
-    remainderHeight = evalState (computeHeight remainder) ic'
+        ic = initialChamber js
+        (start, end) = evalState detectCycle ic
+        period = end - start
+        (cycles, remainder) = divMod (n - start) period
+        startHeight = heightAfter js start
+        endHeight = heightAfter js end
+        cycleHeight = endHeight - startHeight
+        remainderHeight = heightAfter js (start+remainder)
+
 
 -- mains
 
@@ -193,14 +198,16 @@ mainA = do
     (Just jets) <- parseInput jetsP "17/input.txt"
     let answer = heightAfter jets 2022
     print answer
-    result <- submitAnswer 2022 17 1 answer
-    print result
+    -- result <- submitAnswer 2022 17 1 answer
+    -- print result
     return ()
 
 
 mainB :: IO ()
 mainB = do
-    let answer = 0
+    (Just jets) <- parseInput jetsP "17/input.txt"
+    print $ evalState detectCycle (initialChamber jets)
+    let answer = heightAfterLong jets 1000000000000
     print answer
     -- result <- submitAnswer 2022 17 2 answer
     -- print result
