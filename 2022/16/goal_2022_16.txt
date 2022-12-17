@@ -38,10 +38,18 @@ the function will be long and ugly but that's fine
 
 well you wrote something but it's hella slow
 you need to do more branch pruning
+committed as in progress solution
 
 
 
 okay I think you need to
 - write the preprocessing to add all shortest paths
-- generate all paths starting at x, having length <= n, including time to toggle
+    floyd-warshall: its a dynamic programming thing for shortest paths over a whole connected graph
+    DONE
+- generate all paths that could fit into 30 seconds, assuming 3s per 
+- for a given set of vertices, consider all possible (valid permutations)
+
+
+
+its a mess right now but it works
 - for part b assume that you and elephant will take disjoint sets of vertices
