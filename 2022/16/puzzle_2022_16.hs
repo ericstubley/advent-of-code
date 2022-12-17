@@ -5,9 +5,14 @@ import Parsing
 import Data.Map.Strict (Map)
 import Data.Maybe (Maybe(..))
 import qualified Data.Map.Strict as M
+import Data.Set (Set)
+import qualified Data.Set as S
 import Control.Monad.State
 import Control.Monad.RWS
 import Data.Bits
+import Data.List (nub, permutations, (\\))
+import Data.Sort (sortOn)
+import Utilities (maximumWith)
 
 -- data types
 type Adjacency a = Map (a, a) Int
@@ -84,11 +89,28 @@ renamer rates = (\n -> mapping M.! n) where
     mapping = M.fromList $ zip (M.keys rates) [0..]
 
 
+complete :: Ord a => Adjacency a -> Adjacency a
+complete adjacency = foldl f adjacency tries
+  where vs = nub . map fst . M.keys $ adjacency
+        tries = [(k, i, j) | k <- vs, i <- vs, j <- vs]
+        limit = 10000
+        f :: Ord a => Adjacency a -> (a, a, a) -> Adjacency a
+        f as (k, i, j)
+            | curr > leg1 + leg2 = as'
+            | otherwise = as
+              where
+                curr = M.findWithDefault limit (i, j) as
+                leg1 = M.findWithDefault limit (i, k) as
+                leg2 = M.findWithDefault limit (k, j) as
+                as' = M.insert (i, j) (leg1 + leg2) as
+
+
 preprocess :: Adjacency String -> Map String Int -> Graph
 preprocess as rates = Graph as' rates' where
     namer = renamer rates
     rates' = M.mapKeys namer rates
-    as' = M.mapKeys (both namer) $ simplify rates as
+    as' = complete . M.mapKeys (both namer) $ simplify rates as
+
 
 
 both :: (a -> b) -> (a, a) -> (b, b)
@@ -205,6 +227,79 @@ buildSearcher (Searcher t _ _ l1 l2 v) ((v1, d1), (v2, d2))
     | l1 /= v1 && l2 /= v2 = Searcher (t-1) (d1-1) (d2-1) v1 v2 v
 
 
+-- trying some new tactics for part b
+
+subsequencesOfSize :: Int -> [a] -> [[a]]
+subsequencesOfSize n xs 
+    | n > length xs = []
+    | otherwise     = subsequencesBySize xs !! n
+      where subsequencesBySize    []  = [[[]]]
+            subsequencesBySize (x:xs) = zipWith (++) 
+                                            ([] : map (map (x:)) next) 
+                                            (next ++ [[]])
+              where next = subsequencesBySize xs
+
+
+
+times :: Graph -> [Int] -> [(Int, Int)]
+times g path = go 0 (0 : path) where
+    go :: Int -> [Int] -> [(Int, Int)]
+    go t (x:[]) = []
+    go t (x:y:xs) = (y, t') : go t' (y:xs) where
+        t' = 1 + t + (_adjacency g) M.! (x, y)
+
+
+score :: Graph -> Int -> [Int] -> Int
+score g total = sum . map (\t -> ((_rates g) M.! (fst t)) * (total - (snd t))) . times g
+
+
+-- from the current position, go to 
+-- this needs revamping for more sensible termination conditions
+-- also terminate when there's no more vertices to go to
+-- there's a subfunction which takes a prefix and gives all valid 
+--  paths with that prefix
+paths :: Graph -> Int -> [[Int]]
+paths g total = map (tail . reverse) $ go 0 [0] where
+    vs = nub . map fst . M.keys . _adjacency $ g
+    go :: Int -> [Int] -> [[Int]]
+    go t path
+        | mds' == [] = [path]
+        | otherwise  = concat $ map (\x -> go (t + snd x) (fst x : path)) mds'
+          where
+            h = head path
+            ms = vs \\ path
+            ds = map (\v -> (_adjacency) g M.! (h, v)) ms
+            mds = zip ms (map (+ 1) ds)
+            mds' = filter (\x -> (t + snd x) < total) mds
+
+
+
+bestPath :: Graph -> Int -> Int
+bestPath graph total = maximum $ map (score graph total) (paths graph total)
+
+
+bestPathPair :: Graph -> Int -> Int
+bestPathPair graph total = maximum $ map tupleScorer pairs where
+    scorer = score graph total
+    possiblePaths = reverse . (sortOn scorer) $ paths graph total
+    topFew = take 1000 possiblePaths
+    pairs = [(x, y) | x <- topFew
+                    , y <- topFew
+                    , disjoint x y]
+    tupleScorer = \t -> scorer (fst t) + scorer (snd t)
+
+
+disjoint :: [Int] -> [Int] -> Bool
+disjoint xs ys = S.disjoint (S.fromList xs) (S.fromList ys)
+
+
+
+
+-- find subsequences of size 10
+-- for each find all permutations
+--  filter out the invalid ones
+--  get the highest scoring
+--  
 
 -- mains
 
@@ -220,7 +315,9 @@ mainA = do
 
 mainB :: IO ()
 mainB = do
-    let answer = 0
+    (Just (adjacencies, rates)) <- parseInput graphP "16/input.txt"
+    let graph = preprocess adjacencies rates
+    let answer = bestPathPair graph 26
     print answer
     -- result <- submitAnswer 2022 16 2 answer
     -- print result
