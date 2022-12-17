@@ -1,0 +1,47 @@
+part a
+
+you and a group of elephants are trapped in tunnels underneath a volcano!
+you have 30 minutes to escape, and there are valves you can use to let off steam
+each minute
+- at the start, the open valves let off some total amount of pressure
+- you can either open the valve you're at for the next minute
+- or walk using the available tunnels to another valve
+
+what is the maximum amount of pressure you can let off over 30 minutes?
+
+
+
+strategies?
+- its kind of like searching for a path in a graph
+- you could generate all paths of length 30, evaluate each (wayyy too many)
+- memoized recursively visit all paths, too much memory though?
+- use ints and bitwise to indicate which valves are on
+- all of the rate=0 tunnels except AA are just connectors; so each move command is gonna take at least 2 minutes, which brings down the exponent to more like 15 rather than 30
+- actually its more like 3 because of 2 to move and then 1 to open, which is 2^10; so there's really not all that many possible paths to take
+- precompute the shortest paths between all the rate>0 vertices; then just produce all possible paths and find the maximum scoring
+
+
+
+part b
+
+
+predicted things correctly; now you teach an elephant to help and there's 2 of you working together
+you have 26 minutes but you can take independent actions
+
+
+how can you modify the existing solution to make this feasible?
+instead of passing around Search time location valves
+you can pass around Search time l1 l2 valves
+add in a mechanism for counting down paths
+the function will be long and ugly but that's fine
+
+
+well you wrote something but it's hella slow
+you need to do more branch pruning
+
+
+
+okay I think you need to
+- write the preprocessing to add all shortest paths
+- generate all paths starting at x, having length <= n, including time to toggle
+- for part b assume that you and elephant will take disjoint sets of vertices
