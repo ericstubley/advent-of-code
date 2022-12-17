@@ -1,0 +1,31 @@
+part a
+
+there's falling rocks in a predictable sequence, moved left and right while falling by a predictable sequences of blasts of air
+the chamber is 7 units wide and infinitely tall
+each rock starts so that its left edge is 2 units away from the wall, and its bottom edge is 3 units away from the floor/highest rock
+
+after 2022 rocks have fallen, what is the height of the rock tower?
+
+
+this is a job for the state monad, with state = chamber, blocks, gas
+
+
+
+part b
+
+how tall will the tower be after 1000000000000 rocks have fallen?
+
+
+lcm of 5 and length jets is the repeating height
+
+test_input has length 40
+input has length 
+
+alas, a non-constant number of jets is used per rock
+so our actual strategy will be to insert a flag jet at the end of the cycle
+and we check after we have successfully dropped a thing
+
+
+
+
+okay maybe key off of the current rock and the jet index
