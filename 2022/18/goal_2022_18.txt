@@ -1,0 +1,18 @@
+part a
+
+there's falling lava, you scan a droplet
+the scan approximates it as a bunch of 1x1x1 cubes in a 3d space
+compute the surface area by counting the number of visible faces
+
+
+part b
+
+you also counted interior surface area!
+just count the exterior surface area, what is this?
+
+exterior surface area = total surface area - interior surface area
+there's only 20^3 = 8000 total coords
+
+
+strategy:
+start filling in from (0, 0, 0), adding a queue of all adjacent things not currently in the map
