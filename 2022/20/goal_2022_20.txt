@@ -49,3 +49,6 @@ make that switch
 
 
 what about sequences?
+benefit is that you don't have to remap over the whole thing
+benefit is that you only have to mod 1 thing per step not 5000, this is big!!!
+downside is you have to iterate through
