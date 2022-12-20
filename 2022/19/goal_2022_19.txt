@@ -1,0 +1,37 @@
+part a
+
+you want to build geode cracking robots
+you have 1 ore robot, 1 machine, and many blueprints
+you have 24 minutes
+
+ore lets you build ore robots and clay robots
+clay lets you build obsidian
+obsidian lets you build geode
+
+
+for each blueprint determine the maximum number of geodes you could make with that blueprint and multiply by their ID (1 through 30); sum those
+
+
+basically you can just do a search through the decision tree of what to build at each step; 2^24 == approx 16 million
+some smart choices are needed
+- never build a robot if you already have enough to make the max needed of that material per turn
+- never wait a turn to buy a robot if you can buy it immediately; if you choose not to buy a robot you can buy, the next one you buy should be something else
+
+
+possible states are
+- 24 for t
+- 24^4 for materials (actually much smaller)
+- 30^4 for robots (really very much smaller, i.e. if ore cost of everything is <= 5 you never need more than 5 ore bots)
+- 2^4 for possible robots
+
+
+basically everything is a V4 Int
+at most 5 branches at each step
+
+
+part b
+
+now run it until t=32, but you only need the product of the first three maximum geode counts
+
+
+it seems like maybe the test cases take significantly longer? but the actual thing goes fast enough that we'll leave it there
