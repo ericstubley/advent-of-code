@@ -1,0 +1,51 @@
+part a
+
+you're given an encrypted file, which is a list of numbers
+decrypt by mixing: take each number and move it itself number of times through the list (0 stays put, 1 moves forward one, -1 moves backward one, ...)
+
+find the 1000th, 2000th, 3000th numbers after 0 and add them
+
+
+
+
+strategies:
+- sequence
+- map n -> index relative to 0; numbers in the list are not unique so this is complicated
+- list of pairs (n, index relative to 0), each mixing step updates all of the second parts of the tuples?
+- insertAt, deleteAt in sequences are logarithmic so using those is good
+
+
+for any pairs of things you can compute where they end up relative to each other?
+each thing moves a sequence of 0, +1, -1; then itself, then a sequence of 0, +1, -1
+but it's hard to predict those?
+what is the right data structure? 
+
+
+let's try a (startIndex, value) -> relativeIndex approach
+the keys of the map will remain fixed the whole time
+
+
+relativeIndex change function
+
+old new current
+-- both < current or both > current: no change
+-- old current new: -1 
+-- new current old: +1
+-- current == new, old < current: current - 1
+-- current == new, old > current: current + 1
+
+
+part b is almost surely gonna be mix many times
+
+
+this solution is not satisfying because its basically O(n^2)
+and you really want something O(n logn)
+
+
+
+
+lol why are you using intMap when you should be using vector
+make that switch
+
+
+what about sequences?
