@@ -1,0 +1,25 @@
+part a
+
+the monkeys are back!
+they are yelling numbers or operations
+
+what does the monkey named root yell?
+
+
+part b
+
+root's operation is actually equals
+humn is you, not a monkey
+
+what number should you yell so that root gets two equal numbers?
+
+
+
+target = op a b
+
+
+want to find either
++ a = target - b    b = target - a
+- a = target + b    b = a - target
+* a = target / b    b = target / a
+/ a = target * b    b = a / target
