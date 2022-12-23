@@ -1,0 +1,45 @@
+part a
+
+the monkeys give you a board to input the password on, and a list of directions
+there's an extraction method for the final cell (1000*x + 4*y + (0-3) depending on direction)
+what is that extracted value?
+
+
+part b
+
+the map is actually a net of a cube, rather than a more complicated surface
+so the only thing that needs to change is the rules for coordAhead
+
+
+how to handle this?
+can get side length?
+
+
+manually define a map for coordAhead?
+since you know the grid size, you know the boundaries of the six faces
+
+if interior, you know how to compute
+if edge, it matches with some other edge
+24 cases to write down, not so bad???
+14 cases if you just handle the edges... still bad
+
+
+you can compute some edge matchings just by checking for the nearest left and right 90 degree rotations
+- nothing ever has both
+- if you have neither what to do?
+- if you have a straight line neighbouring edge
+- "straightening out" the edges looks like it works in general???
+
+
+
+as a general strategy you're not actually gonna do
+identify the blocks
+taking a block, shifting it, and rotating it 90 degrees does the job
+you can probably figure out which blocks have to be adjacent, by transitivity
+
+130388 is too high
+
+
+
+all in all not a good solution
+in particular it doesn't produce the correct answers for both parts without commenting/uncommenting
