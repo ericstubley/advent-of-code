@@ -1,0 +1,8 @@
+part a
+
+you're given a grid of blizzards, which move 1 square at a time and wrap around
+you want to walk through as fast as possible
+you can't occupy the same square as a blizzard
+
+
+what is the shortest amount of steps to get to the goal?
