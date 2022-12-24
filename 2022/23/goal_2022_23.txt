@@ -1,0 +1,18 @@
+part a
+
+there's a bunch of elves on the grid
+they diffuse according to the following rules
+- step 1: everyone proposes a move. if they have no 8-neighbours they stay put
+    if the north 3-neighbours are empty, propose north
+    south
+    west
+    east
+- step 2: follow the proposed moves if they don't lead to conflict, don't move if they do lead to conflict 
+
+
+the list of proposed directions rotates every round: so in round 2 they first try south, in round 3 west, in round 4 east
+
+
+part b
+
+how many rounds until they stabilize?
