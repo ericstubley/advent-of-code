@@ -6,3 +6,9 @@ you can't occupy the same square as a blizzard
 
 
 what is the shortest amount of steps to get to the goal?
+
+
+
+dfs didn't end up working...
+too many states to explore before you hit a reasonable one
+switch to bfs

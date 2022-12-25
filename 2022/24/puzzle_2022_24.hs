@@ -5,30 +5,30 @@ import Parsing
 import Control.Monad.Reader
 import Control.Monad.State
 import Control.Monad.RWS
-import Data.Vector (Vector)
-import qualified Data.Vector as V
+import Data.Massiv.Array (Array, Ix3(..), Ix2(..), IxN(..), (!>))
+import qualified Data.Massiv.Array as A
+import Data.Sequence (Seq(..), (><))
+import qualified Data.Sequence as Sq
+import Data.Set (Set)
+import qualified Data.Set as S
+import Data.Foldable
 
 -- data types
-data Direction = North | East | South | West deriving (Eq, Ord, Show)
 data Wind = Boreal | Vultur | Auster | Zephyr | Still deriving (Eq, Ord, Show)
 
-data Blizzard = Blizzard
-    { variety :: Wind
-    , majorIndex :: Int
-    , minorIndex :: Int -> Int}
+type Array2 a = Array A.B Ix2 a
+type Array3 a = Array A.U Ix3 a
 
 data Storm = Storm
-    { height :: Int
+    { duration :: Int
+    , height :: Int
     , width  :: Int
-    , boreals :: Vector [Blizzard]
-    , vulturs :: Vector [Blizzard]
-    , austers :: Vector [Blizzard]
-    , zephyrs :: Vector [Blizzard]}
+    , blizzards :: Array3 Bool}
 
 -- parsing
 stormP :: Parser Storm
 stormP = do
-    rows <- between topP bottomP (some rowP)
+    rows <- A.fromLists' A.Seq <$> between topP bottomP (some rowP)
     return $ buildStorm rows
 
 
@@ -62,100 +62,137 @@ groundP = (char '^' >> return Auster)
       <|> (char '.' >> return Still)
 
 
-buildStorm :: [[Wind]] -> Storm
-buildStorm winds = Storm cols rows nv ev sv wv where
-    rows = length winds
-    cols = length (winds !! 0)
-    indexedColumns = map (zip [0..]) winds
-    indexedWinds = concat $ zipWith (\r col -> map (\t -> ((r, fst t), snd t)) col) [0..] indexedColumns
-    blizzards = map builder . filter ((/= Still) . snd) $ indexedWinds
-    builder :: ((Int, Int), Wind) -> Blizzard
-    builder ((r, c), w) = case w of
-                            Boreal -> Blizzard Boreal c (forecast cols r 1)
-                            Vultur -> Blizzard Vultur r (forecast rows c (-1))
-                            Auster -> Blizzard Auster c (forecast cols r (-1))
-                            Zephyr -> Blizzard Zephyr r (forecast rows c 1)
-    ns = filter ((== Boreal) . variety) blizzards
-    es = filter ((== Vultur) . variety) blizzards
-    ss = filter ((== Auster) . variety) blizzards
-    ws = filter ((== Zephyr) . variety) blizzards
-    nv = V.fromList $ map (\x -> filter ((== x) . majorIndex) ns) [0..(cols-1)]
-    ev = V.fromList $ map (\x -> filter ((== x) . majorIndex) es) [0..(rows-1)]
-    sv = V.fromList $ map (\x -> filter ((== x) . majorIndex) ss) [0..(cols-1)]
-    wv = V.fromList $ map (\x -> filter ((== x) . majorIndex) ws) [0..(rows-1)]
+buildStorm :: Array2 Wind -> Storm
+buildStorm winds = Storm range rows cols blizzards' where
+    (A.Sz2 rows cols) = A.size winds
+    range = lcm rows cols
 
+    ixs = [(i :. j) | i <- [0..(rows-1)]
+                    , j <- [0..(cols-1)]
+                    , (winds A.! (i :. j)) /= Still]
+    allPositions = S.unions $ map forecaster [0..(range-1)]
 
-forecast :: Int -> Int -> Int -> Int -> Int
-forecast wrap start sign = \t -> mod (start + sign*t) wrap
-        
+    forecaster :: Int -> Set Ix3
+    forecaster t = S.fromList $ map (forecast t) ixs
+
+    forecast :: Int -> Ix2 -> Ix3
+    forecast t (r :. c) = 
+        case (winds A.! (r :. c)) of
+            Boreal -> (t :> mod (r + t) rows :. c)
+            Vultur -> (t :> r :. mod (c - t) cols)
+            Auster -> (t :> mod (r - t) rows :. c)
+            Zephyr -> (t :> r :. mod (c + t) cols)
+
+    constructor :: Ix3 -> Bool
+    constructor ix = S.member ix allPositions
+
+    blizzards' :: Array3 Bool
+    blizzards' = A.makeArray A.Seq (A.Sz3 range rows cols) constructor
+
 
 -- functions
 
 findGoal :: Storm -> Int
-findGoal storm = fst $ execRWS (pathfinder 1 (0, 0)) storm (maxBound :: Int)
+findGoal storm = runReader (pathfinder (0 :> -1 :. 0) (endR :. endC)) storm
+  where endR = (height storm)
+        endC = (width storm) - 1
+    
+
+roundTrip :: Storm -> Int
+roundTrip storm = t3
+  where start = (-1 :. 0)
+        end = (height storm :. width storm - 1)
+        t1 = runReader (pathfinder (0 :> start) end) storm
+        t2 = runReader (pathfinder (t1 :> end) start) storm
+        t3 = runReader (pathfinder (t2 :> start) end) storm
 
 
 -- if t >= best, return right away
 -- otherwise check if at exit, update if better time
 -- otherwise
-pathfinder :: MonadRWS Storm () Int m => Int -> (Int, Int) -> m ()
-pathfinder t (r, c) = do
-    best <- get
-    if t >= best then return ()
-    else do
-        exit <- atExit (r, c) 
-        if exit then update (t+1)
+pathfinder :: MonadReader Storm m => Ix3 -> Ix2 -> m Int
+pathfinder start end = go (S.singleton start) (Sq.singleton start) where
+    go :: MonadReader Storm m => Set Ix3 -> Seq Ix3 -> m Int
+    go seen (ix :<| queue) = do
+        let (t :> r :. c) = ix
+        if (r :. c) == end then return t
+            else do
+                options <- (filterM inValley $ neighbours (t :> r :. c))
+                           >>= filterM open
+                           >>= filterM (unvisited seen)
+                let seen' = S.union (S.fromList options) $ S.filter (current t) seen
+                go seen' (queue >< (Sq.fromList options))
+
+
+neighbours :: Ix3 -> [Ix3]
+neighbours (t :> r :. c) = [ t+1 :> r+1 :. c
+                           , t+1 :> r   :. c+1
+                           , t+1 :> r   :. c
+                           , t+1 :> r-1 :. c
+                           , t+1 :> r   :. c-1]
+
+
+inValley :: MonadReader Storm m => Ix3 -> m Bool
+inValley (_ :> r :. c) = do
+    rows <- reader height
+    cols <- reader width
+    let interior = 0 <= r && r < rows && 0 <= c && c < cols
+    atEntrance <- (== (r :. c)) <$> entrance
+    atExit <- (== (r :. c)) <$> exit
+    return (interior || atEntrance || atExit)
+
+
+entrance :: MonadReader Storm m => m Ix2
+entrance = return (-1 :. 0)
+
+
+exit :: MonadReader Storm m => m Ix2
+exit = do
+    rows <- reader height
+    cols <- reader width
+    return (rows :. cols - 1)
+
+
+open :: MonadReader Storm m => Ix3 -> m Bool
+open (t :> r :. c) = do
+    atEntrance <- (== (r :. c)) <$> entrance
+    atExit <- (== (r :. c)) <$> exit
+    if atEntrance || atExit
+        then return True
         else do
-            options <- filterM inValley $ neighbours (r, c)
-            options' <- filterM (open (t+1)) $ options
-            if length options' == 0 then return ()
-                else do
-                    mapM_ (pathfinder (t+1)) options'
+            t' <- reader $ (mod t) . duration
+            reader $ not . (A.! (t' :> r :. c)) . blizzards
 
 
-update :: MonadState Int m => Int -> m ()
-update t = do
-    best <- get
-    if t < best
-        then put t
-        else return ()
+current :: Int -> Ix3 -> Bool
+current mark (t :> _ :. _) = t >= mark
 
 
-neighbours :: (Int, Int) -> [(Int, Int)]
-neighbours (r, c) = [(r+1, c), (r, c+1), (r, c), (r-1, c), (r, c-1)]
+unvisited :: MonadReader Storm m => Set Ix3 -> Ix3 -> m Bool
+unvisited seen (t :> r :. c) = do
+--     t' <- reader $ (mod t) . duration
+    return $ S.notMember (t :> r :. c) seen
 
 
-atExit :: MonadReader Storm m => (Int, Int) -> m Bool
-atExit (r, c) = do
+-- for testing, extract positions at a given time
+positions :: MonadReader Storm m => Int -> m [(Int, Int)]
+positions t = do
+    t' <- reader $ (mod t) . duration
+    slice <- reader $ (!> t') . blizzards
     rows <- reader height
     cols <- reader width
-    return $ r == (rows-1) && c == (cols-1)
+    let ixs = [(i, j) | i <- [0..(rows-1)]
+                      , j <- [0..(cols-1)]
+                      , slice A.! (i :. j)]
+    return ixs
 
-
-inValley :: MonadReader Storm m => (Int, Int) -> m Bool
-inValley (r, c) = do
-    rows <- reader height
-    cols <- reader width
-    return $ 0 <= r && r < rows && 0 <= c && c < cols
-
-
-open :: MonadReader Storm m => Int -> (Int, Int) -> m Bool
-open t (r, c) = do
-    ns <- reader $ (V.! c) . boreals
-    es <- reader $ (V.! r) . vulturs
-    ss <- reader $ (V.! c) . austers
-    ws <- reader $ (V.! r) . zephyrs
-    let no = all (/=r) $ map (\b -> (minorIndex b) t) ns
-    let eo = all (/=c) $ map (\b -> (minorIndex b) t) ns
-    let so = all (/=r) $ map (\b -> (minorIndex b) t) ns
-    let wo = all (/=c) $ map (\b -> (minorIndex b) t) ns
-    return $ and [no, eo, so, wo]
 
 -- mains
 
 mainA :: IO ()
 mainA = do
-    let answer = 0
+    (Just storm) <- parseInput stormP "24/input.txt"
+    let answer = findGoal storm
     print answer
     -- result <- submitAnswer 2022 24 1 answer
     -- print result
@@ -164,8 +201,9 @@ mainA = do
 
 mainB :: IO ()
 mainB = do
-    let answer = 0
+    (Just storm) <- parseInput stormP "24/input.txt"
+    let answer = roundTrip storm
     print answer
-    -- result <- submitAnswer 2022 24 2 answer
-    -- print result
+    result <- submitAnswer 2022 24 2 answer
+    print result
     return ()
