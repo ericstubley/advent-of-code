@@ -1,0 +1,26 @@
+part a
+
+you get a list of numbers written in base 5 with representatives -2 (=), -1 (-), 0, 1, 2; you need to compute their sum and return it in that same format
+
+
+could just operate with strings, converting them to ints and then back
+could define a data type for digits and then num instance on [digit]
+
+
+can we just operate directly with strings?
+
+(+): the carry is at most +-1, and then add up the digits
+
+
+possible outcomes with two digits
+-5
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+5
