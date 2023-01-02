@@ -1,7 +1,15 @@
 module Puzzle_2022_XX where
 
 import Automation (submitAnswer)
-import Parsing (parseInput)
+import Parsing
+
+-- data types
+
+-- parsing
+
+-- functions
+
+-- mains
 
 mainA :: IO ()
 mainA = do

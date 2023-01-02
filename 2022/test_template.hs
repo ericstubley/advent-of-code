@@ -1,5 +1,6 @@
 import Test.HUnit
 import Puzzle_2022_XX
+import Parsing (parseInput)
 
 -- testGamma = TestCase (do
 --     report <- parsedInput
