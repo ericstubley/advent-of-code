@@ -60,3 +60,12 @@ I'm trying to learn or focus on a specific thing each year of problems that I do
 - Haskell is the language
 - make improvements to your tooling and setup so that it's easier to jump back into once a year
 - other ideas to come as things get underway!
+
+2021 haskell redux: (Winter 2023)
+- redo 2021 but in Haskell this time; it will be fun to revisit the problems a year plus later now that your CS brain is much more in shape compared to the first time around.
+- the Maybe monad is your friend! Try to get good at structuring programs using it for failure cases, or missing edges in a graph, etc.
+- Put a real emphasis on writing beautiful programs
+- Whenever you need an algorithm (search, shortest paths, etc.) write a generic modular one that will be useful to make future years less annoying
+
+2023: (Dec 2023)
+- Do some reading ahead of time to get back into the swing of Haskell if that's what you're going to use
