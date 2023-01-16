@@ -1,0 +1,13 @@
+part a
+
+you're given a list of commands (forward, down, up) each with an effect on the position of your submarine
+forward moves forward
+down/up increase/decrease the depth
+compute the final position
+
+
+part b
+
+different interpretation of the commands
+down/up increase/decrease your aim
+forward x increases horizontal position by x and increases depth by aim*x
