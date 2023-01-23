@@ -1,0 +1,27 @@
+part a
+
+you're given a list of binary strings
+compute the product of the gamma and epsilon rates
+
+
+to find the gamma rate
+- the nth bit of the gamma rate is the most common nth bit of the input list
+- epsilon rate is the 2s complement, take the least common bit
+
+
+part b
+
+same sort of deal, except you filter out the list by taking only those with the most or least common digit, one at a time
+once there's only one number left, that's the number you want
+
+
+
+
+
+
+part a solution is unsatisfying
+- parsing is not elegant
+- working with ints necessitated some annoyances
+- can you work with fixed with bit strings?
+- your solution right now doesn't work with inputs where everything starts with 0
+- consult johan hidding! dang very clever: add up all the vectors, mult by 2, integer divide by length of report
