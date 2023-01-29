@@ -1,0 +1,8 @@
+part a
+
+you're given a list of line segments and you want to compute how many points lie on two or more lines
+for this part just the horizontal and vertical line segments
+
+part b
+
+diagonal segments as well for this part
