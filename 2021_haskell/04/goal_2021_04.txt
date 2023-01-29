@@ -1,0 +1,21 @@
+part a
+
+you're given a list of bingo boards and numbers to call
+mark numbers off the board
+when a board has a marked row or column, score it as the sum of all the unmarked numbers * the number that tipped it over 
+
+what is the score of the first winning board?
+
+part b
+
+what about the last winning board?
+
+
+
+the johan hidding solution does a good job of computing only the very necessary things
+- rather than computing the time to solve each board, just return them in the order they get solved
+- don't have to track solve time in that case
+
+have a board of Maybe Int
+the "marked" state is Nothing
+really good opportunity to use Maybe and >>= in an idiomatic way
