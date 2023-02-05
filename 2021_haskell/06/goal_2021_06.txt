@@ -1,0 +1,17 @@
+part a
+
+there's a bunch of lanternfish, each with an internal timer
+timer decreases by 1 each day
+if a lanternfish starts the day with a timer of 0, it resets its timer to 6 and spawns a new lanternfish with timer 8
+
+how many after 80 days?
+
+part b
+
+how many after 256 days?
+
+
+
+johan hidding's solution is great because it really lets you follow the strategy of write out the rules and let the data structure take care of the rest
+- can you combine the vector strategy with this tally strategy?
+- where pure n = e_n?
