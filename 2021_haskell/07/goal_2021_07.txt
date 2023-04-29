@@ -1,0 +1,11 @@
+part a
+
+there's a bunch of crabs submarines to line up, moving horizontally costs 1 fuel per unit
+the median is where you want to place them (either median if there's 2) since moving off the median increases in both directions and the function is locally linear
+
+
+part b
+
+now the cost is quadratic (1, 1+2, 1+2+3,...)
+the mean is now the best choice
+there's a nice calculus proof
