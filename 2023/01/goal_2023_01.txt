@@ -1,0 +1,15 @@
+part a
+
+given a list of lines
+extract the first and last digits from each line
+add those up is the answer
+
+
+part b
+
+there's digits spelled out in the lines like "nine"
+taking those into account do the same thing
+also they might overlap, so "eightwo" should be parsed as 82
+
+
+oof yikes this was like the least elegant parsing I've ever done :(
