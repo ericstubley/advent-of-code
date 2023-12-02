@@ -2,62 +2,49 @@ module Puzzle_2023_01 where
 
 import Automation (submitAnswer)
 import Data.Char (digitToInt, isDigit)
+import Data.Maybe
 import Parsing
 
 -- data types
 
 -- parsing
+-- catMaybes :: [Maybe a] -> [a] is what you want
+lineP :: Parser (Maybe Int) -> Parser Int
+lineP extractor = do
+    digits <- catMaybes <$> many extractor
+    let a = head digits
+    let b = last digits
+    return $ 10*a + b
+
+amendmentP :: Parser (Maybe Int)
+amendmentP = lowerChar >> return Nothing
+
+digitP :: Parser (Maybe Int)
+digitP = Just . digitToInt <$> digitChar
+
+wordP :: String -> Int -> Parser (Maybe Int)
+wordP s n = do
+    lookAhead (string s)
+    char (head s)
+    return (Just n)
+
+wordsP :: Parser (Maybe Int)
+wordsP = choice $ map (uncurry wordP) dataEntry
+  where dataEntry = zip spelled numbers
+        spelled = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+        numbers = [1..9]
+
+simpleExtractorP :: Parser (Maybe Int)
+simpleExtractorP = digitP <|> amendmentP
+
+extractorP :: Parser (Maybe Int)
+extractorP = wordsP <|> simpleExtractorP
+
+simpleCalibrationsP :: Parser [Int]
+simpleCalibrationsP = sepBy (lineP simpleExtractorP) newline
+
 calibrationsP :: Parser [Int]
-calibrationsP = sepBy calibrationP newline
-
-calibrationP :: Parser Int
-calibrationP = do
-    digits <- digitsP
-    let a = head digits
-    let b = last digits
-    return $ 10*a + b
-
-digitsP :: Parser [Int]
-digitsP = amendmentsP *> many (digitP <* amendmentsP)
-
-digitP :: Parser Int
-digitP = fmap (digitToInt) digitChar
-
-amendmentsP :: Parser ()
-amendmentsP = skipMany lowerChar
-
-actualCalibrationsP :: Parser [Int]
-actualCalibrationsP = sepBy actualCalibrationP newline
-
-actualCalibrationP :: Parser Int
-actualCalibrationP = do
-    digits <- actualDigitsP
-    let a = head digits
-    let b = last digits
-    return $ 10*a + b
-
-actualDigitsP :: Parser [Int]
-actualDigitsP = fmap (map digitToInt . filter isDigit) actualCharsP
-
-actualCharsP :: Parser [Char]
-actualCharsP = many (digitChar <|> spelledAndAdvanceP <|> lowerChar)
-
-spelledAndAdvanceP :: Parser Char
-spelledAndAdvanceP = lookAhead spelledP <* lowerChar
-
-spelledP :: Parser Char
-spelledP = (string "zero" >> return '0')
-    <|> (string "one"     >> return '1')
-    <|> (string "two"     >> return '2')
-    <|> (string "three"   >> return '3')
-    <|> (string "four"    >> return '4')
-    <|> (string "five"    >> return '5')
-    <|> (string "six"     >> return '6')
-    <|> (string "seven"   >> return '7')
-    <|> (string "eight"   >> return '8')
-    <|> (string "nine"    >> return '9')
-
--- efnostz
+calibrationsP = sepBy (lineP extractorP) newline
 
 -- functions
 
@@ -65,7 +52,7 @@ spelledP = (string "zero" >> return '0')
 
 mainA :: IO ()
 mainA = do
-    (Just calibrationValues) <- parseInput calibrationsP "01/input.txt"
+    (Just calibrationValues) <- parseInput simpleCalibrationsP "01/input.txt"
     let answer = sum calibrationValues
     print answer
     -- result <- submitAnswer 2023 01 1 answer
@@ -75,7 +62,7 @@ mainA = do
 
 mainB :: IO ()
 mainB = do
-    (Just calibrationValues) <- parseInput actualCalibrationsP "01/input.txt"
+    (Just calibrationValues) <- parseInput calibrationsP "01/input.txt"
     let answer = sum calibrationValues
     print answer
     -- result <- submitAnswer 2023 01 2 answer
