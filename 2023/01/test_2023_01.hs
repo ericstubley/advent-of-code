@@ -8,17 +8,17 @@ import Parsing
 --     22 @=? gr)
 
 testParseA = TestCase $ do
-    (Just calibrationValues) <- parseInput calibrationsP "01/test_input.txt" 
+    (Just calibrationValues) <- parseInput simpleCalibrationsP "01/test_input.txt" 
     [12, 38, 15, 77] @=? calibrationValues
 
 
 testOverlap = TestCase $ do
-    (Just results) <- parseInput actualCalibrationsP "01/overlap_test.txt"
+    (Just results) <- parseInput calibrationsP "01/overlap_test.txt"
     [98, 82, 18, 12] @=? results
 
 
 testParseB = TestCase $ do
-    (Just calibrationValues) <- parseInput actualCalibrationsP "01/test_input_2.txt" 
+    (Just calibrationValues) <- parseInput calibrationsP "01/test_input_2.txt" 
     [29, 83, 13, 24, 42, 14, 76] @=? calibrationValues
 
 
