@@ -1,0 +1,23 @@
+part a
+
+playing a "draw from bag" game with an elf
+given a list of game of the form
+Game n: red k, blue a; green x, red y; blue l
+many drawings with replacement from a bag containing red, green, blue cubes
+
+also given a limit red 12, green 13, blue 14
+
+what is the sum of the game ids, of those games which are feasible?
+
+
+part b
+
+for each game, what is the smallest bag that it could have come from?
+just take the max of each coordinate across the draws
+
+the power of a bag is product of the numbers of cubes
+what is the sum of the powers of the smallest bags?
+
+
+somehow there's two <> instances on Cubes, + and max
+you're using + in construction and envelope is just max
