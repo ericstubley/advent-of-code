@@ -1,0 +1,25 @@
+part a
+
+you're given a grid with numbers and symbols on it, representing the engine
+any (many-digit) number which is adjacent (including diagonal) to a symbol is a part number
+
+what is the sum of the part numbers?
+
+strat:
+parse out a list of (number, identifying coord)
+parse out a set of symbol coords
+have function to generate boundary coords of a (number, identifying coord)
+filter by any of the boundary coords is in the set of symbols
+
+
+part b
+
+find the gear ratio sum
+a gear is a * symbol which is adjacent to exactly two numbers
+its gear ratio is the product of those two numbers
+
+
+
+this was not elegant because there was a lot of futzing about with indices
+was there a better strategy?
+conceivable you could work hard with massiv to do this
