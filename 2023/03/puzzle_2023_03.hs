@@ -120,6 +120,6 @@ mainB = do
     (Just (numbers, symbols)) <- parseInput inputP "03/input.txt"
     let answer = gearRatioSum numbers symbols
     print answer
-    result <- submitAnswer 2023 03 2 answer
-    print result
+    -- result <- submitAnswer 2023 03 2 answer
+    -- print result
     return ()
