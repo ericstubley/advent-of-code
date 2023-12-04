@@ -1,0 +1,23 @@
+part a
+
+you're given a list of lottery cards in the format
+Card n: numbers | numbers
+the first set is the winning numbers, the second is the numbers you have
+the score of a card is 2^(k-1) for k>=1 matches
+
+what is the sum of the scores of the cards?
+
+(making the assumption that within a set of winning numbers or scratched numbers there's no repeats)
+
+
+
+part b
+
+actually you got the rules wrong
+each scratchcard makes you win copies of the cards below it
+if card 1 has a score of 4, you get one more copy of the the four cards below it (2, 3, 4, 5)
+each of those then generates more cards
+you're guaranteed to never go off the end
+
+yup did it in O(n) because the list of numbers and hence lookahead is bounded
+so at each step doing at most O(k) chunks of adding and list manipulation
