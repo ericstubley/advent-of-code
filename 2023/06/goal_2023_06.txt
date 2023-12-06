@@ -1,0 +1,26 @@
+part a
+
+you're given a list of races, where each has an allotted time and a distance to (strictly) beat
+
+you get to hold down the charge button for n milliseconds, which increases your speed to n millimeters per millisecond
+in a race with time T if you charge for n milliseconds you travel (T-n)*n
+
+for each of the races how many winning strategies are there?
+take the product of the number of winning strategies per race
+
+could also solve by hand
+
+
+part b
+
+there's actually just one race, with the product of all the times and distances
+this is just a single polynomial
+
+for how many integer n is Tn - n^2 - D > 0?
+this is a downwards opening parabola, so finite answer
+just find the root and then its the width of the interval between them
+...or do it the naive way, still pretty fast...
+
+
+
+the better general solution is the root finding one but its late and I'm not interested in floating point requiring solutions
