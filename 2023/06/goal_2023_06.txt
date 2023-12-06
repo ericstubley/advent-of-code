@@ -24,3 +24,14 @@ just find the root and then its the width of the interval between them
 
 
 the better general solution is the root finding one but its late and I'm not interested in floating point requiring solutions
+
+remember the quadratic formula ......
+the two roots are x < y
+the number of winning strategies is floor(y) - ceiling(x) + 1
+
+n^2 - Tn + D
+(T +- sqrt(T^2 - 4D))/2
+T = 59688274
+D = 543102016641022
+
+what do you know it also works

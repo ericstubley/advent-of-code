@@ -27,6 +27,14 @@ stratCountProd = product . map (length . strategies)
 compress :: [Race] -> Race
 compress races = Race (read . concat . map (show . _time) $ races) (read . concat . map (show . _distance) $ races)
 
+closedFormCount :: Race -> Int
+closedFormCount (Race t d) = floor(y) - ceiling(x) + 1
+  where t' = fromIntegral t
+        d' = fromIntegral d
+        disc = sqrt(t'*t' - 4*d')
+        x = (t' - disc)/2
+        y = (t' + disc)/2
+
 -- mains
 
 mainA :: IO ()
@@ -42,7 +50,8 @@ mainA = do
 mainB :: IO ()
 mainB = do
     (Just races) <- parseInput racesP "06/input.txt"
-    let answer = length . strategies . compress $ races
+    -- let answer = length . strategies . compress $ races
+    let answer = closedFormCount . compress $ races
     print answer
     -- result <- submitAnswer 2023 06 2 answer
     -- print result
