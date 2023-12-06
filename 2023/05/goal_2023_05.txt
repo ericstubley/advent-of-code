@@ -1,0 +1,99 @@
+part a
+
+you're given a list of seeds and a list of compositions of piecewise slope 1 functions
+find the minimum value of the total composition function over the seeds
+
+
+part b
+
+the seed numbers aren't a single list, its a list of (start, range)
+so in the example the seeds 79 14 55 13 mean consider the range of 14 seeds starting at 79 and 13 seeds starting at 55
+minimize the function over the whole thing
+
+well let's try the dumb way first
+
+its on the order of 300 comparisons per input
+with hundreds of millions of inputs
+not gonna happen fast sadly...
+
+
+okay what's the actual strategy? let's math the shit out of this
+given a single map you can sort which inputs give the lowest values
+
+sort the list of builders by destination
+and the output which give 0..N are
+0..(min sources)-1
+n1..n1+r1-1
+n2..n2+r2-1
+.
+.
+.
+nk..nk+rk-1
+(max s + r) .. inf, can maybe actuall ignore?
+
+
+is there a nice description of the composition of two functions of this type?
+it should be in the same class of functions still 
+(a b c) . (d e f)
+0 .. (b-1) 
+b .. (b + c - 1)
+(b + c - 1) .. inf
+
+
+let's assume the (source, source + range - 1) are disjoint at each stage
+
+
+
+
+
+here's a possible shortcut: the minimum has to come at one of the breakpoints?
+so compute a list of breakpoints (supes easy!) and then just check each of them :P
+wait not actually supes easy, tracing back the breakpoints to the original range is basically the same as reconstructing the whole function
+
+parse the functions as (Int, Int, Int) and then build later
+
+
+
+
+new idea: if you feed a range through a builder function, you get a list of ranges as output
+(s .. s+r-1) feed through a b c
+maybe entirely on one side of (b .. b+c-1) in which case unaffected
+([]) or [(]) or ([)] or [()] all possible also with equalities in there
+
+
+
+
+
+what about through a merged builder function?
+
+
+
+
+
+
+for the operation to be well-defined the ranges are disjoint.
+so to pass a range through a f <> g you first pass through f; any untouched parts get passed through g, 
+
+
+
+
+
+
+
+
+sequel
+Interval 3 5 Interval 6 7
+
+[3..7] and [6..12]
+is Interval 8 5 = [8..12] 
+
+
+
+
+
+what is the flow?
+    given a list of ranges and a list of lists of builders
+        pass each range through the list of lists of builders
+
+
+well oof the code works but this is a nightmare
