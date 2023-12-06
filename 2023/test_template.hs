@@ -2,10 +2,10 @@ import Test.HUnit
 import Puzzle_2023_XX
 import Parsing (parseInput)
 
--- testGamma = TestCase (do
+-- testGamma = TestCase $ do
 --     report <- parsedInput
 --     let gr = binaryToInt $ gammaRate report
---     22 @=? gr)
+--     22 @=? gr
 
 testA = TestList
     []
