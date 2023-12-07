@@ -1,0 +1,21 @@
+part a 
+
+you're given a bunch of card hands
+and rules for ranking them
+order them and then take the sum of the 1-indexed position * the bid
+
+
+part b
+
+same basic structure, except now the J is a joker
+for the purposes of determining hand type they can play the role of anything else
+same computation, but with a different ordering
+
+
+what's the logic?
+based on number of jokers
+...yeah just do it
+
+
+is there a non-casework way to do it?
+ooooo is there a clever bitwork way to represent things?
