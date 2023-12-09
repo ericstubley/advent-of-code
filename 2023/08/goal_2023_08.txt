@@ -1,0 +1,27 @@
+part a
+
+you're given a list of left right maps instructions
+and a path to follow of LRLRLLRLRL
+
+keep following the path on loop starting at AAA until you get to ZZZ
+how many steps does it take?
+
+
+part b
+
+now you have to walk all of the nodes ending with 'A' at the same time
+how many steps until they're all ending at 'Z'
+
+okay let's verify if the things all follow one path
+
+
+
+
+make an environment for the instructions and node network
+
+for each starting point you can compute the whole path until you get to a repeated (node, index)
+use that to project forward the times when you're at a Z
+for each find the indices mod the period when it is at a Z
+
+lcm the periods
+look at multiples of the period where you have the right mod for each
