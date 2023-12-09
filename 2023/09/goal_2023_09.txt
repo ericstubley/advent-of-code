@@ -1,0 +1,20 @@
+part a
+
+you're given a list of sequences
+predict the next sequence of each
+repeatedly take sequential diffs until you get all zeroes
+add a zero at the end of each of those lists
+
+and then solve backwards
+
+
+part b
+
+do the same thing on the other side
+
+A B
+ X
+
+B-A = X
+A = B - X
+ooo sign change
