@@ -1,0 +1,46 @@
+part a
+
+you're given a map of a bunch of maps, and there's an animal in them whose starting point is marked with S
+the animal is in a large loop
+how many steps does it take to get to the farthest position away?
+
+
+part b 
+
+how many tiles are enclosed by the loop?
+for some definition of enclosed
+
+
+you could do it with fill
+- mark the "left" and "right" sides of the path (involves logic for marking around corners)
+- do a bfs fill with each of the two marked segments
+- either pick the smaller or pick the one which never hit the edge
+
+
+
+or you could use the shoelace formula!
+given a polygon with vertices P1,...,Pn the area is 
+1/2  sum_1^n |det ((xi xi+) (yi yi+))
+
+think of each grid square as being made of 4 smaller squares
+each path square contributes an amortized 2 to the area (turns contribute 1 or 3, but area always paired up in a closed rectilinear path) except that there's a four corners who pair with each other amortizing out to 1 each, hence the +4 in the formula
+
+so the number of grid squares, given the area A and length of the path L is
+(4*A - 2*L + 4)/4
+
+F7
+LJ
+L = 4
+A = 1
+
+F-7
+L-J
+L = 6
+A = 2
+
+
+
+along a straight edge the shoelace formula works
+|xi (xi+L)| = |Lyi|
+|yi  yi   |
+which is the same as the sum of |L| things of absolute value |yi|
