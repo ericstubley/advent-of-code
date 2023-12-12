@@ -1,2 +1,3 @@
 Day 5 part 2, including a part 1 overhaul for consistency
 Day 7 part 2, is there a non-casework way to do it nicely
+Day 11 both parts, clean up the monadic styling

@@ -1,0 +1,17 @@
+part a
+
+you're given a picture of the universe
+compute the sum of the lengths of the shortest (manhattan metric) paths between all the pairs of galaxies
+each universe row or column that is devoid of galaxies is double size
+
+warp == columns
+weft == rows
+
+
+tighten up the reader monad functions
+they are a disaster
+
+
+part b
+
+do the computation but with an expansion factor of 1000000 instead of 2
