@@ -7,11 +7,20 @@ import Parsing (parseInput)
 --     let gr = binaryToInt $ gammaRate report
 --     22 @=? gr)
 
+testSummarizeA = TestCase $ do
+    (Just patterns) <- parseInput patternsP "13/test_input.txt"
+    405 @=? summarizeA patterns
+
+testSummarizeB = TestCase $ do
+    (Just patterns) <- parseInput patternsP "13/test_input.txt"
+    400 @=? summarizeB patterns
+
+
 testA = TestList
-    []
+    [ TestLabel "Summarize" testSummarizeA]
 
 testB = TestList
-    []
+    [ TestLabel "Summarize" testSummarizeB]
 
 testList = TestList
     [ TestLabel "Part A" testA
