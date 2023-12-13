@@ -1,0 +1,20 @@
+part a
+
+you're given a bunch of grids
+each has either a vertical or horizontal line of symmetry between cols/rows
+
+if vertical, find number of cols to left of line
+if horizontal, find 100*number of rows above line
+add those up
+
+
+part b
+
+each mirror has exactly one smudge
+that gives a new reflection line
+for each option count the total number of errors, return true when there's exactly one
+
+
+unified solution
+count the number of errors for each possible reflection line
+in part a choose the one whose total is 0, in part b choose the total is 1
