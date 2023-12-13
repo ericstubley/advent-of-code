@@ -143,6 +143,6 @@ mainB = do
     (Just reports) <- parseInput reportsP "12/input.txt"
     let answer = sum . map (countArrangements' . unfold) $ reports
     print answer
-    result <- submitAnswer 2023 12 2 answer
-    print result
+    -- result <- submitAnswer 2023 12 2 answer
+    -- print result
     return ()
