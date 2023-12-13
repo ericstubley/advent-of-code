@@ -1,0 +1,20 @@
+part a
+
+you're given a list of reports on springs
+the reports have lists of spring in operational|damaged|unknown condition
+and a spec for the runs of continguous damaged springs
+
+for each report, how many assignments of unknown result in a valid report?
+sum those up
+
+good strat but slow because you generated and ran through whole list rather than doing the search with unknowns still in place
+
+
+part b
+
+the reports are folded up
+replace each row with 5 copies of itself, separated by ?
+replace each dup with 5 copies of itself
+
+
+rewrite as suggested above for part b and retry
