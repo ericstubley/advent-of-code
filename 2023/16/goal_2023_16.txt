@@ -1,0 +1,18 @@
+part a
+
+a grid of mirrors
+a beam of light enters from the top left, travelling right
+squares that light passes through are energized
+the beam can split
+
+how many squares are energized?
+
+iterative solution
+have a queue to process
+and a set of vertices which have been energized, along with the direction that light was travelling in
+once the queue has been processed, map down the set of (Ix2, Dir) -> Ix2 and count
+
+
+part b
+
+you could enter from any direction! find the max
