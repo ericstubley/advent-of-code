@@ -1,0 +1,75 @@
+part a
+
+you're given a grid of blocks that can roll around
+what is the load (some calculation) after rolling to the north?
+
+part b
+
+there's a roll cycle (N, E, S, W)
+what is the load on the north beams after 1000000000 cycles?
+(do you roll north at the end? or is that computation done after the last west roll?)
+
+should you implement some cycle detection?
+
+cycle :: MonadState Platform m => m ()
+cycle = tilt North >> tilt West >> tilt South >> tilt East
+
+tilt :: MonadState Platform m => Direction -> m ()
+
+
+loop finding should spit out the first i j so that
+i-cycle platform == j-cycle platform
+
+
+then N-cycle is the same as (i + k) where k = (N-i) mod (j-i)
+
+
+i + k mod (j-i) = N mod (j-i) but is that safe? could end up with N mod ... being less than i
+
+Array or lists?
+let's do it with lists
+write a re-order function [Char] -> [Char]
+
+01
+23
+
+13
+02
+
+32
+10
+
+
+
+in input ready to go north
+012 <-
+345 <-
+678 <-
+
+should transform to
+630
+741
+852
+
+should transform to
+876
+543
+210
+
+
+should transform to
+258
+147
+036
+
+should transform to
+012
+345
+678
+
+
+
+so rotate = reverse . transpose
+
+leave off there's some off by one issue somewhere
+try a (tilt >> rotate) and look at it manually
