@@ -1,0 +1,12 @@
+part a
+
+you're given an initialization sequence
+and a description of a hashing function
+add up the hashes of each thing
+
+
+part b
+
+the steps mean things!
+long description of how to perform the steps
+and then add up the resulting lens powers
