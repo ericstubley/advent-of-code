@@ -1,0 +1,35 @@
+part a
+
+its a filtering challenge
+you're given a list of workflows and parts
+(workflows accept or reject parts)
+what is the sum of the guts of each accepted part?
+
+part b
+
+each internal of a part can have a value in [1..4000]
+of the 4000^4 possible parts, how many are accepted?
+
+
+doesn't look like thing are called more than once so don't bother with memo
+
+pass in lower and upper parts
+return sum diameters of the non-empty ones
+
+
+if empty return 0
+
+for restrict
+if constraint is x < 5648
+    want to replace x by min x 5647
+for remain
+    want to replace x by max 5648
+
+if constraint is x > 4378
+    want to replace x by max x 4379
+
+
+102514218799622 is too low :cry:, feels like it should be a more whole number
+167409079868000 for the test example
+
+stupid typo, put x instead of s in one of the guards
