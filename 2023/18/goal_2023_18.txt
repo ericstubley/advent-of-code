@@ -1,0 +1,28 @@
+part a
+
+how big a lagoon does it fill?
+can compute easily if non-self-intersecting so let's check that
+let's try to use shoelace again
+
+00 01
+10 11 should get total area of 4
+but right now it gets 1
+
+4*a + 2*l + 4/4
+4 + 8 - 4/4 = 16/4 = 4
+
+###
+### should get 6
+but it actually gets 2
+
+
+4*a + 2*l + 4/4
+8 + 12 + 4/4 = 24
+
+
+part b
+
+parsing is actually different, the second half (what you thought was colour) actually gives directions
+
+just a bigger grid
+shoelace still works
