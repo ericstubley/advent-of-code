@@ -197,6 +197,6 @@ mainB = do
     (Just env) <- parseInput envP "17/input.txt"
     let answer = heatLossB env
     print answer
-    result <- submitAnswer 2023 17 2 answer
-    print result
+    -- result <- submitAnswer 2023 17 2 answer
+    -- print result
     return ()
