@@ -32,7 +32,8 @@ common common_settings
                         conduino,
                         linear,
                         heaps,
-                        split
+                        split,
+                        psqueues
 
 
 common common_executable

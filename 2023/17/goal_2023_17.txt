@@ -1,0 +1,56 @@
+part a
+
+you're given a grid
+want to traverse the grid while minimizing heat loss
+each time you take a step onto a node labelled n you take n heat loss
+you can't step more than 3 steps in a straight line
+at each step the options are
+- turn left
+- turn right
+- 1 forward, left
+- 1 forward, right
+- 2 forward, left
+- 2 forward, right
+ah but that might make you miss the ending
+just keep track of how many forward
+
+
+f = g + h
+g = best known distance
+h = estimate of distance to end
+d = actual edge cost
+
+what is the a* algorithm?
+set up things, keeping a pqueue of open nodes
+    prioritized by 
+f
+g
+
+look at root of pqueue
+if goal then done
+else 
+    for each neighbour of current
+        if g current + d current neighbour < g neighbour
+            update g
+            update f
+            add neighbour to pqueue
+        else already found a better path through neighbour
+
+
+part b
+
+same deal except you must move between 4 and 10 in each straight line, including at the end
+
+just pass in different things to the A*?
+can you throw things into the estimation too?
+1019 is too high
+1018 is too high
+1000 is too low
+1010 is too low
+... at this point we're just binary searching our way there
+1014 is not right but it stopped telling me the direction
+
+
+something is wrong with your A* in a subtle way...?
+with the manhattan heuristic
+I think it was because you didn't think about the graph with legs of 4 to 10 in the right way, in fact A* is correct under assumptions that all the inputs are good
