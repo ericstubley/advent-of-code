@@ -1,0 +1,45 @@
+part a
+
+machines are wired together with cables
+not direct, cables are wird to communication modules
+modules communicate with pulses, which are long or short
+module sends its pulse to the whole list of destination modules
+
+
+module types
+flip-flop: prefixed by %
+    start off
+    if receive high pulse do nothing
+    if receive low pulse toggle state 
+        off -> on send high
+        on -> off send low
+conjunction: prefixed by &
+    start remembering low for all inputs
+    updated memory when pulse is received
+    if all inputs high send low
+    else send high
+broadcaster
+    when receive send to each destination
+button
+    no inputs
+    when pushed send a low pulse to broadcast
+
+
+pulses processed in sequence
+until they stop for each button push
+
+
+
+the elves push the button 1000 times
+what is the product of the total number of low pulses * the total number of high pulses
+
+
+
+part b
+
+
+how many button pushes until a single low pulse is sent to rx?
+
+not using lenses very well..... oh well
+
+figure it out by hand, very structured
