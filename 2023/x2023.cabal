@@ -47,6 +47,7 @@ library
     exposed-modules:    Automation,
                         Grid,
                         Parsing,
+                        Search,
                         Utilities
     other-modules:      Cookie
 
