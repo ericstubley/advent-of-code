@@ -1,0 +1,31 @@
+part a
+
+you're given a garden
+how many squares can the elf reach with exactly 64 steps
+
+
+part b
+
+the grid actually repeats infinitely in all directions
+and the elf needs to walk 26501365 steps
+
+
+repeating infinitely can be taken care of by tracking multiplicity
+    ah but carefully, need to track a set of grids which you have escaped to
+    ugh what a mess
+
+
+ooooo reddit says the structure of the input is important!
+apparently the way to notice this is the input is funky (did that)
+input is 131 square
+26501365 = 65 + 202300*131
+so let's look at 
+65, 65 + 131, 65 + 131*2
+find the quadratic
+which is
+0 |-> 3738
+1 |-> 33270
+2 |-> 92194
+
+(14696 x^2)/17161 + (33036 x)/17161 - 90122/17161
+14696 x^2 + 14836 x + 3738
