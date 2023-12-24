@@ -3,6 +3,9 @@ automation/authorization_cookie.py
 automation/cookie.hs
 *cookie.hs*
 
+# ignore the input files, including the test ones
+*input*.txt*
+
 
 # ignore the files from compilation
 *.hi
