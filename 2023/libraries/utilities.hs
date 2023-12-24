@@ -1,6 +1,7 @@
 module Utilities where
 
 
+import Control.Applicative (liftA2)
 import Data.List (foldl1')
 
 
@@ -41,3 +42,26 @@ class (Eq a, Enum a, Bounded a) => CyclicEnum a where
   csucc d
     | d == maxBound = minBound
     | otherwise = succ d
+
+
+-- monadic iteration functions
+-- keep repeating a monadic action until it terminates
+whileM :: Monad m => m Bool -> m ()
+whileM a = do
+    result <- a
+    if result then whileM a else return ()
+
+-- repeat a monadic action n times, collecting the results in a list
+repeatM :: Applicative m => Int -> m a -> m [a]
+repeatM n a = loop n
+    where loop n
+            | n <= 0    = pure []
+            | otherwise = liftA2 (:) a (loop (n - 1))
+
+
+-- repeat an action that passes the output back in as the input
+repeatThroughM :: Monad m => Int -> (a -> m a) -> a -> m [a]
+repeatThroughM n action initial = loop n initial
+  where loop n input
+            | n <= 0    = pure [input]
+            | otherwise = liftA2 (:) (pure input) (action input >>= loop (n-1))
