@@ -1,0 +1,51 @@
+part a
+
+blocks are falling
+you need to simulate that and figure out which blocks can be removed at the end
+
+the most permissible definitions of blocks settling and landing on each other
+
+
+there's a settle operation
+    for any block which is at the ground
+    or for which there's a block immediately below it
+    move it to being settled
+    env is the set of settled blocks
+    and a map of current block position -> settled
+
+
+    run the settling until nothing changes on a whole pass through
+    move remaining things down one
+
+
+part b
+
+what you actually need to figure out is for each block how many blocks will fall if you remove it?
+
+
+so compute the first resting place
+then for each block re-run a simulation
+and count how many different blocks move
+
+beware the edge case of a block replacing another one
+rerun the simulation
+    intersect blocks from before
+    with blocks from after
+that edge case is a real concern, there are lots of identically sized blocks
+
+before has blocks a b
+after has blocks b c
+but really a->b, b->c
+what about a b c, b c d
+symmetric diff gets 2 but should be 3
+
+do you just need one round of simulation?
+to figure out who immediately settles vs who falls one or more steps?
+
+
+is there a smarter way to do it by figuring out the graph of supports
+and then checking for disconnectedness?
+yeah that is totally the way to do it
+but will I be lazy?
+
+okay so I didn't do it in a good way but it still worked

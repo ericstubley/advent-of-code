@@ -65,3 +65,13 @@ repeatThroughM n action initial = loop n initial
   where loop n input
             | n <= 0    = pure [input]
             | otherwise = liftA2 (:) (pure input) (action input >>= loop (n-1))
+
+
+partitionM :: Monad m => (a -> m Bool) -> [a] -> m ([a], [a])
+partitionM predicate [] = return ([], [])
+partitionM predicate (x:xs) = do
+    result <- predicate x
+    (ayes, nays) <- partitionM predicate xs
+    if result
+        then return (x:ayes, nays)
+        else return (ayes, x:nays)
