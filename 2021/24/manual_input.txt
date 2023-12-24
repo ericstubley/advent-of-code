@@ -1,0 +1,69 @@
+1
+div z 1
+add x 12
+add y 7
+
+2
+div z 1
+add x 11
+add y 15
+
+3
+div z 1
+add x 12
+add y 2
+
+4
+div z 26
+add x -3
+add y 15
+
+5
+div z 1
+add x 10
+add y 14
+
+6
+div z 26
+add x -9
+add y 2
+
+7
+div z 1
+add x 10
+add y 15
+
+8
+div z 26
+add x -7
+add y 1
+
+9
+div z 26
+add x -11
+add y 15
+
+10
+div z 26
+add x -4
+add y 15
+
+11
+div z 1
+add x 14
+add y 12
+
+12
+div z 1
+add x 11
+add y 2
+
+13
+div z 26
+add x -8
+add y 13
+
+14
+div z 26
+add x -10
+add y 13
