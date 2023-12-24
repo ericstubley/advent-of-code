@@ -1,0 +1,62 @@
+part a
+
+you want to go on a hike taking the longest path possible
+you can't repeat yourself
+if you're on a 
+
+
+
+do a dfs to find the max
+dfs :: (Monad m , Ord a)
+    => a
+    -> (a -> m (Maybe b))
+    -> (a -> m [a]) 
+    -> (a -> [b] -> m b)
+    -> m b
+initial (-1:.1)
+terminator are you the end? return Just 0 else Nothing
+generator : just write it
+a -> [b] -> m b
+computer
+
+
+for each square we visit we want to compute the max distance from there to the end
+
+how to enforce the no loops rule?
+    automatic by construction, lets assume
+    have type a be [Ix2] (in reverse)
+
+dist = 1 + max dist from children
+
+
+usually with a search pruning is the key to better searching
+let's see how good dfs with memo is
+
+
+ah is the memo useless because of the path identical business?
+
+part b
+
+you can now walk up the hills
+still find the longest path
+is it now about paths between the junctures?
+yeah that's totally what it is
+pretty on brand this year for "inspect the input to learn the trick"
+
+
+
+
+
+at each juncture there's paths
+find the lengths of those paths
+and then you can probably even solve by hand
+
+
+just do a simpler dfs
+
+
+do a dfs to build the graph structure
+actually build a graph Map Ix2 -> [Ix2]
+junctures are vertices of degree >= 3 (3 or 4)
+
+collapse vertices of degree 2 is a simple operation
