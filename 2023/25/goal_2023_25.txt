@@ -1,0 +1,28 @@
+part a
+
+
+you're given a graph
+find the 3 wires you need to cut in order to create two connected components
+
+
+dumb idea: try all sets of 3 wires
+
+1261 vertices
+something like 3-4x that many edges
+
+network flow, with two randomly chosen vertices as source and sink?
+or pick one as source and try others as sink
+
+
+... oof you're too lazy to implement that
+
+let's take the approach of hacking on learning how to use a library
+and then manual inspection
+
+
+
+
+"vgf" "jpn"
+"fdb" "txm"
+"nmz" "mnl"
+are the edges to remove

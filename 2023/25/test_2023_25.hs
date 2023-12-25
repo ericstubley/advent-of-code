@@ -7,8 +7,15 @@ import Parsing (parseInput)
 --     let gr = binaryToInt $ gammaRate report
 --     22 @=? gr)
 
+testComponentSize = TestCase $ do
+    (Just wires) <- parseInput wiresP "25/test_input.txt"
+    -- 54 @=? componentSizes wires
+    let result = defaultVis . buildGraph $ es
+    print result
+
+
 testA = TestList
-    []
+    [ TestLabel "Component Sizes" testComponentSize]
 
 testB = TestList
     []

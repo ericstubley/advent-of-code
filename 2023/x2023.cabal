@@ -33,7 +33,11 @@ common common_settings
                         linear,
                         heaps,
                         split,
-                        psqueues
+                        psqueues,
+                        fgl,
+                        graphviz,
+                        text
+
 
 
 common common_executable
