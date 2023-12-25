@@ -30,6 +30,12 @@ maximumWith f xs = foldl1' chooser xs where
         | otherwise   = x -- if equal prefer earlier in the list
 
 
+-- combinations
+combinations :: [a] -> [(a, a)]
+combinations [] = []
+combinations (x:xs) = map (\y -> (x, y)) xs ++ combinations xs
+
+
 -- make your enum type wraparound; especially useful for 2d navigation puzzles
 -- from stackexchange, from a book
 class (Eq a, Enum a, Bounded a) => CyclicEnum a where

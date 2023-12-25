@@ -1,0 +1,81 @@
+part a
+
+hailstones
+want to know how many intersect inside the test area
+
+vx -wx
+vy -wy
+
+-wy -vy
+ wx  vx 
+
+t = inv (A) * (q-p)
+t = 1/det(A) 
+
+
+13426 is too low
+17233 is too low
+weird strange parsing of the position finding
+
+
+
+part b
+
+throw a hailstone that will hit every other hailstone in the future
+
+add up the x, y, z coordinates of the initial position
+
+
+
+
+if there are two input stones with the same vx value
+then the x distance between them always stays the same
+my vx - that vx is the gain distance, must be a divisor of distance
+
+
+once you know the velocity any other stone with that starting velocity has to be the one we're looking for!
+
+vx - ? = common thing in +-44
+vx = 44
+
+vx - 95 | [2,2,3,17] 
+vx - 95 | [3,7,17]
+vx - 95 | [3,3,5,17]
+=> vx - 95 = 3 or 17 or 51
+=> vx = 98 or 112 or 146
+
+
+vx + 94 | [2, 2, 2, 3, 23, 103]
+vx + 94 | [2, 3, 7, 23, 67]
+vx + 94 | [2, 2, 3, 5, 23]
+vx + 94 | [2, 3, 23]
+=> vx + 94 = 2 or 3 or 6 or 23 or 46 or 69 or 138
+
+
+y = +-305
+
+y - 18 has 17, 19
+y - 78 has 227
+
+z = +- 75
+
+z - 30 has 3,3,5
+z - 90 has 3,5,11
+z - 121 has 2, 23
+
+
+
+
+
+let's try for the 1d projection strategy
+
+
+
+no let's try straight up math with 3 trajectories
+r + t1v = p1 + t1v1
+r + t2v = p2 + t2v2
+r + t3v = p3 + t3v3
+
+
+got help from reddit, esp Quantris comment
+moral of the story here is linear algebra, use the lin alg libraries to avoid making typos
